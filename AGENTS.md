@@ -18,6 +18,7 @@ Outil indépendant : **une seule page** pour définir la zone de sécurité d’
 - SVG/PDF vectoriels, PNG transparent, JPEG avec fond clair/sombre. Couleurs d’origine intactes.
 - L’export produit **toujours un ZIP** (même un seul fichier).
 - Stockage `binksy-clearspace-v1` / IndexedDB `binksy-clearspace`, migration unique depuis `binksy-logo-system`.
+- Thème d’interface clair/sombre (`p.theme`, attribut `data-theme` sur `<html>`, variables dans `binks-lab.css`). Le fond de l’aperçu (`p.canvas`) reste indépendant : il définit le fond des planches exportées.
 
 ## Vérification
 

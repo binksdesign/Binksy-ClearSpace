@@ -14,6 +14,7 @@ export async function validate(data) {
   result.brand = data.brand.slice(0, 100);
   result.canvas = data.canvas === "#000000" ? "#000000" : "#ffffff";
   result.clear = data.clear !== false;
+  result.theme = data.theme === "dark" ? "dark" : "light";
 
   const seen = new Set();
   for (const item of data.ready) {

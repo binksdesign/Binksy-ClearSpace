@@ -905,3 +905,74 @@ aside [data-view="guideline"] {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* ---------- Binksy ClearSpace : bouton d'import + thème sombre ---------- */
+
+/* Un label qui porte aussi .primary doit se comporter comme le bouton corail. */
+.file-button.primary {
+  background: var(--accent);
+  border: 0;
+  color: #fff;
+}
+
+@media (hover: hover) {
+  .file-button.primary:hover {
+    background: var(--accent-deep);
+  }
+}
+
+/* Bascule de thème dans l'en-tête (toujours sombre). */
+.theme-toggle {
+  background: transparent;
+  border: 0;
+  border-radius: 6px;
+  min-height: 0;
+  padding: 8px;
+  color: #efefef;
+  display: inline-flex;
+  align-items: center;
+}
+
+@media (hover: hover) {
+  .theme-toggle:hover:not(:disabled) {
+    transform: none;
+    box-shadow: none;
+    background: #333;
+    color: #efefef;
+  }
+}
+
+[data-theme="dark"] .theme-toggle {
+  color: var(--accent);
+}
+
+[data-theme="dark"] button:hover:not(:disabled) {
+  background: var(--sel-bg);
+}
+
+[data-theme="dark"] .export-bar {
+  background: var(--panel);
+}
+
+[data-theme="dark"] .ready-preview {
+  background: var(--field);
+}
+
+[data-theme="dark"] .clear-settings .clear-value {
+  color: var(--text-2);
+}
+
+[data-theme="dark"] .segmented.methods button[aria-pressed="true"] {
+  background: #efefef;
+  color: #191919;
+}
+
+[data-theme="dark"] .stage .empty.import-empty {
+  color: var(--text);
+}
+
+/* L'aperçu vide suit le thème de l'interface ; avec une variante, la
+   couleur de fond choisie dans la barre d'outils reste prioritaire. */
+.stage {
+  background: var(--stage);
+}

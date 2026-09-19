@@ -13,6 +13,8 @@ Parcours : **Importer les SVG → choisir une variante → définir X → choisi
 
 Chaque variante conserve **son propre état** (méthode, mesure, nom, multiplicateur) : passer d’une variante à l’autre ne perd rien.
 
+**Thème clair / sombre** : bascule dans l’en-tête (mémorisée avec le projet). Le fond de l’aperçu reste indépendant (bouton Clair/Sombre de la barre d’outils), puisqu’il définit le fond des planches exportées.
+
 ## Définir X
 
 Trois méthodes seulement :

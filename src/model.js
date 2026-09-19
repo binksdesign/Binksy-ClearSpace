@@ -23,6 +23,7 @@ export function project() {
     enabled: [],
     canvas: "#ffffff",
     clear: true,
+    theme: "light",
     compositions: {},
     exports: {
       formats: ["svg", "png", "jpeg", "pdf"],

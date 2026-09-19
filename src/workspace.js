@@ -66,7 +66,11 @@ export function workspace(p, { history, busy }) {
   const hasVariants = p.ready.length > 0;
   const active = hasVariants ? variantName(p, p.active) : "";
   const exportCount = p.enabled.length;
-  return `<header><div class="identity">${identity()}</div><div class="header-actions"><button data-action="undo" aria-label="${t("Annuler")}" ${history.past.length ? "" : "disabled"}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="miter" aria-hidden="true"><path d="m9 4-5 5 5 5M4 9h15v11"/></svg></button><button data-action="redo" aria-label="${t("Rétablir")}" ${history.future.length ? "" : "disabled"}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="miter" aria-hidden="true"><path d="m15 4 5 5-5 5M20 9H5v11"/></svg></button></div></header>
+  const dark = p.theme === "dark";
+  const themeIcon = dark
+    ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>`
+    : `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>`;
+  return `<header><div class="identity">${identity()}</div><div class="header-actions"><button data-action="undo" aria-label="${t("Annuler")}" ${history.past.length ? "" : "disabled"}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="miter" aria-hidden="true"><path d="m9 4-5 5 5 5M4 9h15v11"/></svg></button><button data-action="redo" aria-label="${t("Rétablir")}" ${history.future.length ? "" : "disabled"}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="miter" aria-hidden="true"><path d="m15 4 5 5-5 5M20 9H5v11"/></svg></button><button class="theme-toggle" data-theme-toggle aria-label="${t(dark ? "Thème clair" : "Thème sombre")}" aria-pressed="${dark}">${themeIcon}</button></div></header>
   <div class="workspace guided-workspace">
     <aside class="left" aria-label="${t("Variantes")}">
       <section class="ready-assets">

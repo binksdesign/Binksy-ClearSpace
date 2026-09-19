@@ -60,6 +60,8 @@ const fr = {
     "Sauvegarde locale illisible. Importez vos SVG à nouveau.",
   Annuler: "Annuler",
   Rétablir: "Rétablir",
+  "Thème sombre": "Thème sombre",
+  "Thème clair": "Thème clair",
   "Importez un SVG pour définir sa zone de sécurité.":
     "Importez un SVG pour définir sa zone de sécurité.",
   "Tracez un carré sur le logo": "Tracez un carré sur le logo",

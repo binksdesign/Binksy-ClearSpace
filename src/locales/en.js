@@ -56,6 +56,8 @@ export const en = {
     "Local save unreadable. Import your SVGs again.",
   Annuler: "Undo",
   Rétablir: "Redo",
+  "Thème sombre": "Dark theme",
+  "Thème clair": "Light theme",
   "Importez un SVG pour définir sa zone de sécurité.":
     "Import an SVG to define its clear space.",
   "Tracez un carré sur le logo": "Draw a square on the logo",

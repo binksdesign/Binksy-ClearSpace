@@ -40,11 +40,29 @@ let saving,
   zoom = 1;
 
 // ---- démarrage : projet local, migration LogoKit unique, sinon nouveau ----
+function applyTheme() {
+  document.documentElement.dataset.theme = p.theme === "dark" ? "dark" : "light";
+  document
+    .querySelector('meta[name="theme-color"]')
+    ?.setAttribute("content", p.theme === "dark" ? "#191919" : "#efefef");
+}
+
+function preferredTheme() {
+  try {
+    return window.matchMedia?.("(prefers-color-scheme: dark)").matches
+      ? "dark"
+      : "light";
+  } catch {
+    return "light";
+  }
+}
+
 async function boot() {
   try {
     const stored = await readProject();
     if (stored) {
       p = await validate(stored);
+      applyTheme();
       return;
     }
     const legacy = await readLegacyProjects();
@@ -53,12 +71,15 @@ async function boot() {
       if (migrated) {
         p = migrated;
         markMigrated();
+        applyTheme();
         await storeProject(p);
         queueMicrotask(() => notice(t("Projets LogoKit importés dans Binksy ClearSpace.")));
         return;
       }
     }
     markMigrated();
+    p.theme = preferredTheme();
+    applyTheme();
   } catch {
     queueMicrotask(() =>
       notice(t("Sauvegarde locale illisible. Importez vos SVG à nouveau.")),
@@ -141,6 +162,7 @@ function notice(message) {
 // ---- rendu ----
 function render() {
   document.title = "Binksy ClearSpace — Zone de sécurité du logo";
+  applyTheme();
   cancelMeasurement?.();
   cancelMeasurement = null;
   const scroll = { left: $(".left")?.scrollTop || 0, right: $(".right")?.scrollTop || 0 };
@@ -348,6 +370,10 @@ function bind() {
     (el) =>
       (el.onchange = () => edit(() => (p[el.dataset.setting] = el.checked))),
   );
+  const themeToggle = $("[data-theme-toggle]");
+  if (themeToggle)
+    themeToggle.onclick = () =>
+      edit(() => (p.theme = p.theme === "dark" ? "light" : "dark"));
   document.querySelectorAll("[data-canvas]").forEach(
     (el) => (el.onclick = () => edit(() => (p.canvas = el.dataset.canvas))),
   );

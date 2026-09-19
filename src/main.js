@@ -9,10 +9,9 @@ import {
   markMigrated,
 } from "./project-storage.js";
 import { startVisualMeasure } from "./visual-measure.js";
-import { workspace, calculation } from "./workspace.js";
+import { workspace } from "./workspace.js";
 import { t, language, setLanguage, translateDOM } from "./i18n.js";
-import { esc } from "./ui.js";
-import { clearspaceSVG, clearGuides } from "./clearspace.js";
+import { clearGuides } from "./clearspace.js";
 import { validate } from "./project.js";
 import {
   project,
@@ -99,9 +98,7 @@ async function migrateLegacy(projects) {
         brand: item.brand,
         ready: item.ready || [],
         active: item.active,
-        enabled: item.enabled,
         canvas: item.canvas,
-        clear: item.clear,
         compositions: item.compositions,
         exports: item.exports,
       });
@@ -120,7 +117,6 @@ async function migrateLegacy(projects) {
   result.ready = ready;
   result.compositions = compositions;
   result.active = ready[0].id;
-  result.enabled = ready.map((v) => v.id);
   return result;
 }
 
@@ -195,12 +191,9 @@ function drawStage() {
   const h = (l.height + margin * 2) / zoom;
   const x = l.x + l.width / 2 - w / 2;
   const y = l.y + l.height / 2 - h / 2;
-  stage.innerHTML = `<svg id="canvas" xmlns="http://www.w3.org/2000/svg" viewBox="${x} ${y} ${w} ${h}"><g id="clear-guides">${p.clear ? clearGuides(l, m.space, p.canvas === "#000000" ? "light" : "dark") : ""}</g>${l.parts.map((q) => `<g transform="translate(${q.x} ${q.y})"><svg width="${q.w}" height="${q.h}" viewBox="${q.asset.box.x} ${q.asset.box.y} ${q.asset.box.width} ${q.asset.box.height}" overflow="visible">${assetContent({ ...q.asset, roles: [] }, null, "stage-" + q.key)}</svg></g>`).join("")}</svg>`;
+  stage.innerHTML = `<svg id="canvas" xmlns="http://www.w3.org/2000/svg" viewBox="${x} ${y} ${w} ${h}"><g id="clear-guides">${clearGuides(l, m.space, p.canvas === "#000000" ? "light" : "dark")}</g>${l.parts.map((q) => `<g transform="translate(${q.x} ${q.y})"><svg width="${q.w}" height="${q.h}" viewBox="${q.asset.box.x} ${q.asset.box.y} ${q.asset.box.width} ${q.asset.box.height}" overflow="visible">${assetContent({ ...q.asset, roles: [] }, null, "stage-" + q.key)}</svg></g>`).join("")}</svg>`;
   stage.style.background = p.canvas;
   stage.classList.toggle("dark-canvas", p.canvas === "#000000");
-  const measure = $("#measure");
-  if (measure)
-    measure.textContent = `${t("Logo")} ${l.width.toFixed(1)} × ${l.height.toFixed(1)} · ${t("Zone de sécurité")} ${m.space.toFixed(2)} ${t("unités")}`;
   translateDOM(stage);
 }
 
@@ -234,7 +227,6 @@ async function importFiles(fileList) {
     edit(() => {
       for (const variant of imported) {
         p.ready.push(variant);
-        p.enabled.push(variant.id);
         p.compositions[variant.id] = defaultComposition();
       }
       p.active = imported[0].id;
@@ -277,16 +269,6 @@ function bind() {
       });
   });
 
-  document.querySelectorAll("[data-variant]").forEach(
-    (el) =>
-      (el.onchange = () =>
-        edit(() => {
-          p.enabled = el.checked
-            ? [...new Set([...p.enabled, el.dataset.variant])]
-            : p.enabled.filter((v) => v !== el.dataset.variant);
-        })),
-  );
-
   document.querySelectorAll("[data-replace-variant]").forEach((el) => {
     el.onchange = async () => {
       const file = el.files[0];
@@ -310,7 +292,6 @@ function bind() {
         edit(() => {
           const id = el.dataset.removeVariant;
           p.ready = p.ready.filter((v) => v.id !== id);
-          p.enabled = p.enabled.filter((v) => v !== id);
           delete p.compositions[id];
           if (p.active === id) p.active = p.ready[0]?.id || null;
         })),
@@ -334,15 +315,6 @@ function bind() {
       edit(() => {
         (p.compositions[p.active] ||= defaultComposition()).label = name.value.trim();
       });
-  const visual = $("#visual-value");
-  if (visual)
-    visual.onchange = () => {
-      const v = Number(visual.value);
-      if (!Number.isFinite(v) || v <= 0) return;
-      edit(() => {
-        (p.compositions[p.active] ||= defaultComposition()).measure = v;
-      });
-    };
 
   document.querySelectorAll("[data-multiplier]").forEach(
     (el) =>
@@ -366,25 +338,12 @@ function bind() {
       });
     };
 
-  document.querySelectorAll("[data-setting]").forEach(
-    (el) =>
-      (el.onchange = () => edit(() => (p[el.dataset.setting] = el.checked))),
-  );
   const themeToggle = $("[data-theme-toggle]");
   if (themeToggle)
     themeToggle.onclick = () =>
       edit(() => (p.theme = p.theme === "dark" ? "light" : "dark"));
   document.querySelectorAll("[data-canvas]").forEach(
     (el) => (el.onclick = () => edit(() => (p.canvas = el.dataset.canvas))),
-  );
-  document.querySelectorAll("[data-format]").forEach(
-    (el) =>
-      (el.onchange = () =>
-        edit(() => {
-          p.exports.formats = el.checked
-            ? [...new Set([...p.exports.formats, el.dataset.format])]
-            : p.exports.formats.filter((f) => f !== el.dataset.format);
-        })),
   );
 }
 

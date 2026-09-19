@@ -6,15 +6,14 @@ const fr = {
   "Sans titre": "Sans titre",
   Variante: "Variante",
   unités: "unités",
-  "unités SVG": "unités SVG",
   "Zone de sécurité": "Zone de sécurité",
+  Référence: "Référence",
   "Mesure visuelle": "Mesure visuelle",
   "Largeur du logo": "Largeur du logo",
   "Hauteur du logo": "Hauteur du logo",
   "Aucune variante. Importez vos SVG.": "Aucune variante. Importez vos SVG.",
   "Afficher la variante": "Afficher la variante",
   "Nom de la variante": "Nom de la variante",
-  "Inclure dans l’export": "Inclure dans l’export",
   Remplacer: "Remplacer",
   Supprimer: "Supprimer",
   "Définir X": "Définir X",
@@ -22,13 +21,11 @@ const fr = {
   Largeur: "Largeur",
   Visuel: "Visuel",
   "Tracer la mesure": "Tracer la mesure",
+  "Retracer la mesure": "Retracer la mesure",
   "Nom de la mesure": "Nom de la mesure",
   facultatif: "facultatif",
   "Hauteur du A": "Hauteur du A",
-  "Valeur de X": "Valeur de X",
-  "X suit automatiquement la dimension réelle du SVG importé.":
-    "X suit automatiquement la dimension réelle du SVG importé.",
-  Multiplicateur: "Multiplicateur",
+  Espace: "Espace",
   Personnalisé: "Personnalisé",
   "Variantes du logo": "Variantes du logo",
   "Ajouter des SVG": "Ajouter des SVG",
@@ -46,7 +43,6 @@ const fr = {
   "Horizontal, vertical, icône, logotype… chaque fichier devient une variante indépendante.":
     "Horizontal, vertical, icône, logotype… chaque fichier devient une variante indépendante.",
   "Choisir des fichiers SVG": "Choisir des fichiers SVG",
-  Logo: "Logo",
   "Fichier trop volumineux.": "Fichier trop volumineux.",
   "variantes importées": "variantes importées",
   "variante importée": "variante importée",
@@ -79,8 +75,7 @@ const fr = {
     "Mémoire insuffisante pour cet export.",
   "Lot supérieur à 256 Mo. Réduisez le nombre de variantes.":
     "Lot supérieur à 256 Mo. Réduisez le nombre de variantes.",
-  "Importez et activez au moins une variante.":
-    "Importez et activez au moins une variante.",
+  "Importez au moins une variante.": "Importez au moins une variante.",
   Variantes: "Variantes",
 };
 

@@ -1,19 +1,9 @@
 import { identity, arrow, esc } from "./ui.js";
 import { assetMarkup } from "./svg.js";
-import {
-  variantIds,
-  variantName,
-  composition,
-  clearMeasure,
-  MULTIPLIERS,
-} from "./model.js";
+import { variantName, composition, clearMeasure, MULTIPLIERS } from "./model.js";
 import { t } from "./i18n.js";
 
-const METHOD_LABELS = {
-  height: "Hauteur du logo",
-  width: "Largeur du logo",
-  visual: "Visuel",
-};
+const METHOD_LABELS = { height: "Hauteur", width: "Largeur", visual: "Visuel" };
 
 function variantCards(p) {
   if (!p.ready.length)
@@ -23,7 +13,6 @@ function variantCards(p) {
       (v) => `<div class="ready-card ${p.active === v.id ? "active" : ""}">
       <button class="ready-preview" data-active="${esc(v.id)}" aria-pressed="${p.active === v.id}" aria-label="${t("Afficher la variante")} · ${esc(v.name)}">${assetMarkup(v.asset, null, "thumb-" + v.id)}</button>
       <input data-ready-name="${esc(v.id)}" aria-label="${t("Nom de la variante")}" value="${esc(v.name)}" maxlength="100" data-no-i18n>
-      <label class="check"><input type="checkbox" data-variant="${esc(v.id)}" ${p.enabled.includes(v.id) ? "checked" : ""}>${t("Inclure dans l’export")}</label>
       <div class="ready-actions"><label class="file-button">${t("Remplacer")}<input data-replace-variant="${esc(v.id)}" type="file" accept=".svg,image/svg+xml" hidden></label><button data-remove-variant="${esc(v.id)}" aria-label="${t("Supprimer")} · ${esc(v.name)}">${t("Supprimer")}</button></div>
     </div>`,
     )
@@ -33,39 +22,34 @@ function variantCards(p) {
 function methodsPanel(p) {
   const c = composition(p);
   const isVisual = c.method === "visual";
+  const hasMeasure = isVisual && Number(c.measure) > 0;
+  const f = (n) => Number(n).toFixed(2).replace(/\.00$/, "").replace(".", ",");
+  const m = clearMeasure(p);
   return `<section class="clear-settings">
-    <label class="check"><input data-setting="clear" type="checkbox" ${p.clear ? "checked" : ""}>${t("Afficher la zone de sécurité")}</label>
     <h3>${t("Définir X")}</h3>
     <div class="segmented methods">${["height", "width", "visual"]
       .map(
-        (m) =>
-          `<button data-method="${m}" aria-pressed="${c.method === m}">${t(METHOD_LABELS[m])}</button>`,
+        (x) =>
+          `<button data-method="${x}" aria-pressed="${c.method === x}">${t(METHOD_LABELS[x])}</button>`,
       )
       .join("")}</div>
     ${
       isVisual
-        ? `<button class="measure-button" data-action="measure">${t("Tracer la mesure")}</button>
-           <label class="field"><span>${t("Nom de la mesure")} · ${t("facultatif")}</span><input id="measure-name" maxlength="160" placeholder="${t("Hauteur du A")}" value="${esc(c.label)}"></label>
-           <label class="field"><span>${t("Valeur de X")} · ${t("unités SVG")}</span><input id="visual-value" type="number" min=".01" max="1000000" step="any" value="${c.measure ?? ""}"></label>`
-        : `<p class="muted">${t("X suit automatiquement la dimension réelle du SVG importé.")}</p>`
+        ? `<button class="measure-button" data-action="measure">${t(hasMeasure ? "Retracer la mesure" : "Tracer la mesure")}</button>
+           <label class="field"><span>${t("Nom de la mesure")} · ${t("facultatif")}</span><input id="measure-name" maxlength="160" placeholder="${t("Hauteur du A")}" value="${esc(c.label)}"></label>`
+        : ""
     }
-    <output class="clear-value" role="status">${calculation(p)}</output>
-    <h3>${t("Multiplicateur")}</h3>
-    <div class="segmented multipliers">${MULTIPLIERS.map((n) => `<button data-multiplier="${n}" aria-pressed="${c.multiplier === n}">×${n}</button>`).join("")}</div>
-    <label class="field"><span>${t("Personnalisé")} (0,05 – 5)</span><input id="clear-multiplier" type="number" min=".05" max="5" step="any" value="${c.multiplier}"></label>
+    <div class="clear-facts"><span>${t("Référence")} : ${esc(m.label)}</span><span>${t("Zone de sécurité")} : ${f(m.multiplier)}× X</span></div>
+    <h3>${t("Espace")}</h3>
+    <div class="segmented multipliers">${MULTIPLIERS.map((n) => `<button data-multiplier="${n}" aria-pressed="${c.multiplier === n}">×${String(n).replace(".", ",")}</button>`).join("")}</div>
+    <label class="field"><span>${t("Personnalisé")}</span><input id="clear-multiplier" type="number" min=".05" max="5" step="any" value="${c.multiplier}"></label>
   </section>`;
-}
-
-export function calculation(p, v = p.active) {
-  const m = clearMeasure(p, v);
-  const f = (n) => Number(n).toFixed(2).replace(/\.00$/, "").replace(".", ",");
-  return `<span>X = ${esc(m.label)}</span><span>X = ${f(m.value)} ${t("unités")}</span><span>${t("Zone de sécurité")} = ${f(m.value)} × ${f(m.multiplier)} = ${f(m.space)} ${t("unités")}</span>`;
 }
 
 export function workspace(p, { history, busy }) {
   const hasVariants = p.ready.length > 0;
   const active = hasVariants ? variantName(p, p.active) : "";
-  const exportCount = p.enabled.length;
+  const exportCount = p.ready.length;
   const dark = p.theme === "dark";
   const themeIcon = dark
     ? `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>`
@@ -85,16 +69,15 @@ export function workspace(p, { history, busy }) {
         <div class="canvas-colors"><button data-canvas="#ffffff" aria-pressed="${p.canvas === "#ffffff"}">${t("Clair")}</button><button data-canvas="#000000" aria-pressed="${p.canvas === "#000000"}">${t("Sombre")}</button></div>
       </div>
       <div id="stage" class="stage"></div>
-      <div class="canvas-footer"><span id="measure"></span></div>
       <div class="export-bar">
-        <div class="export-formats">${["svg", "png", "jpeg", "pdf"].map((f) => `<label class="check"><input type="checkbox" data-format="${f}" ${p.exports.formats.includes(f) ? "checked" : ""}>${f.toUpperCase()}</label>`).join("")}</div>
-        <button class="primary export-button" data-action="export" ${busy || !exportCount ? "disabled" : ""}>${t("Exporter")} · ${exportCount} ${exportCount > 1 ? t("variantes") : t("variante")} (ZIP)${arrow}</button>
+        <span class="export-summary">${exportCount} ${exportCount > 1 ? t("variantes") : t("variante")} · ZIP</span>
+        <button class="primary export-button" data-action="export" ${busy || !exportCount ? "disabled" : ""}>${t("Exporter")}${arrow}</button>
       </div>
     </main>
     <aside class="right" aria-label="${t("Zone de sécurité")}">
       ${
         hasVariants
-          ? `<section class="inspector-title"><h2 data-no-i18n>${esc(active)}</h2></section>${methodsPanel(p)}`
+          ? methodsPanel(p)
           : `<section class="clear-settings"><h3>${t("Zone de sécurité")}</h3><p class="muted">${t("Importez un SVG pour définir sa zone de sécurité.")}</p></section>`
       }
     </aside>

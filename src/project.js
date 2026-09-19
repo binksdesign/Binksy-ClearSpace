@@ -13,7 +13,6 @@ export async function validate(data) {
   result.id = typeof data.id === "string" ? data.id : result.id;
   result.brand = data.brand.slice(0, 100);
   result.canvas = data.canvas === "#000000" ? "#000000" : "#ffffff";
-  result.clear = data.clear !== false;
   result.theme = data.theme === "dark" ? "dark" : "light";
 
   const seen = new Set();
@@ -33,16 +32,8 @@ export async function validate(data) {
 
   const ids = result.ready.map((r) => r.id);
   result.active = ids.includes(data.active) ? data.active : ids[0] || null;
-  result.enabled = Array.isArray(data.enabled)
-    ? ids.filter((id) => data.enabled.includes(id))
-    : [...ids];
 
   const e = data.exports || {};
-  result.exports.formats = Array.isArray(e.formats)
-    ? [...new Set(e.formats.filter((f) => ["svg", "png", "jpeg", "pdf"].includes(f)))]
-    : ["svg", "png", "jpeg", "pdf"];
-  if (!result.exports.formats.length)
-    result.exports.formats = ["svg", "png", "jpeg", "pdf"];
   result.exports.width = clamp(e.width, 256, 8192, 3000);
   result.exports.dpi = Math.round(clamp(e.dpi, 72, 1200, 300));
 

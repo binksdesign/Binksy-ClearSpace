@@ -1,7 +1,9 @@
 import { slug, variantName } from "./model.js";
 
-// Plan d'export pur (testable hors navigateur) : une entrée par variante ×
-// format × ton (clair/sombre). Les fichiers sont toujours regroupés en ZIP.
+// Tous les formats sont produits à chaque export ; l'utilisateur n'a rien à
+// choisir. Une entrée par variante × format × ton (clair/sombre).
+export const EXPORT_FORMATS = ["svg", "png", "jpeg", "pdf"];
+
 export function safeFolder(name) {
   return (
     String(name)
@@ -13,20 +15,18 @@ export function safeFolder(name) {
   );
 }
 
-export function enabledVariants(p) {
-  return (p.ready || []).filter((v) => p.enabled.includes(v.id));
+// Toutes les variantes importées sont exportées, sans sélection.
+export function exportVariants(p) {
+  return [...(p.ready || [])];
 }
 
 export function exportPlan(p) {
   const root = slug(p.brand).toUpperCase() + " CLEARSPACE";
-  const formats = p.exports.formats.length
-    ? p.exports.formats
-    : ["svg", "png", "jpeg", "pdf"];
   const jobs = [];
-  for (const variant of enabledVariants(p)) {
+  for (const variant of exportVariants(p)) {
     const folder = safeFolder(variantName(p, variant.id));
     const base = `${slug(p.brand)}-${slug(variantName(p, variant.id))}-clearspace`;
-    for (const format of formats)
+    for (const format of EXPORT_FORMATS)
       for (const tone of ["light", "dark"]) {
         const suffix = tone === "light" ? "clair" : "fonce";
         jobs.push({

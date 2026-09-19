@@ -1,6 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { exportPlan, enabledVariants, safeFolder } from "../src/export-formats.js";
+import {
+  exportPlan,
+  exportVariants,
+  safeFolder,
+  EXPORT_FORMATS,
+} from "../src/export-formats.js";
 import { project, defaultComposition } from "../src/model.js";
 
 const asset = (name) => ({
@@ -19,24 +24,27 @@ const fixture = () => {
     { id: "v-c", name: "Off", asset: asset("o.svg") },
   ];
   p.active = "v-a";
-  p.enabled = ["v-a", "v-b"];
   for (const v of p.ready) p.compositions[v.id] = defaultComposition();
   return p;
 };
 
-test("only enabled variants are exported", () => {
+test("every imported variant is exported, without selection", () => {
   const p = fixture();
   assert.deepEqual(
-    enabledVariants(p).map((v) => v.id),
-    ["v-a", "v-b"],
+    exportVariants(p).map((v) => v.id),
+    ["v-a", "v-b", "v-c"],
   );
+});
+
+test("all four formats are always planned", () => {
+  assert.deepEqual(EXPORT_FORMATS, ["svg", "png", "jpeg", "pdf"]);
 });
 
 test("every variant × format × tone is planned under one root", () => {
   const p = fixture();
   const jobs = exportPlan(p);
-  // 2 variantes × 4 formats × 2 tons
-  assert.equal(jobs.length, 16);
+  // 3 variantes × 4 formats × 2 tons
+  assert.equal(jobs.length, 24);
   assert.ok(jobs.every((j) => j.path.startsWith("ATELIER-NORD CLEARSPACE/")));
   assert.ok(jobs.some((j) => j.path === "ATELIER-NORD CLEARSPACE/Logo-Horizontal/SVG/Atelier-Nord-Logo-Horizontal-clearspace-clair.svg"));
   assert.ok(jobs.some((j) => j.path === "ATELIER-NORD CLEARSPACE/Icone/JPEG/Atelier-Nord-Icone-clearspace-fonce.jpeg"));
@@ -46,17 +54,9 @@ test("every variant × format × tone is planned under one root", () => {
   assert.equal(new Set(jobs.map((j) => j.path)).size, jobs.length);
 });
 
-test("selected formats drive the plan", () => {
-  const p = fixture();
-  p.exports.formats = ["svg"];
-  const jobs = exportPlan(p);
-  assert.equal(jobs.length, 4); // 2 variantes × 2 tons
-  assert.ok(jobs.every((j) => j.format === "svg"));
-});
-
 test("a single variant still produces multiple jobs (always a ZIP)", () => {
   const p = fixture();
-  p.enabled = ["v-a"];
+  p.ready = [p.ready[0]];
   assert.ok(exportPlan(p).length > 1);
 });
 

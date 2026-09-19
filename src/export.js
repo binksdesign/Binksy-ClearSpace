@@ -1,4 +1,4 @@
-import { exportPlan, enabledVariants } from "./export-formats.js";
+import { exportPlan, exportVariants } from "./export-formats.js";
 import { t } from "./i18n.js";
 import { jsPDF } from "jspdf";
 import "svg2pdf.js";
@@ -69,8 +69,8 @@ export async function renderFile(svg, format, options = {}) {
 }
 
 export async function buildFiles(p, progress = () => {}) {
-  const variants = enabledVariants(p);
-  if (!variants.length) throw Error("Importez et activez au moins une variante.");
+  const variants = exportVariants(p);
+  if (!variants.length) throw Error("Importez au moins une variante.");
   const jobs = exportPlan(p);
   const files = {};
   let bytes = 0,
@@ -96,7 +96,7 @@ export async function buildFiles(p, progress = () => {}) {
 }
 
 function recommendations(p) {
-  const lines = enabledVariants(p).map((v) => {
+  const lines = exportVariants(p).map((v) => {
     const m = clearMeasure(p, v.id);
     return `${variantName(p, v.id)} · X = ${m.label} · X = ${m.value.toFixed(2)} ${t("unités")} · ${t("Zone de sécurité")} = ${m.value.toFixed(2)} × ${m.multiplier} = ${m.space.toFixed(2)} ${t("unités")}.`;
   });

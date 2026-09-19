@@ -15,18 +15,15 @@ export function defaultComposition() {
 
 export function project() {
   return {
-    version: 6,
+    version: 7,
     id: crypto.randomUUID(),
     brand: t("Sans titre"),
     ready: [],
     active: null,
-    enabled: [],
     canvas: "#ffffff",
-    clear: true,
     theme: "light",
     compositions: {},
     exports: {
-      formats: ["svg", "png", "jpeg", "pdf"],
       width: 3000,
       dpi: 300,
     },

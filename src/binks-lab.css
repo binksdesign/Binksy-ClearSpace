@@ -361,7 +361,6 @@ header .language-switch button:hover {
 /* Micro-boutons : texte et tokens. */
 
 .tokens button,
-.canvas-footer button,
 footer button,
 footer .agent-route,
 .bg-pages > button,
@@ -376,7 +375,6 @@ footer .agent-route,
 
 @media (hover: hover) {
   .tokens button:hover:not(:disabled),
-  .canvas-footer button:hover:not(:disabled),
   footer button:hover:not(:disabled),
   .bg-pages > button:hover:not(:disabled),
   .bg-rule-order button:hover:not(:disabled) {
@@ -387,7 +385,7 @@ footer .agent-route,
 
 /* ---------- champs ---------- */
 
-input:not([type="checkbox"]):not([type="range"]):not([type="color"]),
+input:not([type="range"]):not([type="color"]),
 select,
 textarea {
   background: var(--field);
@@ -404,7 +402,7 @@ textarea {
   line-height: 1.5;
 }
 
-input:not([type="checkbox"]):not([type="range"]):not([type="color"]):focus,
+input:not([type="range"]):not([type="color"]):focus,
 select:focus,
 textarea:focus {
   border-color: var(--accent);
@@ -438,62 +436,8 @@ textarea:focus {
 
 .field output,
 .tiny,
-.canvas-footer,
-.filename,
-.clear-value {
+.filename {
   font-family: var(--mono);
-}
-
-/* Cases à cocher : même arrondi partout, états actif/inactif conservés.
-   `appearance: none` est nécessaire : un contrôle natif ignore border-radius. */
-input[type="checkbox"] {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  margin: 0;
-  padding: 0;
-  border: 1.5px solid var(--border-2);
-  border-radius: 6px;
-  background-color: var(--field);
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: 12px 12px;
-  cursor: pointer;
-  transition:
-    background-color 150ms ease,
-    border-color 150ms ease;
-}
-
-@media (hover: hover) {
-  input[type="checkbox"]:hover:not(:disabled) {
-    border-color: var(--text-2);
-  }
-}
-
-input[type="checkbox"]:checked,
-input[type="checkbox"]:indeterminate {
-  background-color: var(--accent);
-  border-color: var(--accent);
-}
-
-input[type="checkbox"]:checked {
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 8.5 6.4 12 13 4.6'/%3E%3C/svg%3E");
-}
-
-input[type="checkbox"]:indeterminate {
-  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='%23fff' stroke-width='2.6' stroke-linecap='round'%3E%3Cpath d='M4 8h8'/%3E%3C/svg%3E");
-}
-
-input[type="checkbox"]:disabled {
-  opacity: 0.45;
-  cursor: default;
-}
-
-input[type="checkbox"]:focus-visible {
-  outline: 2px solid var(--focus);
-  outline-offset: 2px;
 }
 
 /* ---------- sélecteurs de couleur : pastilles rondes PARTOUT ----------
@@ -644,8 +588,7 @@ section {
 }
 
 .unit-note,
-.filename,
-.clear-value {
+.filename {
   border-radius: 12px;
 }
 
@@ -884,10 +827,6 @@ aside [data-view="guideline"] {
   width: 100%;
 }
 
-.bg-toolbar .check {
-  align-self: center;
-}
-
 .bg-insert button,
 .bg-insert .file-button {
   border-radius: var(--radius-pill);
@@ -958,7 +897,7 @@ aside [data-view="guideline"] {
   background: var(--field);
 }
 
-[data-theme="dark"] .clear-settings .clear-value {
+[data-theme="dark"] .clear-settings .clear-facts {
   color: var(--text-2);
 }
 

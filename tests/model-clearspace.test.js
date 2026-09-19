@@ -30,16 +30,16 @@ const fixture = () => {
     { id: "v-c", name: "Vertical", asset: asset(100, 300) },
   ];
   p.active = "v-a";
-  p.enabled = ["v-a", "v-b", "v-c"];
   for (const v of p.ready) p.compositions[v.id] = defaultComposition();
   return p;
 };
 
-test("new projects are single-page clearspace with all formats", () => {
+test("new projects are single-page clearspace", () => {
   const p = project();
-  assert.deepEqual(p.exports.formats, ["svg", "png", "jpeg", "pdf"]);
   assert.deepEqual(variantIds(p), []);
   assert.equal(p.active, null);
+  assert.equal("enabled" in p, false);
+  assert.equal("clear" in p, false);
 });
 
 test("each variant keeps an independent clearspace state", () => {

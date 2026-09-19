@@ -6,10 +6,10 @@ Parcours : **Importer les SVG → choisir une variante → définir X → choisi
 
 ## Interface
 
-- **Gauche** : variantes SVG (aperçu, nom, activation, remplacer, supprimer) + « Ajouter des SVG ».
-- **Centre** : grand aperçu interactif (fond clair/sombre) avec guides de zone de sécurité.
-- **Droite** : réglages de la variante — méthode X, mesure visuelle, multiplicateur, calcul.
-- **Bas** : formats (SVG / PNG / JPEG / PDF) + **Exporter** (ZIP).
+- **Gauche** : variantes SVG (aperçu, nom, remplacer, supprimer) + « Ajouter des SVG ».
+- **Centre** : grand aperçu interactif (fond clair/sombre) avec les guides de zone de sécurité, toujours visibles.
+- **Droite** : réglages de la variante — méthode X, mesure visuelle, multiplicateur.
+- **Bas** : un seul bouton **Exporter** (ZIP).
 
 Chaque variante conserve **son propre état** (méthode, mesure, nom, multiplicateur) : passer d’une variante à l’autre ne perd rien.
 
@@ -27,7 +27,7 @@ Multiplicateurs : **×0,5 · ×1 · ×1,5 · ×2** + **personnalisé** (0,05 –
 
 ## Export
 
-Un seul bouton **Exporter** produit **toujours un ZIP** :
+Un seul bouton **Exporter** produit **toujours un ZIP** contenant **toutes les variantes** dans les **quatre formats** (SVG, PNG, JPEG, PDF), en clair et en sombre. Aucun choix demandé.
 
 ```
 NOM-MARQUE CLEARSPACE/

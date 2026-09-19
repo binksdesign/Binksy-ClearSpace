@@ -470,6 +470,16 @@ section {
 .brand-home:hover {
   background: transparent;
 }
+.brand-credit {
+  font-size: 11px;
+  letter-spacing: 0.02em;
+  color: #9a9a9a;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.brand-credit:hover {
+  color: #ff5500;
+}
 .identity {
   gap: 12px;
 }
@@ -747,6 +757,9 @@ section {
   .brand-home {
     width: 80px;
   }
+  .brand-credit {
+    font-size: 9px;
+  }
   .header-actions > button {
     width: 25px;
   }
@@ -984,7 +997,12 @@ header .language-switch button:hover { background:#333; color:#efefef; }
   border-top: 1px solid var(--line);
   background: #f9f9f9;
 }
-.export-bar .export-button { margin-left: auto; }
+.export-bar .export-button {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+}
 .export-summary { font: 10px monospace; color: #777; }
 .stage .empty.import-empty { max-width: 420px; margin: auto; text-align: center; }
 .stage .empty.import-empty .empty-mark { font-size: 34px; color: var(--accent); display: block; }

@@ -1,0 +1,5 @@
+# Binksy ClearSpace
+
+Define, preview and export the clear space (safety zone) of a logo.
+Local-first: import an assembled SVG, define the X unit, pick a multiple
+(0.5X, 1X, 1.5X, 2X) and export boards (SVG, PNG, PDF).

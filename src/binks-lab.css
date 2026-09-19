@@ -620,12 +620,6 @@ section {
   overflow: hidden;
 }
 
-.delivery.selected {
-  border-color: var(--accent);
-  outline: 2px solid var(--accent);
-  outline-offset: -2px;
-}
-
 .mini.active {
   border-color: var(--accent);
 }
@@ -821,10 +815,6 @@ header {
 
 .empty-mark {
   color: var(--accent);
-}
-
-.checker {
-  border-radius: 12px;
 }
 
 .ready-preview,

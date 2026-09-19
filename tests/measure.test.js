@@ -14,13 +14,19 @@ test("square grows in negative directions", () => {
   assert.deepEqual([q.x, q.y], [-20, -20]);
 });
 
-test("snap prefers a nearby logo edge within threshold", () => {
-  const edges = [{ x: 100, y: 0 }];
-  const q = measureSquare({ x: 0, y: 0 }, { x: 97, y: 40 }, edges, 5);
-  assert.equal(q.size, 100);
+// Aucun magnétisme : la valeur suit exactement la position du pointeur.
+test("value matches the pointer exactly, even close to a logo edge", () => {
+  const start = { x: 0, y: 0 };
+  assert.equal(measureSquare(start, { x: 97.3, y: 40 }).size, 97.3);
+  assert.equal(measureSquare(start, { x: 99.9, y: 40 }).size, 99.9);
+  assert.equal(measureSquare(start, { x: 100.1, y: 40 }).size, 100.1);
+  assert.equal(measureSquare(start, { x: 102.7, y: 40 }).size, 102.7);
 });
 
-test("edges outside the threshold are ignored", () => {
-  const q = measureSquare({ x: 0, y: 0 }, { x: 60, y: 40 }, [{ x: 100, y: 0 }], 5);
-  assert.equal(q.size, 60);
+test("sub-unit precision is preserved", () => {
+  assert.equal(measureSquare({ x: 5, y: 5 }, { x: 5.25, y: 5.75 }).size, 0.75);
+});
+
+test("size is clamped to a sane maximum", () => {
+  assert.equal(measureSquare({ x: 0, y: 0 }, { x: 5e6, y: 0 }).size, 1e6);
 });

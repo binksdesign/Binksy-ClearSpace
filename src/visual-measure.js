@@ -1,24 +1,13 @@
 import { t } from "./i18n.js";
-import { esc } from "./ui.js";
 
-// Geometry uses SVG units, independently of zoom and screen size.
-export function measureSquare(start, point, edges = [], threshold = 0) {
+// La géométrie travaille en unités SVG, indépendamment du zoom et de l'écran.
+// Aucun magnétisme : la position du pointeur est la vérité.
+export function measureSquare(start, point) {
   const dx = point.x - start.x,
     dy = point.y - start.y;
-  let size = Math.max(Math.abs(dx), Math.abs(dy));
+  const size = Math.min(1e6, Math.max(Math.abs(dx), Math.abs(dy)));
   const sx = dx < 0 ? -1 : 1,
     sy = dy < 0 ? -1 : 1;
-  const candidates = edges
-    .flatMap(({ x, y }) => [
-      x == null ? null : (x - start.x) * sx,
-      y == null ? null : (y - start.y) * sy,
-    ])
-    .filter((n) => n > 0 && Math.abs(n - size) <= threshold);
-  if (candidates.length)
-    size = candidates.sort(
-      (a, b) => Math.abs(a - size) - Math.abs(b - size),
-    )[0];
-  size = Math.min(1000000, size);
   return {
     x: start.x + (sx < 0 ? -size : 0),
     y: start.y + (sy < 0 ? -size : 0),
@@ -26,14 +15,7 @@ export function measureSquare(start, point, edges = [], threshold = 0) {
   };
 }
 
-export function startVisualMeasure({
-  canvas,
-  parts,
-  snap,
-  previous,
-  commit,
-  finish,
-}) {
+export function startVisualMeasure({ canvas, previous, commit, finish }) {
   if (!canvas) return;
   const controller = new AbortController(),
     { signal } = controller;
@@ -63,10 +45,6 @@ export function startVisualMeasure({
     },
     { signal },
   );
-  const edges = parts.flatMap((q) => [
-    { x: q.x, y: q.y },
-    { x: q.x + q.w, y: q.y + q.h },
-  ]);
   canvas.addEventListener(
     "pointerdown",
     (e) => {
@@ -74,20 +52,8 @@ export function startVisualMeasure({
       e.preventDefault();
       e.stopImmediatePropagation();
       const matrix = canvas.getScreenCTM().inverse();
-      let start = new DOMPoint(e.clientX, e.clientY).matrixTransform(matrix);
-      const threshold = 7 * Math.hypot(matrix.a, matrix.b);
-      if (snap && !e.altKey) {
-        for (const axis of ["x", "y"]) {
-          const near = edges
-            .map((q) => q[axis])
-            .filter((n) => Math.abs(n - start[axis]) <= threshold)
-            .sort(
-              (a, b) => Math.abs(a - start[axis]) - Math.abs(b - start[axis]),
-            );
-          if (near.length) start[axis] = near[0];
-        }
-      }
-      drag = { start, matrix, threshold, pointer: e.pointerId, square: null };
+      const start = new DOMPoint(e.clientX, e.clientY).matrixTransform(matrix);
+      drag = { start, matrix, pointer: e.pointerId, square: null };
       if (e.isTrusted) canvas.setPointerCapture(e.pointerId);
       overlay?.remove();
       overlay = document.createElementNS("http://www.w3.org/2000/svg", "g");
@@ -104,12 +70,7 @@ export function startVisualMeasure({
       const point = new DOMPoint(e.clientX, e.clientY).matrixTransform(
         drag.matrix,
       );
-      const square = measureSquare(
-        drag.start,
-        point,
-        snap && !e.altKey ? edges : [],
-        drag.threshold,
-      );
+      const square = measureSquare(drag.start, point);
       drag.square = square;
       const { x, y, size } = square,
         fs = 12 * Math.hypot(drag.matrix.a, drag.matrix.b);
@@ -124,22 +85,10 @@ export function startVisualMeasure({
       const square = drag.square;
       clean();
       if (!square || square.size < 0.01) return;
-      commit({value: square.size, label: previous || "X1"});
+      commit({ value: Math.round(square.size * 100) / 100, label: previous || "" });
     },
     { signal },
   );
   canvas.addEventListener("pointercancel", clean, { signal });
   return clean;
-}
-
-export function copyClearRule(source, target) {
-  for (const key of [
-    "clearMethod",
-    "clearRef",
-    "clearMultiplier",
-    "references",
-    "visualMeasure",
-  ])
-    if (source[key] !== undefined) target[key] = structuredClone(source[key]);
-    else delete target[key];
 }

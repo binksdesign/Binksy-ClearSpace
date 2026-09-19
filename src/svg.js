@@ -535,31 +535,16 @@ export function assetMarkup(asset, color, namespace = "") {
   return str;
 }
 let compositionNamespace = 0;
-export function compositionSVG(p, variant, color = null, background = null) {
-  if (p.mode === "clearspace") { color = null; background = null; }
+// Aperçu SVG d'une variante, couleurs d'origine intactes (roles vidés).
+export function compositionSVG(p, variant) {
   const namespace = "composition-" + ++compositionNamespace + "-";
   const l = layout(p, variant);
-  return `<svg xmlns="${NS}" width="${l.width}" height="${l.height}" viewBox="${l.x} ${l.y} ${l.width} ${l.height}">${background ? `<rect x="${l.x}" y="${l.y}" width="${l.width}" height="${l.height}" fill="${background}"/>` : ""}${l.parts
+  return `<svg xmlns="${NS}" width="${l.width}" height="${l.height}" viewBox="${l.x} ${l.y} ${l.width} ${l.height}">${l.parts
     .map(
       (q) =>
         `<g transform="translate(${q.x} ${q.y}) scale(${q.w / q.asset.box.width})"><svg x="0" y="0" width="${q.asset.box.width}" height="${q.asset.box.height}" viewBox="${q.asset.box.x} ${q.asset.box.y} ${q.asset.box.width} ${q.asset.box.height}">${assetContent(
-          p.mode === "clearspace" ? { ...q.asset, roles: [] } : q.asset,
-          color?.gradient && color.gradient.mode !== "shape"
-            ? {
-                ...color,
-                partKey: q.key === "ready" ? variant : q.key,
-                hex: color.partColors?.[q.key] || color.hex,
-                gradient: {
-                  ...color.gradient,
-                  box: {
-                    x: q.asset.box.x + (l.x - q.x) / (q.w / q.asset.box.width),
-                    y: q.asset.box.y + (l.y - q.y) / (q.h / q.asset.box.height),
-                    width: l.width / (q.w / q.asset.box.width),
-                    height: l.height / (q.h / q.asset.box.height),
-                  },
-                },
-              }
-            : color ? {...color,partKey:q.key === "ready" ? variant : q.key,hex:color.partColors?.[q.key] || color.hex} : color,
+          { ...q.asset, roles: [] },
+          null,
           namespace + q.key,
         )}</svg></g>`,
     )

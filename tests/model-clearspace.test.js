@@ -2,15 +2,17 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import {
   project,
+  defaultComposition,
   layout,
   clearMeasure,
+  composition,
+  migrateComposition,
   variantIds,
   variantName,
   uniqueVariantName,
-  colors,
   slug,
   History,
-  CLEAR_REFS,
+  MULTIPLIERS,
 } from "../src/model.js";
 
 const asset = (w = 200, h = 100) => ({
@@ -19,77 +21,90 @@ const asset = (w = 200, h = 100) => ({
   box: { x: 0, y: 0, width: w, height: h },
   roles: [],
 });
+
 const fixture = () => {
   const p = project();
-  p.ready = [{ id: "v-1", name: "Logo", asset: asset() }];
-  p.active = "v-1";
-  p.enabled = ["v-1"];
-  p.compositions["v-1"] = { ...project().compositions.horizontal };
+  p.ready = [
+    { id: "v-a", name: "Horizontal", asset: asset(400, 100) },
+    { id: "v-b", name: "Icône", asset: asset(80, 80) },
+    { id: "v-c", name: "Vertical", asset: asset(100, 300) },
+  ];
+  p.active = "v-a";
+  p.enabled = ["v-a", "v-b", "v-c"];
+  for (const v of p.ready) p.compositions[v.id] = defaultComposition();
   return p;
 };
 
-test("new projects are clearspace-only", () => {
+test("new projects are single-page clearspace with all formats", () => {
   const p = project();
-  assert.equal(p.mode, "clearspace");
-  assert.deepEqual(p.exports.formats, ["svg", "png", "pdf"]);
-  assert.equal(p.brandGuideline.enabled, false);
+  assert.deepEqual(p.exports.formats, ["svg", "png", "jpeg", "pdf"]);
   assert.deepEqual(variantIds(p), []);
+  assert.equal(p.active, null);
+});
+
+test("each variant keeps an independent clearspace state", () => {
+  const p = fixture();
+  p.compositions["v-a"] = { method: "height", multiplier: 1, measure: null, label: "" };
+  p.compositions["v-b"] = { method: "width", multiplier: 0.5, measure: null, label: "" };
+  p.compositions["v-c"] = { method: "visual", multiplier: 1.25, measure: 42, label: "Hauteur du A" };
+
+  assert.equal(clearMeasure(p, "v-a").value, 100); // hauteur du horizontal
+  assert.equal(clearMeasure(p, "v-a").space, 100);
+  assert.equal(clearMeasure(p, "v-b").value, 80); // largeur de l'icône
+  assert.equal(clearMeasure(p, "v-b").space, 40);
+  assert.equal(clearMeasure(p, "v-c").value, 42);
+  assert.equal(clearMeasure(p, "v-c").space, 52.5);
+  assert.equal(clearMeasure(p, "v-c").label, "Hauteur du A");
+
+  // changer la variante active ne modifie aucun réglage
+  p.active = "v-b";
+  assert.equal(clearMeasure(p, "v-a").space, 100);
+  assert.equal(clearMeasure(p, "v-c").space, 52.5);
+});
+
+test("X methods read the real SVG dimensions", () => {
+  const p = fixture();
+  p.compositions["v-c"].method = "height";
+  assert.equal(clearMeasure(p, "v-c").value, 300);
+  p.compositions["v-c"].method = "width";
+  assert.equal(clearMeasure(p, "v-c").value, 100);
+});
+
+test("multipliers scale the clear space", () => {
+  const p = fixture();
+  assert.deepEqual(MULTIPLIERS, [0.5, 1, 1.5, 2]);
+  for (const [mult, space] of [[0.5, 50], [1, 100], [1.5, 150], [2, 200]]) {
+    p.compositions["v-a"].multiplier = mult;
+    assert.equal(clearMeasure(p, "v-a").space, space);
+  }
+  p.compositions["v-a"].multiplier = 0.75;
+  assert.equal(clearMeasure(p, "v-a").space, 75);
+});
+
+test("visual method without value falls back to the short side", () => {
+  const p = fixture();
+  p.compositions["v-a"] = { method: "visual", multiplier: 1, measure: null, label: "" };
+  assert.equal(clearMeasure(p, "v-a").value, 100);
+  assert.equal(clearMeasure(p, "v-a").label, "Mesure visuelle");
 });
 
 test("layout exposes the ready asset untouched", () => {
-  const p = fixture();
-  const l = layout(p);
-  assert.equal(l.width, 200);
+  const l = layout(fixture(), "v-a");
+  assert.equal(l.width, 400);
   assert.equal(l.height, 100);
-  assert.equal(l.X, 50);
   assert.equal(l.parts.length, 1);
   assert.equal(l.parts[0].key, "ready");
 });
 
-test("auto X uses the short side", () => {
-  const p = fixture();
-  p.compositions["v-1"].clearMethod = "auto";
-  const m = clearMeasure(p);
-  assert.equal(m.value, 100);
-  assert.equal(m.multiplier, 0.5);
-  assert.equal(m.space, 50);
-});
-
-test("multipliers scale the space", () => {
-  const p = fixture();
-  p.compositions["v-1"].clearMethod = "auto";
-  for (const [mult, space] of [[0.5, 50], [1, 100], [1.5, 150], [2, 200]]) {
-    p.compositions["v-1"].clearMultiplier = mult;
-    assert.equal(clearMeasure(p).space, space);
-  }
-});
-
-test("manual reference and visual measure", () => {
-  const p = fixture();
-  const c = p.compositions["v-1"];
-  c.clearMethod = "part";
-  c.clearRef = "wordmarkHeight";
-  c.references = { wordmarkHeight: 40 };
-  assert.equal(clearMeasure(p).value, 40);
-  assert.equal(clearMeasure(p).label, CLEAR_REFS.wordmarkHeight);
-  c.clearMethod = "visual";
-  c.visualMeasure = { value: 25, label: "M" };
-  assert.equal(clearMeasure(p).value, 25);
-  assert.equal(clearMeasure(p).label, "M");
+test("composition() returns a safe default for unknown variants", () => {
+  assert.deepEqual(composition(project(), "missing"), defaultComposition());
 });
 
 test("variant names stay unique and readable", () => {
   const p = fixture();
-  assert.equal(variantName(p, "v-1"), "Logo");
-  assert.equal(uniqueVariantName(p, "Logo", "v-1"), "Logo");
-  p.ready.push({ id: "v-2", name: "Logo", asset: asset() });
-  assert.notEqual(uniqueVariantName(p, "Logo", "v-2"), "Logo");
-});
-
-test("colors stay original-only", () => {
-  assert.deepEqual(colors(fixture()), [
-    { id: "original", name: "Original", hex: null },
-  ]);
+  assert.equal(variantName(p, "v-a"), "Horizontal");
+  assert.notEqual(uniqueVariantName(p, "Horizontal", "v-b"), "Horizontal");
+  assert.equal(uniqueVariantName(p, "Horizontal", "v-a"), "Horizontal");
 });
 
 test("slug and history", () => {
@@ -97,9 +112,26 @@ test("slug and history", () => {
   let p = fixture();
   const h = new History();
   h.push(p);
-  p.compositions["v-1"].clearMultiplier = 2;
+  p.compositions["v-a"].multiplier = 2;
   p = h.undo(p);
-  assert.equal(p.compositions["v-1"].clearMultiplier, 0.5);
+  assert.equal(p.compositions["v-a"].multiplier, 1);
   p = h.redo(p);
-  assert.equal(p.compositions["v-1"].clearMultiplier, 2);
+  assert.equal(p.compositions["v-a"].multiplier, 2);
+});
+
+test("legacy LogoKit settings migrate without recomputing values", () => {
+  const assetV = asset(200, 100);
+  assert.deepEqual(
+    migrateComposition({ clearMethod: "visual", visualMeasure: { value: 42, label: "M" }, clearMultiplier: 2 }, assetV),
+    { method: "visual", multiplier: 2, measure: 42, label: "M" },
+  );
+  assert.deepEqual(
+    migrateComposition({ clearMethod: "part", clearRef: "wordmarkHeight", references: { wordmarkHeight: 33 }, clearMultiplier: 1.5 }, assetV),
+    { method: "visual", multiplier: 1.5, measure: 33, label: "Hauteur du logotype" },
+  );
+  // auto → dimension réelle la plus proche (ici largeur 200 > hauteur 100)
+  assert.equal(migrateComposition({ clearMethod: "auto", clearMultiplier: 1 }, assetV).method, "height");
+  assert.equal(migrateComposition({ clearMethod: "auto" }, { box: { width: 80, height: 80 } }).method, "width");
+  assert.deepEqual(migrateComposition(null, assetV), defaultComposition());
+  assert.equal(migrateComposition({ method: "width", multiplier: 99 }, assetV).multiplier, 5);
 });

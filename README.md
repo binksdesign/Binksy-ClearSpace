@@ -1,16 +1,40 @@
 # Binksy ClearSpace
 
-Définissez, visualisez et exportez la **zone de sécurité (clear space)** de votre logo. Outil local et privé : vos SVG restent sur cet appareil.
+Définissez, visualisez et exportez la **zone de sécurité (clear space)** de votre logo — depuis **une seule page**. Outil local et privé : vos SVG restent sur cet appareil.
 
-Parcours : **Importer → Zone de sécurité → Exporter**.
+Parcours : **Importer les SVG → choisir une variante → définir X → choisir le multiplicateur → exporter**.
 
-## Le système (inchangé)
+## Interface
 
-Reprend à l’identique le moteur clearspace : import de variantes SVG assemblées, mesure X `auto` (petit côté), `part` (référence chiffrée) ou `visual` (carré tracé sur le logo, magnétisme sur les bords), multiplicateurs **0,5X / 1X / 1,5X / 2X** + valeur libre, planches **claires/foncées** (SVG, PNG, PDF), export ZIP avec `RECOMMANDATIONS.txt`, projets `.binksy` V1–V5 toujours lisibles, FR/EN, annuler/rétablir, sauvegarde locale.
+- **Gauche** : variantes SVG (aperçu, nom, activation, remplacer, supprimer) + « Ajouter des SVG ».
+- **Centre** : grand aperçu interactif (fond clair/sombre) avec guides de zone de sécurité.
+- **Droite** : réglages de la variante — méthode X, mesure visuelle, multiplicateur, calcul.
+- **Bas** : formats (SVG / PNG / JPEG / PDF) + **Exporter** (ZIP).
 
-## Ce qui a été retiré (tout le reste)
+Chaque variante conserve **son propre état** (méthode, mesure, nom, multiplicateur) : passer d’une variante à l’autre ne perd rien.
 
-Brand Guideline complet, assistant IA + recommandations, palettes et couleurs, catalogue multicolore et dégradés, galerie JPEG, modes Composition et Versions prêtes, page Règles agent IA, grille d’assemblage et poignées. Seul le mode « Juste la zone de sécurité » subsiste ; les anciens projets contenant des variantes prêtes s’ouvrent tels quels.
+## Définir X
+
+Trois méthodes seulement :
+
+- **Hauteur du logo** — X = hauteur réelle du SVG importé.
+- **Largeur du logo** — X = largeur réelle du SVG importé.
+- **Visuel** — l’utilisateur trace un carré sur le logo. **Aucun magnétisme** : la position du pointeur est la vérité, à l’unité SVG près. Nom facultatif (« Hauteur du A », …).
+
+Multiplicateurs : **×0,5 · ×1 · ×1,5 · ×2** + **personnalisé** (0,05 – 5). Ce sont des méthodes de test, pas des règles universelles.
+
+## Export
+
+Un seul bouton **Exporter** produit **toujours un ZIP** :
+
+```
+NOM-MARQUE CLEARSPACE/
+  Variante/SVG/…-clair.svg  …-fonce.svg
+  Variante/PNG/…  Variante/JPEG/…  Variante/PDF/…
+  RECOMMANDATIONS.txt
+```
+
+SVG et PDF vectoriels, PNG transparent, JPEG avec fond clair ou sombre. Couleurs d’origine du logo conservées.
 
 ## Démarrer
 
@@ -24,6 +48,10 @@ npm test
 npm run build
 ```
 
+## Stockage
+
+Sauvegarde automatique locale (localStorage `binksy-clearspace-v1`, repli IndexedDB `binksy-clearspace`). Une migration unique reprend les projets LogoKit existants (`binksy-logo-system`) sans perte.
+
 ## Vérification
 
-`npm test`, `npm run build`, puis parcours complet : import SVG, X auto/partie/visuelle, ratios 0,5/1/1,5/2, fonds clair/sombre, planches claire/foncée, ZIP réellement téléchargé (SVG/PNG/PDF), roundtrip `.binksy`, FR/EN, largeurs 1440/1024/390. Référence : le dossier `BINKSY LOGOKIT V2` (intouché) — les planches SVG/PNG exportées y sont identiques à l’octet.
+`npm test`, `npm run build`, puis parcours complet : import multi-SVG, 3 variantes avec états indépendants, mesure visuelle précise sans snap, persistance après rechargement, export ZIP (SVG/PNG/JPEG/PDF, clair/sombre), FR/EN, 1440/1024/390.

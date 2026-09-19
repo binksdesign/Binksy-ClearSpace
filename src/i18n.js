@@ -1,97 +1,114 @@
 import { en } from "./locales/en.js";
-const vocabulary = {
-  "background": "Fond principal",
-  "text": "Texte",
-  "muted": "Texte secondaire",
-  "accent": "Accent",
-  "margin": "Marges",
-  "spacing": "Espacement",
-  "grid": "Grille",
-  "title": "Titre",
-  "heading": "Intertitre",
-  "body": "Corps de texte",
-  "small": "Petit texte",
-  "caption": "Légende",
-  "size": "Taille",
-  "values": "Valeurs",
-  "tone": "Ton",
-  "minimal": "Minimal",
-  "image": "Image",
-  "full": "Pleine page",
-  "two": "Deux images",
-  "Variantes": "Versions du logo",
-  "Variantes du logo": "Versions du logo",
-  "Construction": "Version",
-  "Couleurs simples": "Une seule couleur",
-  "Variantes multicolores": "Plusieurs couleurs",
-  "Sélection finale": "Fichiers à exporter",
-  "Clearspace": "Zone de sécurité",
-  "CLEARSPACE": "ZONE DE SÉCURITÉ",
-  "Référence": "Mesure utilisée",
-  "Zone de protection": "Zone de sécurité",
-  "Nom de la variante": "Nom de la version",
-  "Toutes les constructions": "Toutes les versions",
-  "Ajuster la protection": "Définir la zone de sécurité",
-  "Full System": "Système complet",
-  "Largeur du brandmark": "Largeur de l’icône",
-  "Hauteur du brandmark": "Hauteur de l’icône"
+
+// Textes FR (clé = texte français) et EN. Ne jamais traduire le contenu
+// utilisateur (noms de variantes, SVG).
+const fr = {
+  "Sans titre": "Sans titre",
+  Variante: "Variante",
+  unités: "unités",
+  "unités SVG": "unités SVG",
+  "Zone de sécurité": "Zone de sécurité",
+  "Mesure visuelle": "Mesure visuelle",
+  "Largeur du logo": "Largeur du logo",
+  "Hauteur du logo": "Hauteur du logo",
+  "Aucune variante. Importez vos SVG.": "Aucune variante. Importez vos SVG.",
+  "Afficher la variante": "Afficher la variante",
+  "Nom de la variante": "Nom de la variante",
+  "Inclure dans l’export": "Inclure dans l’export",
+  Remplacer: "Remplacer",
+  Supprimer: "Supprimer",
+  "Définir X": "Définir X",
+  Hauteur: "Hauteur",
+  Largeur: "Largeur",
+  Visuel: "Visuel",
+  "Tracer la mesure": "Tracer la mesure",
+  "Nom de la mesure": "Nom de la mesure",
+  facultatif: "facultatif",
+  "Hauteur du A": "Hauteur du A",
+  "Valeur de X": "Valeur de X",
+  "X suit automatiquement la dimension réelle du SVG importé.":
+    "X suit automatiquement la dimension réelle du SVG importé.",
+  Multiplicateur: "Multiplicateur",
+  Personnalisé: "Personnalisé",
+  "Variantes du logo": "Variantes du logo",
+  "Ajouter des SVG": "Ajouter des SVG",
+  Clair: "Clair",
+  Sombre: "Sombre",
+  Exporter: "Exporter",
+  variantes: "variantes",
+  variante: "variante",
+  "Enregistrement…": "Enregistrement…",
+  "Enregistré sur cet appareil": "Enregistré sur cet appareil",
+  "Sauvegarde impossible": "Sauvegarde impossible",
+  "Stockage local plein ou indisponible.":
+    "Stockage local plein ou indisponible.",
+  "Déposez vos SVG": "Déposez vos SVG",
+  "Horizontal, vertical, icône, logotype… chaque fichier devient une variante indépendante.":
+    "Horizontal, vertical, icône, logotype… chaque fichier devient une variante indépendante.",
+  "Choisir des fichiers SVG": "Choisir des fichiers SVG",
+  Logo: "Logo",
+  "Fichier trop volumineux.": "Fichier trop volumineux.",
+  "variantes importées": "variantes importées",
+  "variante importée": "variante importée",
+  "Multiplicateur entre 0,05 et 5.": "Multiplicateur entre 0,05 et 5.",
+  "Export terminé. Votre ZIP est prêt.": "Export terminé. Votre ZIP est prêt.",
+  "Le cache hors ligne est indisponible.":
+    "Le cache hors ligne est indisponible.",
+  "Projets LogoKit importés dans Binksy ClearSpace.":
+    "Projets LogoKit importés dans Binksy ClearSpace.",
+  "Sauvegarde locale illisible. Importez vos SVG à nouveau.":
+    "Sauvegarde locale illisible. Importez vos SVG à nouveau.",
+  Annuler: "Annuler",
+  Rétablir: "Rétablir",
+  "Importez un SVG pour définir sa zone de sécurité.":
+    "Importez un SVG pour définir sa zone de sécurité.",
+  "Tracez un carré sur le logo": "Tracez un carré sur le logo",
+  "Planches de zone de sécurité. SVG et PDF vectoriels, PNG transparent, JPEG avec fond clair ou sombre. Couleurs d’origine du logo conservées.":
+    "Planches de zone de sécurité. SVG et PDF vectoriels, PNG transparent, JPEG avec fond clair ou sombre. Couleurs d’origine du logo conservées.",
+  "0,5X / 1X / 1,5X / 2X sont des méthodes de test, pas des règles universelles.":
+    "0,5X / 1X / 1,5X / 2X sont des méthodes de test, pas des règles universelles.",
+  "Définissez la mesure X de cette variante avant d’exporter.":
+    "Définissez la mesure X de cette variante avant d’exporter.",
+  "Format non pris en charge.": "Format non pris en charge.",
+  "Planche illisible.": "Planche illisible.",
+  "PDF : effets complexes non pris en charge ; utilisez le SVG.":
+    "PDF : effets complexes non pris en charge ; utilisez le SVG.",
+  "Mémoire insuffisante pour cet export.":
+    "Mémoire insuffisante pour cet export.",
+  "Lot supérieur à 256 Mo. Réduisez le nombre de variantes.":
+    "Lot supérieur à 256 Mo. Réduisez le nombre de variantes.",
+  "Importez et activez au moins une variante.":
+    "Importez et activez au moins une variante.",
+  Variantes: "Variantes",
 };
+
 let locale = "fr";
 try {
   if (typeof window !== "undefined")
-    locale = localStorage.getItem("binksy-locale") === "en" ? "en" : "fr";
+    locale =
+      window.localStorage.getItem("binksy-clearspace-locale") === "en"
+        ? "en"
+        : "fr";
 } catch {}
+
 export const language = () => locale;
+
 export function setLanguage(value) {
   locale = value === "en" ? "en" : "fr";
   try {
-    localStorage.setItem("binksy-locale", locale);
+    window.localStorage.setItem("binksy-clearspace-locale", locale);
   } catch {}
-  document.documentElement.lang = locale;
+  if (typeof document !== "undefined") document.documentElement.lang = locale;
 }
+
 export function t(message, values = {}) {
-  let text =
-    locale === "en"
-      ? en[vocabulary[message] || message] || en[message] || dynamic(message)
-      : vocabulary[message] || message;
+  let text = locale === "en" ? en[message] || message : fr[message] || message;
   for (const [key, value] of Object.entries(values))
     text = text.replaceAll("{" + key + "}", String(value));
   return text;
 }
-function dynamic(text) {
-  return String(text)
-    .replace(/^Police illisible : (.*)$/, "Unreadable font: $1")
-    .replace(/^Élément hors page : (\d+)\.$/, "Element outside page $1.")
-    .replace(
-      /^Texte trop long sur la page (\d+)\. Agrandissez son bloc ou raccourcissez le texte\.$/,
-      "Text is too long on page $1. Enlarge its box or shorten the text.",
-    )
-    .replace(
-      /^Import refusé : (.*)$/,
-      (_, message) => "Import rejected: " + t(message),
-    )
-    .replace(
-      /^Clearspace de « (.*) » : mesure de référence manquante\.$/,
-      (_, name) => `Clearspace for “${name}”: missing reference measurement.`,
-    )
-    .replace(/^(\d+) variante\(s\) importée\(s\)\.$/, "$1 variant(s) imported.")
-    .replace(
-      /^(Icône|Logotype) importé · formes vectorielles conservées\.$/,
-      (_, name) =>
-        (name === "Icône" ? "Icon" : "Wordmark") +
-        " imported · vector shapes preserved.",
-    )
-    .replace(/^Activer /, "Enable ")
-    .replace(/^Retirer /, "Remove ")
-    .replace(/^Déplacer /, "Move ")
-    .replace(/^Couleur /, "Colour ")
-    .replace(/ unités SVG/g, " SVG units")
-    .replace(/ unités$/, " units")
-    .replace(/ · Logo /g, " · Logo ")
-    .replace(/^Valeur conservée du projet : /, "Saved project value: ")
-    .replace(/ précis$/, " — precise");
-}
-// Adapter for the existing HTML templates. New UI uses t() directly. Never translate SVG content or input values.
+
+// Adapte les textes du DOM. Ne jamais traduire SVG, code ni [data-no-i18n].
 export function translateDOM(root = document.querySelector("#app")) {
   document.documentElement.lang = locale;
   if (!root) return;

@@ -11,7 +11,7 @@ export default defineConfig({
           "/fonts/ClashDisplay-Variable.woff2",
           "/fonts/TASAOrbiter-Variable.ttf",
           "/fonts/InstrumentSans.ttf",
-          "/brand/clearspace.svg",
+          "/brand/logo.svg",
           "/brand/arrow.svg",
           "/brand/favicon.svg",
           ...Object.keys(bundle)

@@ -1,0 +1,715 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Agents IA — Binksy ClearSpace</title>
+<meta name="description" content="Mode d’emploi de Binksy ClearSpace pour les agents IA (Claude Code, Codex, Playwright) : règles, sélecteurs stables, parcours pas à pas, export, état local, vérifications et limites. Français puis anglais.">
+<meta name="theme-color" content="#111111">
+<meta name="author" content="Binks Design">
+<meta property="og:title" content="Agents IA — Binksy ClearSpace">
+<meta property="og:description" content="Mode d’emploi de Binksy ClearSpace pour les agents IA (Claude Code, Codex, Playwright) : règles, sélecteurs stables, parcours pas à pas, export, état local, vérifications et limites. Français puis anglais.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="../brand/favicon.svg">
+<link rel="alternate" type="text/markdown" href="../AGENTS.md" title="Mode d’emploi pour agents IA (Markdown, FR puis EN)">
+<link rel="help" href="../agent/" title="Agents IA">
+<link rel="alternate" type="text/plain" href="../llms.txt" title="llms.txt">
+<link rel="stylesheet" href="../assets/site.css">
+<script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver' in window)document.documentElement.classList.add('anim');</script>
+<script src="../assets/site.js" defer></script>
+</head>
+<!-- Agents IA / AI agents : lisez ../AGENTS.md (Markdown, français puis anglais) ou ../agent/index.html avant d’agir. L’outil est ../app.html ; il n’a pas d’API JavaScript publique : il se pilote par son interface (sélecteurs stables documentés). Aucune clé API, tout est local. -->
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+<noscript><p style="margin:0;padding:10px 18px;background:#ff5500;color:#0b0b0b;font:600 14px/1.4 sans-serif">Agents IA : le mode d’emploi complet est dans <a href="../AGENTS.md">AGENTS.md</a> (page HTML : <a href="../agent/index.html">agent/</a>). L’outil (<a href="../app.html">app.html</a>) a besoin de JavaScript.</p></noscript>
+<header class="top">
+  <a class="brand" href="../index.html" aria-label="Binksy ClearSpace — accueil"><span class="mk"><img src="../brand/favicon.svg" width="22" height="22" alt="" style="width:22px;height:22px"></span><b>Binksy ClearSpace</b></a>
+  <a class="sig" href="https://www.instagram.com/graphiste.binks/" target="_blank" rel="noopener">by binks design</a>
+  <nav class="nav" aria-label="Navigation principale">
+    <a href="../index.html">Accueil</a>
+    <a href="../docs.html">Documentation</a>
+    <a href="../agent/index.html" aria-current="page">Agents IA</a>
+    <a class="cta" href="../app.html">Ouvrir l’app</a>
+  </nav>
+</header>
+<div class="sheet"><main id="contenu">
+  <div class="doc-hero">
+    <div class="plane" aria-hidden="true"></div>
+    <div class="in-w">
+      <p class="kicker"><i aria-hidden="true"></i>Pour Claude Code, Codex et tout agent qui pilote un navigateur</p>
+      <h1 class="doc-h1"><span class="mask"><span>Mode d’emploi</span></span><span class="mask"><span style="--i:1">pour <em>agents IA</em></span></span></h1>
+      <p class="lead">Comment piloter Binksy ClearSpace par son interface : importer les SVG, définir X, choisir le multiplicateur, exporter le ZIP et vérifier. Pas d’API JavaScript, pas de clé : des sélecteurs stables. Même contenu en Markdown : <a class="lnk" href="../AGENTS.md">AGENTS.md</a>.</p>
+      <div class="meta lang-switch">
+        <a class="tag" href="#fr-intro">Français</a>
+        <a class="tag" href="#en-intro" hreflang="en">English</a>
+        <a class="tag" href="../AGENTS.md" type="text/markdown">AGENTS.md</a>
+        <a class="tag" href="../llms.txt" type="text/plain">llms.txt</a>
+        <a class="tag" href="../docs.html">Documentation (humains)</a>
+      </div>
+    </div>
+  </div>
+  <div class="in-w doc-grid">
+    <details class="toc" open>
+      <summary><span>Sommaire</span><span class="cur"></span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <nav class="toc-body" aria-label="Sommaire"><span class="toc-h" lang="fr">Français</span><ol><li><a href="#fr-regle-fondamentale"><span class="n">01</span><span>Règle fondamentale</span></a></li><li><a href="#fr-demarrer"><span class="n">02</span><span>Démarrer</span></a></li><li><a href="#fr-selecteurs-stables"><span class="n">03</span><span>Sélecteurs stables</span></a></li><li><a href="#fr-parcours-pas-a-pas"><span class="n">04</span><span>Parcours pas à pas</span></a></li><li><a href="#fr-exemple-playwright-python"><span class="n">05</span><span>Exemple Playwright (Python)</span></a></li><li><a href="#fr-ce-que-contient-l-export"><span class="n">06</span><span>Ce que contient l’export</span></a></li><li><a href="#fr-etat-persistant"><span class="n">07</span><span>État persistant</span></a></li><li><a href="#fr-verifications-avant-de-rendre-le-travail"><span class="n">08</span><span>Vérifications avant de rendre le travail</span></a></li><li><a href="#fr-limites-et-erreurs"><span class="n">09</span><span>Limites et erreurs</span></a></li><li><a href="#fr-logique-a-suivre-pour-chaque-tache"><span class="n">10</span><span>Logique à suivre pour chaque tâche</span></a></li></ol><div style="height:18px"></div><span class="toc-h" lang="en">English</span><ol><li><a href="#en-golden-rule"><span class="n">01</span><span>Golden rule</span></a></li><li><a href="#en-getting-started"><span class="n">02</span><span>Getting started</span></a></li><li><a href="#en-stable-selectors"><span class="n">03</span><span>Stable selectors</span></a></li><li><a href="#en-step-by-step-flow"><span class="n">04</span><span>Step-by-step flow</span></a></li><li><a href="#en-playwright-example-python"><span class="n">05</span><span>Playwright example (Python)</span></a></li><li><a href="#en-what-the-export-contains"><span class="n">06</span><span>What the export contains</span></a></li><li><a href="#en-persistent-state"><span class="n">07</span><span>Persistent state</span></a></li><li><a href="#en-checks-before-handing-back"><span class="n">08</span><span>Checks before handing back</span></a></li><li><a href="#en-limits-and-errors"><span class="n">09</span><span>Limits and errors</span></a></li><li><a href="#en-logic-for-every-task"><span class="n">10</span><span>Logic for every task</span></a></li></ol></nav>
+    </details>
+    <article class="prose">
+<section id="fr-intro" lang="fr"><p>Ce document s’adresse aux agents IA (Claude Code, Codex, ou tout agent qui pilote un navigateur via Playwright / CDP). Il explique comment utiliser <strong>Binksy ClearSpace</strong> (<code>app.html</code>), l’outil de Binks Design qui définit, visualise et exporte la <strong>zone de sécurité (clear space)</strong> d’un logo à partir de fichiers SVG.</p>
+<p>Il existe en deux endroits, toujours identiques : <code>AGENTS.md</code> (Markdown, français puis anglais) et la page <code>agent/index.html</code>. Résumé court : <code>llms.txt</code>. Documentation pour les humains : <code>docs.html</code>.</p>
+<p>Points d’entrée découvrables sans JavaScript : <code>index.html</code> et <code>docs.html</code> déclarent <code>&lt;link rel="alternate" type="text/markdown" href="AGENTS.md"&gt;</code>, <code>&lt;link rel="help" href="agent/"&gt;</code> et <code>&lt;link rel="alternate" type="text/plain" href="llms.txt"&gt;</code>, plus un commentaire HTML et un bloc <code>&lt;noscript&gt;</code> qui renvoient ici.</p>
+<div class="note"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><p>Dans le dépôt GitHub, le fichier <code>AGENTS.md</code> à la racine s’adresse aux développeurs qui modifient le code. Celui-ci (<code>public/AGENTS.md</code>, servi à la racine du site) s’adresse aux agents qui <strong>utilisent</strong> l’outil.</p></div></section>
+<section id="fr-regle-fondamentale" lang="fr"><h2><span class="n">01</span><span>Règle fondamentale</span></h2>
+<p>ClearSpace mesure et met en page ce que le graphiste fournit. Ce n’est <strong>pas</strong> un générateur de logos.</p>
+<ul>
+<li><strong>N’invente jamais</strong> un logo, un symbole, une couleur, une police ou un texte de marque. Les SVG fournis par l’utilisateur <strong>font foi</strong>.</li>
+<li><strong>Ne redessine pas</strong> un SVG fourni, ne modifie pas sa géométrie ni ses couleurs, ne le remplace pas par un fichier « approchant ». Si un SVG est refusé (texte non vectorisé, image intégrée…), dis-le à l’utilisateur et demande-lui un fichier corrigé.</li>
+<li><strong>La règle de zone de sécurité appartient au graphiste.</strong> Ne choisis pas seul la méthode X ni le multiplicateur : applique ce qu’on t’a demandé, ou propose et fais valider. Les multiplicateurs 0,5 / 1 / 1,5 / 2 sont des méthodes de test, pas des règles universelles.</li>
+<li><strong>Aucune clé API, aucun service en ligne.</strong> L’outil n’embarque aucune IA et n’appelle aucun serveur. Ne demande jamais de clé ni de compte à l’utilisateur.</li>
+<li><strong>Tout est local</strong> : lecture des SVG, mesures, rendus et ZIP sont faits dans le navigateur. Le projet est enregistré dans le stockage du navigateur.</li>
+<li><strong>Il n’y a pas d’API JavaScript publique</strong> (pas d’objet <code>window.*</code> à appeler). On pilote l’outil par son interface, avec les sélecteurs listés plus bas. N’injecte pas de code qui modifie l’état interne.</li>
+</ul>
+<p>Après chaque action, relis l’interface (état <code>aria-pressed</code>, textes affichés, message <code>#notice</code>). <strong>Un clic n’est pas une preuve de réussite.</strong></p>
+</section>
+<section id="fr-demarrer" lang="fr"><h2><span class="n">02</span><span>Démarrer</span></h2>
+<h3 id="fr-demarrer-ouvrir-l-outil">Ouvrir l’outil</h3>
+<ul>
+<li>En ligne : <code>https://clearspace.binksdesign.com/app.html</code> (l’hébergeur peut rediriger vers <code>/app</code>, c’est la même page).</li>
+<li>En local, depuis le dépôt (projet Vite) :</li>
+</ul>
+<pre><code class="language-bash">npm ci
+npm run build
+npx vite preview --host 127.0.0.1   # puis ouvrir http://127.0.0.1:4173/app.html
+# ou, en développement : npm run dev  → http://127.0.0.1:5173/app.html
+</code></pre>
+<p><code>index.html</code> est la page d’accueil, <code>app.html</code> l’outil, <code>docs.html</code> la documentation, <code>agent/index.html</code> cette page.</p>
+<h3 id="fr-demarrer-l-ecran">L’écran</h3>
+<p>Une seule page, sans étapes :</p>
+<ul>
+<li><strong>En-tête</strong> : logo, Annuler / Rétablir, bascule de thème clair/sombre, langue FR / EN.</li>
+<li><strong>Gauche</strong> : « Variantes du logo », bouton « + Ajouter des SVG », une carte par variante (aperçu cliquable, nom modifiable, Remplacer, Supprimer).</li>
+<li><strong>Centre</strong> : nom de la variante active, boutons de fond « Clair / Sombre », grand aperçu avec les guides de zone de sécurité, puis la barre d’export (« N variantes · ZIP » et le bouton <strong>Exporter</strong>).</li>
+<li><strong>Droite</strong> : « Définir X » (Hauteur / Largeur / Visuel), mesure visuelle, « Espace » (multiplicateurs) et « Personnalisé ».</li>
+</ul>
+<p>Sans variante, l’aperçu affiche « Déposez vos SVG » avec un bouton « Choisir des fichiers SVG », et Exporter est désactivé.</p>
+</section>
+<section id="fr-selecteurs-stables" lang="fr"><h2><span class="n">03</span><span>Sélecteurs stables</span></h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Sélecteur</th>
+<th>Remarque</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Importer des SVG (toujours présent)</td>
+<td><code>#ready-files</code></td>
+<td><code>input[type=file]</code> caché, <code>multiple</code>, <code>accept=".svg,image/svg+xml"</code> : utilise <code>set_input_files</code></td>
+</tr>
+<tr>
+<td>Importer depuis l’aperçu vide</td>
+<td><code>#stage-files</code></td>
+<td>n’existe que sans variante</td>
+</tr>
+<tr>
+<td>Zone de dépôt</td>
+<td><code>#stage</code></td>
+<td>accepte aussi le glisser-déposer de fichiers</td>
+</tr>
+<tr>
+<td>Aperçu SVG</td>
+<td><code>#canvas</code></td>
+<td><code>&lt;svg&gt;</code> dans <code>#stage</code> ; guides dans <code>#clear-guides</code></td>
+</tr>
+<tr>
+<td>Carte de variante</td>
+<td><code>.ready-card</code> (active : <code>.ready-card.active</code>)</td>
+<td>une par fichier importé</td>
+</tr>
+<tr>
+<td>Activer une variante</td>
+<td><code>[data-active="&lt;id&gt;"]</code></td>
+<td>bouton d’aperçu, <code>aria-pressed="true"</code> si active</td>
+</tr>
+<tr>
+<td>Renommer</td>
+<td><code>[data-ready-name="&lt;id&gt;"]</code></td>
+<td><code>input</code>, valider par <code>change</code> (Tab / Entrée), 100 caractères max</td>
+</tr>
+<tr>
+<td>Remplacer le SVG</td>
+<td><code>[data-replace-variant="&lt;id&gt;"]</code></td>
+<td><code>input[type=file]</code> caché, garde les réglages de la variante</td>
+</tr>
+<tr>
+<td>Supprimer</td>
+<td><code>[data-remove-variant="&lt;id&gt;"]</code></td>
+<td>sans confirmation (Annuler pour revenir)</td>
+</tr>
+<tr>
+<td>Méthode X</td>
+<td><code>[data-method="height"]</code>, <code>[data-method="width"]</code>, <code>[data-method="visual"]</code></td>
+<td><code>aria-pressed="true"</code> sur la méthode active</td>
+</tr>
+<tr>
+<td>Tracer la mesure</td>
+<td><code>[data-action="measure"]</code></td>
+<td>visible seulement en méthode Visuel</td>
+</tr>
+<tr>
+<td>Nom de la mesure</td>
+<td><code>#measure-name</code></td>
+<td>facultatif, 160 caractères max, visible en Visuel</td>
+</tr>
+<tr>
+<td>Multiplicateur</td>
+<td><code>[data-multiplier="0.5"]</code>, <code>"1"</code>, <code>"1.5"</code>, <code>"2"</code></td>
+<td><code>aria-pressed="true"</code> sur l’actif</td>
+</tr>
+<tr>
+<td>Multiplicateur libre</td>
+<td><code>#clear-multiplier</code></td>
+<td><code>input[type=number]</code>, de 0.05 à 5, validé à <code>change</code></td>
+</tr>
+<tr>
+<td>Fond de l’aperçu</td>
+<td><code>[data-canvas="#ffffff"]</code>, <code>[data-canvas="#000000"]</code></td>
+<td>n’affecte que l’aperçu</td>
+</tr>
+<tr>
+<td>Thème de l’interface</td>
+<td><code>[data-theme-toggle]</code></td>
+<td><code>aria-pressed="true"</code> en sombre ; <code>html[data-theme]</code></td>
+</tr>
+<tr>
+<td>Langue</td>
+<td><code>[data-language="fr"]</code>, <code>[data-language="en"]</code></td>
+<td>dans l’en-tête</td>
+</tr>
+<tr>
+<td>Annuler / Rétablir</td>
+<td><code>[data-action="undo"]</code>, <code>[data-action="redo"]</code></td>
+<td>aussi Ctrl/⌘ + Z et Ctrl/⌘ + Maj + Z (hors champs de saisie)</td>
+</tr>
+<tr>
+<td>Exporter</td>
+<td><code>[data-action="export"]</code></td>
+<td>désactivé sans variante ou pendant un export</td>
+</tr>
+<tr>
+<td>Messages</td>
+<td><code>#notice</code></td>
+<td><code>role="status"</code>, se masque après 8 s</td>
+</tr>
+<tr>
+<td>Récapitulatif</td>
+<td><code>.clear-facts</code></td>
+<td>« Référence : … » et « Zone de sécurité : 1,5× X »</td>
+</tr>
+</tbody>
+</table></div>
+<p>Les identifiants de variante ont la forme <code>v-&lt;uuid&gt;</code> ; lis-les dans le DOM (<code>[data-active]</code>), ne les invente pas.</p>
+</section>
+<section id="fr-parcours-pas-a-pas" lang="fr"><h2><span class="n">04</span><span>Parcours pas à pas</span></h2>
+<ol>
+<li><strong>Ouvre</strong> <code>app.html</code> et attends <code>#ready-files</code> (attaché au DOM).</li>
+<li><strong>Importe</strong> les SVG fournis : <code>set_input_files("#ready-files", [...])</code>. Chaque fichier devient une variante nommée d’après le fichier (sans <code>.svg</code>, nom rendu unique si besoin). Vérifie le nombre de <code>.ready-card</code> et le message <code>#notice</code> (« 2 variantes importées. ») ; un SVG refusé affiche son erreur dans <code>#notice</code> et <strong>aucun</strong> fichier du lot n’est importé.</li>
+<li><strong>Pour chaque variante</strong> à régler : clique <code>[data-active="&lt;id&gt;"]</code>, puis la méthode demandée :</li>
+<li><code>height</code> : X = hauteur du dessin (boîte englobante des formes visibles, épaisseur de contour comprise) ;</li>
+<li><code>width</code> : X = largeur du dessin ;</li>
+<li><code>visual</code> : clique <code>[data-action="measure"]</code>, puis fais un glisser (bouton gauche) sur <code>#canvas</code>. La mesure = le plus grand des deux écarts horizontal/vertical, en unités SVG, arrondie au centième. Aucun magnétisme. Échap ou le bouton « Annuler » de l’indication abandonne. Renseigne ensuite <code>#measure-name</code> si on t’a donné un nom (ex. « Hauteur du A »).</li>
+<li><strong>Multiplicateur</strong> : clique <code>[data-multiplier="…"]</code>, ou remplis <code>#clear-multiplier</code> puis Tab. Hors de 0,05–5, l’outil refuse (« Multiplicateur entre 0,05 et 5. »).</li>
+<li><strong>Vérifie</strong> <code>.clear-facts</code> et <code>aria-pressed</code> pour chaque variante (les réglages sont indépendants par variante).</li>
+<li><strong>Exporte</strong> : clique <code>[data-action="export"]</code> en attendant un téléchargement (<code>expect_download</code>). Pendant le travail, <code>#notice</code> affiche « Export i / n » ; à la fin « Export terminé. Votre ZIP est prêt. ».</li>
+</ol>
+<h3 id="fr-parcours-pas-a-pas-convertir-des-unites-svg-en-position-ecran-mesure-visuelle">Convertir des unités SVG en position écran (mesure visuelle)</h3>
+<pre><code class="language-js">// Dans la page : coin haut gauche (x, y) et côté s, en unités SVG → points écran
+const svg = document.querySelector('#canvas');
+const m = svg.getScreenCTM();
+const toScreen = (x, y) =&gt; new DOMPoint(x, y).matrixTransform(m);
+const a = toScreen(x, y), b = toScreen(x + s, y + s);
+// glisser de (a.x, a.y) à (b.x, b.y) avec la souris
+</code></pre>
+<p>La géométrie du logo est lisible dans le SVG d’aperçu (<code>#canvas</code>). Ne prends une mesure visuelle que sur l’élément demandé par l’utilisateur.</p>
+</section>
+<section id="fr-exemple-playwright-python" lang="fr"><h2><span class="n">05</span><span>Exemple Playwright (Python)</span></h2>
+<pre><code class="language-python">from playwright.sync_api import sync_playwright
+
+with sync_playwright() as p:
+    page = p.chromium.launch().new_page(accept_downloads=True)
+    page.goto(&quot;http://127.0.0.1:4173/app.html&quot;)
+    page.wait_for_selector(&quot;#ready-files&quot;, state=&quot;attached&quot;)
+    page.set_input_files(&quot;#ready-files&quot;, [&quot;logo-horizontal.svg&quot;, &quot;icone.svg&quot;])
+    page.wait_for_selector(&quot;.ready-card &gt;&gt; nth=1&quot;)
+
+    # Variante 1 : hauteur × 1 (réglage demandé par l’utilisateur)
+    page.click(&quot;.ready-card &gt;&gt; nth=0 &gt;&gt; [data-active]&quot;)
+    page.click('[data-method=&quot;height&quot;]')
+    page.click('[data-multiplier=&quot;1&quot;]')
+
+    # Variante 2 : largeur × 0,5
+    page.click(&quot;.ready-card &gt;&gt; nth=1 &gt;&gt; [data-active]&quot;)
+    page.click('[data-method=&quot;width&quot;]')
+    page.click('[data-multiplier=&quot;0.5&quot;]')
+    print(page.inner_text(&quot;.clear-facts&quot;))
+
+    with page.expect_download(timeout=120_000) as dl:
+        page.click('[data-action=&quot;export&quot;]')
+    dl.value.save_as(dl.value.suggested_filename)
+</code></pre>
+</section>
+<section id="fr-ce-que-contient-l-export" lang="fr"><h2><span class="n">06</span><span>Ce que contient l’export</span></h2>
+<p>Un seul ZIP, toujours, même pour une seule variante : <code>&lt;projet&gt;-clearspace.zip</code>.</p>
+<pre><code>&lt;PROJET&gt; CLEARSPACE/
+  &lt;Variante&gt;/SVG/&lt;projet&gt;-&lt;variante&gt;-clearspace-clair.svg   …-fonce.svg
+  &lt;Variante&gt;/PNG/…-clair.png   …-fonce.png
+  &lt;Variante&gt;/JPEG/…-clair.jpeg …-fonce.jpeg
+  &lt;Variante&gt;/PDF/…-clair.pdf   …-fonce.pdf
+  RECOMMANDATIONS.txt
+</code></pre>
+<ul>
+<li>Toutes les variantes, les 4 formats, les 2 tons : 8 fichiers par variante + <code>RECOMMANDATIONS.txt</code>. Aucun choix possible.</li>
+<li>SVG et PDF vectoriels ; PNG à fond transparent ; JPEG à fond blanc (clair) ou noir (foncé). PNG et JPEG font 3000 px de large, à 300 dpi.</li>
+<li>Chaque planche contient le logo (couleurs d’origine), les guides de la zone et une légende : « X = <méthode> · X = <valeur> unités · Zone de sécurité = <valeur> × <multiplicateur> = <zone> unités ».</li>
+<li><code>RECOMMANDATIONS.txt</code> reprend ce calcul pour chaque variante.</li>
+<li>Le nom du projet n’est pas modifiable dans l’interface : c’est « Sans titre » (« Untitled » si le projet a été créé en anglais), ou le nom repris d’un ancien projet Binksy LogoKit. D’où par exemple <code>Sans-titre-clearspace.zip</code> et le dossier <code>SANS-TITRE CLEARSPACE/</code>. Le nom de chaque variante, lui, se change dans la colonne de gauche et sert de nom de dossier.</li>
+<li>Le fichier arrive dans les <strong>téléchargements</strong> du navigateur ; avec Playwright, récupère-le via <code>expect_download</code>.</li>
+</ul>
+</section>
+<section id="fr-etat-persistant" lang="fr"><h2><span class="n">07</span><span>État persistant</span></h2>
+<ul>
+<li>Projet : <code>localStorage["binksy-clearspace-v1"]</code> (JSON : <code>ready</code> = variantes avec leur SVG, <code>compositions[&lt;id&gt;]</code> = <code>{ method, multiplier, measure, label }</code>, <code>active</code>, <code>canvas</code>, <code>theme</code>…). Si le quota est dépassé, l’instantané passe dans IndexedDB <code>binksy-clearspace</code> (magasin <code>snapshots</code>, clé <code>project</code>) et <code>localStorage</code> ne garde qu’un marqueur <code>{"storage":"indexeddb"}</code>.</li>
+<li>Langue : <code>localStorage["binksy-clearspace-locale"]</code> (<code>fr</code> ou <code>en</code>).</li>
+<li>Migration unique : au premier lancement, les anciens projets Binksy LogoKit (<code>binksy-logo-system</code>) sont repris ; le drapeau <code>binksy-clearspace-migrated</code> évite de recommencer.</li>
+<li>Enregistrement automatique environ 300 ms après chaque changement, et à la fermeture de la page. L’historique Annuler / Rétablir (60 pas) n’est pas conservé après rechargement.</li>
+<li>Pour repartir de zéro, supprime les variantes une à une avec <code>[data-remove-variant]</code>. N’efface pas le stockage de l’utilisateur sans son accord : c’est son travail.</li>
+</ul>
+</section>
+<section id="fr-verifications-avant-de-rendre-le-travail" lang="fr"><h2><span class="n">08</span><span>Vérifications avant de rendre le travail</span></h2>
+<ul>
+<li>Le nombre de <code>.ready-card</code> correspond au nombre de SVG fournis, et chaque nom de variante est celui attendu.</li>
+<li>Pour chaque variante : la bonne méthode et le bon multiplicateur sont <code>aria-pressed="true"</code> ; <code>.clear-facts</code> affiche la bonne référence.</li>
+<li>Le ZIP téléchargé contient 8 fichiers par variante plus <code>RECOMMANDATIONS.txt</code>, et les valeurs de <code>RECOMMANDATIONS.txt</code> correspondent à ce qui était demandé.</li>
+<li>Ouvre au moins une planche (SVG ou PNG) pour contrôler visuellement la zone.</li>
+<li>Aucun SVG fourni n’a été modifié, aucune couleur, aucun logo ni texte n’a été inventé.</li>
+<li>Dis à l’utilisateur où se trouve le ZIP et ce que tu as réglé (méthode, mesure, multiplicateur par variante).</li>
+</ul>
+</section>
+<section id="fr-limites-et-erreurs" lang="fr"><h2><span class="n">09</span><span>Limites et erreurs</span></h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Message (dans <code>#notice</code>)</th>
+<th>Cause</th>
+<th>Que faire</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>« Fichier trop volumineux. » / « SVG trop volumineux (3 Mo maximum). »</td>
+<td>fichier de plus de 3 Mo</td>
+<td>demander un SVG allégé</td>
+</tr>
+<tr>
+<td>« Ce fichier n’est pas un SVG valide. »</td>
+<td>fichier illisible ou pas du SVG</td>
+<td>demander le bon fichier</td>
+</tr>
+<tr>
+<td>« Le fichier contient une image ou du contenu non vectoriel. Importez des tracés SVG. »</td>
+<td><code>&lt;image&gt;</code> ou <code>&lt;foreignObject&gt;</code></td>
+<td>demander une version vectorielle</td>
+</tr>
+<tr>
+<td>« Texte non vectorisé : chargez la police OTF/TTF correspondante, puis réimportez le SVG. »</td>
+<td>balise <code>&lt;text&gt;</code> dans le SVG</td>
+<td>l’interface ne permet pas de charger de police : demander un SVG au texte vectorisé</td>
+</tr>
+<tr>
+<td>« Les ressources externes ne sont pas acceptées. » / « Le SVG utilise des ressources CSS externes. »</td>
+<td>liens externes, <code>@import</code></td>
+<td>demander un SVG autonome</td>
+</tr>
+<tr>
+<td>« Le SVG ne contient aucune forme visible. »</td>
+<td>fichier vide ou invisible</td>
+<td>vérifier le fichier</td>
+</tr>
+<tr>
+<td>« Multiplicateur entre 0,05 et 5. »</td>
+<td>valeur libre hors limites</td>
+<td>corriger la valeur</td>
+</tr>
+<tr>
+<td>« PDF : effets complexes non pris en charge ; utilisez le SVG. »</td>
+<td>le SVG contient <code>filter</code>, <code>mask</code> ou <code>pattern</code></td>
+<td>l’export entier s’arrête : prévenir l’utilisateur</td>
+</tr>
+<tr>
+<td>« Lot supérieur à 256 Mo. Réduisez le nombre de variantes. »</td>
+<td>trop de variantes lourdes</td>
+<td>exporter en plusieurs fois</td>
+</tr>
+<tr>
+<td>« Sauvegarde impossible » / « Stockage local plein ou indisponible. »</td>
+<td>stockage du navigateur indisponible</td>
+<td>prévenir l’utilisateur</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>Les scripts, animations et liens contenus dans un SVG sont retirés à l’import (assainissement), sans message.</li>
+<li>La plupart des messages d’erreur d’import et d’export restent en français, même avec l’interface en anglais.</li>
+<li>Il n’existe pas de réglage de taille d’export, de couleur des guides ni de nom de projet dans l’interface.</li>
+<li>L’interface est pensée pour un écran d’ordinateur.</li>
+</ul>
+</section>
+<section id="fr-logique-a-suivre-pour-chaque-tache" lang="fr"><h2><span class="n">10</span><span>Logique à suivre pour chaque tâche</span></h2>
+<ol>
+<li>Récupère les SVG auprès de l’utilisateur ; n’en fabrique aucun.</li>
+<li>Fais-toi confirmer, pour chaque variante, la méthode X (hauteur, largeur ou mesure visuelle sur quel élément) et le multiplicateur. Sans consigne, propose (par exemple hauteur × 1) et attends l’accord.</li>
+<li>Importe, règle, vérifie l’interface après chaque clic.</li>
+<li>Exporte, ouvre le ZIP, contrôle <code>RECOMMANDATIONS.txt</code> et une planche.</li>
+<li>Rends le ZIP avec un résumé honnête : ce qui a été fait, ce qui a échoué et pourquoi.</li>
+</ol>
+<hr />
+</section>
+<section id="en-intro" lang="en"><p>This document is for AI agents (Claude Code, Codex, or any agent driving a browser through Playwright / CDP). It explains how to use <strong>Binksy ClearSpace</strong> (<code>app.html</code>), the Binks Design tool that defines, previews and exports the <strong>clear space</strong> (safety zone) of a logo from SVG files.</p>
+<p>It lives in two places, always identical: <code>AGENTS.md</code> (Markdown, French then English) and the <code>agent/index.html</code> page. Short summary: <code>llms.txt</code>. Human documentation (French): <code>docs.html</code>.</p>
+<p>Entry points discoverable without JavaScript: <code>index.html</code> and <code>docs.html</code> declare <code>&lt;link rel="alternate" type="text/markdown" href="AGENTS.md"&gt;</code>, <code>&lt;link rel="help" href="agent/"&gt;</code> and <code>&lt;link rel="alternate" type="text/plain" href="llms.txt"&gt;</code>, plus an HTML comment and a <code>&lt;noscript&gt;</code> block pointing here.</p>
+<div class="note"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><p>In the GitHub repository, the root <code>AGENTS.md</code> is for developers changing the code. This one (<code>public/AGENTS.md</code>, served at the site root) is for agents <strong>using</strong> the tool.</p></div></section>
+<section id="en-golden-rule" lang="en"><h2><span class="n">01</span><span>Golden rule</span></h2>
+<p>ClearSpace measures and lays out what the designer provides. It is <strong>not</strong> a logo generator.</p>
+<ul>
+<li><strong>Never invent</strong> a logo, symbol, colour, font or brand copy. The SVGs provided by the user are <strong>the source of truth</strong>.</li>
+<li><strong>Do not redraw</strong> a provided SVG, do not change its geometry or colours, do not swap it for a “similar” file. If an SVG is rejected (text not outlined, embedded image…), tell the user and ask for a fixed file.</li>
+<li><strong>The clear-space rule belongs to the designer.</strong> Do not pick the X method or the multiplier on your own: apply what you were asked, or suggest and get approval. The 0.5 / 1 / 1.5 / 2 multipliers are test methods, not universal rules.</li>
+<li><strong>No API key, no online service.</strong> The tool ships no AI and calls no server. Never ask the user for a key or an account.</li>
+<li><strong>Everything is local</strong>: SVG parsing, measurements, rendering and the ZIP happen in the browser. The project is saved in browser storage.</li>
+<li><strong>There is no public JavaScript API</strong> (no <code>window.*</code> object to call). Drive the tool through its interface, with the selectors below. Do not inject code that changes internal state.</li>
+</ul>
+<p>After every action, re-read the interface (<code>aria-pressed</code> state, displayed text, the <code>#notice</code> message). <strong>A click is not proof of success.</strong></p>
+</section>
+<section id="en-getting-started" lang="en"><h2><span class="n">02</span><span>Getting started</span></h2>
+<h3 id="en-getting-started-open-the-tool">Open the tool</h3>
+<ul>
+<li>Online: <code>https://clearspace.binksdesign.com/app.html</code> (the host may redirect to <code>/app</code>; same page).</li>
+<li>Locally, from the repository (Vite project):</li>
+</ul>
+<pre><code class="language-bash">npm ci
+npm run build
+npx vite preview --host 127.0.0.1   # then open http://127.0.0.1:4173/app.html
+# or, for development: npm run dev  → http://127.0.0.1:5173/app.html
+</code></pre>
+<p><code>index.html</code> is the home page, <code>app.html</code> the tool, <code>docs.html</code> the documentation, <code>agent/index.html</code> this page.</p>
+<h3 id="en-getting-started-the-screen">The screen</h3>
+<p>One page, no steps:</p>
+<ul>
+<li><strong>Header</strong>: logo, Undo / Redo, light/dark theme toggle, FR / EN language.</li>
+<li><strong>Left</strong>: “Variantes du logo” (logo variants), “+ Ajouter des SVG” (add SVGs) button, one card per variant (clickable preview, editable name, Replace, Delete).</li>
+<li><strong>Centre</strong>: active variant name, “Clair / Sombre” (light / dark) background buttons, large preview with clear-space guides, then the export bar (“N variantes · ZIP” and the <strong>Exporter</strong> / Export button).</li>
+<li><strong>Right</strong>: “Définir X” (Height / Width / Visual), visual measurement, “Espace” (multipliers) and “Personnalisé” (custom).</li>
+</ul>
+<p>With no variant, the preview shows “Déposez vos SVG” with a “Choisir des fichiers SVG” button, and Export is disabled.</p>
+</section>
+<section id="en-stable-selectors" lang="en"><h2><span class="n">03</span><span>Stable selectors</span></h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Selector</th>
+<th>Note</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Import SVGs (always present)</td>
+<td><code>#ready-files</code></td>
+<td>hidden <code>input[type=file]</code>, <code>multiple</code>, <code>accept=".svg,image/svg+xml"</code>: use <code>set_input_files</code></td>
+</tr>
+<tr>
+<td>Import from the empty preview</td>
+<td><code>#stage-files</code></td>
+<td>only exists when there is no variant</td>
+</tr>
+<tr>
+<td>Drop zone</td>
+<td><code>#stage</code></td>
+<td>also accepts file drag-and-drop</td>
+</tr>
+<tr>
+<td>SVG preview</td>
+<td><code>#canvas</code></td>
+<td><code>&lt;svg&gt;</code> inside <code>#stage</code>; guides in <code>#clear-guides</code></td>
+</tr>
+<tr>
+<td>Variant card</td>
+<td><code>.ready-card</code> (active: <code>.ready-card.active</code>)</td>
+<td>one per imported file</td>
+</tr>
+<tr>
+<td>Activate a variant</td>
+<td><code>[data-active="&lt;id&gt;"]</code></td>
+<td>preview button, <code>aria-pressed="true"</code> when active</td>
+</tr>
+<tr>
+<td>Rename</td>
+<td><code>[data-ready-name="&lt;id&gt;"]</code></td>
+<td><code>input</code>, committed on <code>change</code> (Tab / Enter), 100 characters max</td>
+</tr>
+<tr>
+<td>Replace the SVG</td>
+<td><code>[data-replace-variant="&lt;id&gt;"]</code></td>
+<td>hidden <code>input[type=file]</code>, keeps the variant’s settings</td>
+</tr>
+<tr>
+<td>Delete</td>
+<td><code>[data-remove-variant="&lt;id&gt;"]</code></td>
+<td>no confirmation (use Undo to go back)</td>
+</tr>
+<tr>
+<td>X method</td>
+<td><code>[data-method="height"]</code>, <code>[data-method="width"]</code>, <code>[data-method="visual"]</code></td>
+<td><code>aria-pressed="true"</code> on the active method</td>
+</tr>
+<tr>
+<td>Draw the measurement</td>
+<td><code>[data-action="measure"]</code></td>
+<td>only shown in Visual mode</td>
+</tr>
+<tr>
+<td>Measurement name</td>
+<td><code>#measure-name</code></td>
+<td>optional, 160 characters max, shown in Visual mode</td>
+</tr>
+<tr>
+<td>Multiplier</td>
+<td><code>[data-multiplier="0.5"]</code>, <code>"1"</code>, <code>"1.5"</code>, <code>"2"</code></td>
+<td><code>aria-pressed="true"</code> on the active one</td>
+</tr>
+<tr>
+<td>Custom multiplier</td>
+<td><code>#clear-multiplier</code></td>
+<td><code>input[type=number]</code>, 0.05 to 5, committed on <code>change</code></td>
+</tr>
+<tr>
+<td>Preview background</td>
+<td><code>[data-canvas="#ffffff"]</code>, <code>[data-canvas="#000000"]</code></td>
+<td>affects the preview only</td>
+</tr>
+<tr>
+<td>Interface theme</td>
+<td><code>[data-theme-toggle]</code></td>
+<td><code>aria-pressed="true"</code> when dark; <code>html[data-theme]</code></td>
+</tr>
+<tr>
+<td>Language</td>
+<td><code>[data-language="fr"]</code>, <code>[data-language="en"]</code></td>
+<td>in the header</td>
+</tr>
+<tr>
+<td>Undo / Redo</td>
+<td><code>[data-action="undo"]</code>, <code>[data-action="redo"]</code></td>
+<td>also Ctrl/⌘ + Z and Ctrl/⌘ + Shift + Z (outside text fields)</td>
+</tr>
+<tr>
+<td>Export</td>
+<td><code>[data-action="export"]</code></td>
+<td>disabled with no variant or while exporting</td>
+</tr>
+<tr>
+<td>Messages</td>
+<td><code>#notice</code></td>
+<td><code>role="status"</code>, hides after 8 s</td>
+</tr>
+<tr>
+<td>Summary</td>
+<td><code>.clear-facts</code></td>
+<td>“Référence : …” and “Zone de sécurité : 1,5× X”</td>
+</tr>
+</tbody>
+</table></div>
+<p>Variant ids look like <code>v-&lt;uuid&gt;</code>; read them from the DOM (<code>[data-active]</code>), never invent them.</p>
+</section>
+<section id="en-step-by-step-flow" lang="en"><h2><span class="n">04</span><span>Step-by-step flow</span></h2>
+<ol>
+<li><strong>Open</strong> <code>app.html</code> and wait for <code>#ready-files</code> (attached to the DOM).</li>
+<li><strong>Import</strong> the provided SVGs: <code>set_input_files("#ready-files", [...])</code>. Each file becomes a variant named after the file (without <code>.svg</code>, made unique if needed). Check the number of <code>.ready-card</code> elements and the <code>#notice</code> message (“2 variantes importées.”); a rejected SVG shows its error in <code>#notice</code> and <strong>none</strong> of the batch is imported.</li>
+<li><strong>For each variant</strong> to set: click <code>[data-active="&lt;id&gt;"]</code>, then the requested method:</li>
+<li><code>height</code>: X = drawing height (bounding box of the visible shapes, stroke width included);</li>
+<li><code>width</code>: X = drawing width;</li>
+<li><code>visual</code>: click <code>[data-action="measure"]</code>, then drag (left button) on <code>#canvas</code>. The measurement = the larger of the horizontal/vertical distances, in SVG units, rounded to 0.01. No snapping. Escape or the hint’s “Annuler” button cancels. Then fill <code>#measure-name</code> if you were given a name (e.g. “Height of the A”).</li>
+<li><strong>Multiplier</strong>: click <code>[data-multiplier="…"]</code>, or fill <code>#clear-multiplier</code> then Tab. Outside 0.05–5 the tool refuses (“Multiplicateur entre 0,05 et 5.”).</li>
+<li><strong>Check</strong> <code>.clear-facts</code> and <code>aria-pressed</code> for every variant (settings are independent per variant).</li>
+<li><strong>Export</strong>: click <code>[data-action="export"]</code> while waiting for a download (<code>expect_download</code>). While working, <code>#notice</code> shows “Export i / n”; at the end “Export terminé. Votre ZIP est prêt.” (EN: “Export finished. Your ZIP is ready.”).</li>
+</ol>
+<h3 id="en-step-by-step-flow-converting-svg-units-to-screen-positions-visual-measurement">Converting SVG units to screen positions (visual measurement)</h3>
+<pre><code class="language-js">// In the page: top-left corner (x, y) and side s, in SVG units → screen points
+const svg = document.querySelector('#canvas');
+const m = svg.getScreenCTM();
+const toScreen = (x, y) =&gt; new DOMPoint(x, y).matrixTransform(m);
+const a = toScreen(x, y), b = toScreen(x + s, y + s);
+// drag the mouse from (a.x, a.y) to (b.x, b.y)
+</code></pre>
+<p>The logo geometry can be read from the preview SVG (<code>#canvas</code>). Only take a visual measurement on the element the user asked for.</p>
+</section>
+<section id="en-playwright-example-python" lang="en"><h2><span class="n">05</span><span>Playwright example (Python)</span></h2>
+<pre><code class="language-python">from playwright.sync_api import sync_playwright
+
+with sync_playwright() as p:
+    page = p.chromium.launch().new_page(accept_downloads=True)
+    page.goto(&quot;http://127.0.0.1:4173/app.html&quot;)
+    page.wait_for_selector(&quot;#ready-files&quot;, state=&quot;attached&quot;)
+    page.set_input_files(&quot;#ready-files&quot;, [&quot;logo-horizontal.svg&quot;, &quot;icon.svg&quot;])
+    page.wait_for_selector(&quot;.ready-card &gt;&gt; nth=1&quot;)
+
+    # Variant 1: height × 1 (as requested by the user)
+    page.click(&quot;.ready-card &gt;&gt; nth=0 &gt;&gt; [data-active]&quot;)
+    page.click('[data-method=&quot;height&quot;]')
+    page.click('[data-multiplier=&quot;1&quot;]')
+
+    # Variant 2: width × 0.5
+    page.click(&quot;.ready-card &gt;&gt; nth=1 &gt;&gt; [data-active]&quot;)
+    page.click('[data-method=&quot;width&quot;]')
+    page.click('[data-multiplier=&quot;0.5&quot;]')
+    print(page.inner_text(&quot;.clear-facts&quot;))
+
+    with page.expect_download(timeout=120_000) as dl:
+        page.click('[data-action=&quot;export&quot;]')
+    dl.value.save_as(dl.value.suggested_filename)
+</code></pre>
+</section>
+<section id="en-what-the-export-contains" lang="en"><h2><span class="n">06</span><span>What the export contains</span></h2>
+<p>Always one ZIP, even for a single variant: <code>&lt;project&gt;-clearspace.zip</code>.</p>
+<pre><code>&lt;PROJECT&gt; CLEARSPACE/
+  &lt;Variant&gt;/SVG/&lt;project&gt;-&lt;variant&gt;-clearspace-clair.svg   …-fonce.svg
+  &lt;Variant&gt;/PNG/…-clair.png   …-fonce.png
+  &lt;Variant&gt;/JPEG/…-clair.jpeg …-fonce.jpeg
+  &lt;Variant&gt;/PDF/…-clair.pdf   …-fonce.pdf
+  RECOMMANDATIONS.txt
+</code></pre>
+<ul>
+<li>Every variant, all 4 formats, both tones (<code>clair</code> = light, <code>fonce</code> = dark): 8 files per variant + <code>RECOMMANDATIONS.txt</code>. Nothing to choose.</li>
+<li>SVG and PDF are vector; PNG has a transparent background; JPEG has a white (light) or black (dark) background. PNG and JPEG are 3000 px wide, at 300 dpi.</li>
+<li>Each sheet holds the logo (original colours), the clear-space guides and a caption: “X = <method> · X = <value> units · Clear space = <value> × <multiplier> = <space> units” (in the interface language).</li>
+<li><code>RECOMMANDATIONS.txt</code> repeats this calculation for each variant.</li>
+<li>The project name cannot be edited in the interface: it is “Sans titre” (“Untitled” if the project was created in English), or the name carried over from an old Binksy LogoKit project. Hence e.g. <code>Sans-titre-clearspace.zip</code> and the <code>SANS-TITRE CLEARSPACE/</code> folder. Each variant’s name can be changed in the left column and is used as its folder name.</li>
+<li>The file lands in the browser’s <strong>downloads</strong>; with Playwright, get it through <code>expect_download</code>.</li>
+</ul>
+</section>
+<section id="en-persistent-state" lang="en"><h2><span class="n">07</span><span>Persistent state</span></h2>
+<ul>
+<li>Project: <code>localStorage["binksy-clearspace-v1"]</code> (JSON: <code>ready</code> = variants with their SVG, <code>compositions[&lt;id&gt;]</code> = <code>{ method, multiplier, measure, label }</code>, <code>active</code>, <code>canvas</code>, <code>theme</code>…). If the quota is exceeded, the snapshot moves to IndexedDB <code>binksy-clearspace</code> (store <code>snapshots</code>, key <code>project</code>) and <code>localStorage</code> only keeps a <code>{"storage":"indexeddb"}</code> marker.</li>
+<li>Language: <code>localStorage["binksy-clearspace-locale"]</code> (<code>fr</code> or <code>en</code>).</li>
+<li>One-time migration: on first launch, old Binksy LogoKit projects (<code>binksy-logo-system</code>) are carried over; the <code>binksy-clearspace-migrated</code> flag prevents doing it again.</li>
+<li>Autosave about 300 ms after each change, and when the page closes. The Undo / Redo history (60 steps) is not kept after a reload.</li>
+<li>To start over, delete the variants one by one with <code>[data-remove-variant]</code>. Do not wipe the user’s storage without their consent: it is their work.</li>
+</ul>
+</section>
+<section id="en-checks-before-handing-back" lang="en"><h2><span class="n">08</span><span>Checks before handing back</span></h2>
+<ul>
+<li>The number of <code>.ready-card</code> elements matches the number of SVGs provided, and each variant name is the expected one.</li>
+<li>For each variant: the right method and multiplier are <code>aria-pressed="true"</code>; <code>.clear-facts</code> shows the right reference.</li>
+<li>The downloaded ZIP holds 8 files per variant plus <code>RECOMMANDATIONS.txt</code>, and the values in <code>RECOMMANDATIONS.txt</code> match what was requested.</li>
+<li>Open at least one sheet (SVG or PNG) to check the zone visually.</li>
+<li>No provided SVG was modified; no colour, logo or copy was invented.</li>
+<li>Tell the user where the ZIP is and what you set (method, measurement, multiplier per variant).</li>
+</ul>
+</section>
+<section id="en-limits-and-errors" lang="en"><h2><span class="n">09</span><span>Limits and errors</span></h2>
+<div class="tbl"><table>
+<thead>
+<tr>
+<th>Message (in <code>#notice</code>)</th>
+<th>Cause</th>
+<th>What to do</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>“Fichier trop volumineux.” / “SVG trop volumineux (3 Mo maximum).”</td>
+<td>file over 3 MB</td>
+<td>ask for a lighter SVG</td>
+</tr>
+<tr>
+<td>“Ce fichier n’est pas un SVG valide.”</td>
+<td>unreadable file or not SVG</td>
+<td>ask for the right file</td>
+</tr>
+<tr>
+<td>“Le fichier contient une image ou du contenu non vectoriel. Importez des tracés SVG.”</td>
+<td><code>&lt;image&gt;</code> or <code>&lt;foreignObject&gt;</code></td>
+<td>ask for a vector version</td>
+</tr>
+<tr>
+<td>“Texte non vectorisé : chargez la police OTF/TTF correspondante, puis réimportez le SVG.”</td>
+<td><code>&lt;text&gt;</code> element in the SVG</td>
+<td>the interface cannot load fonts: ask for an SVG with outlined text</td>
+</tr>
+<tr>
+<td>“Les ressources externes ne sont pas acceptées.” / “Le SVG utilise des ressources CSS externes.”</td>
+<td>external links, <code>@import</code></td>
+<td>ask for a self-contained SVG</td>
+</tr>
+<tr>
+<td>“Le SVG ne contient aucune forme visible.”</td>
+<td>empty or invisible file</td>
+<td>check the file</td>
+</tr>
+<tr>
+<td>“Multiplicateur entre 0,05 et 5.”</td>
+<td>custom value out of range</td>
+<td>fix the value</td>
+</tr>
+<tr>
+<td>“PDF : effets complexes non pris en charge ; utilisez le SVG.”</td>
+<td>the SVG contains <code>filter</code>, <code>mask</code> or <code>pattern</code></td>
+<td>the whole export stops: tell the user</td>
+</tr>
+<tr>
+<td>“Lot supérieur à 256 Mo. Réduisez le nombre de variantes.”</td>
+<td>too many heavy variants</td>
+<td>export in several batches</td>
+</tr>
+<tr>
+<td>“Sauvegarde impossible” / “Stockage local plein ou indisponible.”</td>
+<td>browser storage unavailable</td>
+<td>tell the user</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>Scripts, animations and links inside an SVG are stripped on import (sanitising), silently.</li>
+<li>Most import and export error messages stay in French, even with the English interface.</li>
+<li>The interface has no setting for export size, guide colour or project name.</li>
+<li>The interface is designed for a desktop screen.</li>
+</ul>
+</section>
+<section id="en-logic-for-every-task" lang="en"><h2><span class="n">10</span><span>Logic for every task</span></h2>
+<ol>
+<li>Get the SVGs from the user; never make any.</li>
+<li>Confirm, for each variant, the X method (height, width, or visual measurement on which element) and the multiplier. Without instructions, suggest one (e.g. height × 1) and wait for approval.</li>
+<li>Import, set, check the interface after each click.</li>
+<li>Export, open the ZIP, check <code>RECOMMANDATIONS.txt</code> and one sheet.</li>
+<li>Hand back the ZIP with an honest summary: what was done, what failed and why.</li>
+</ol>
+</section>
+    </article>
+  </div>
+</main>
+<footer class="foot doc-foot">
+  <div class="in-w foot-in">
+    <span class="foot-l"><img src="../brand/favicon.svg" width="20" height="20" alt="" style="width:20px;height:20px">Binksy ClearSpace · by binks design</span>
+    <ul class="foot-r">
+      <li><a href="../docs.html">Documentation</a></li>
+      <li><a href="../agent/index.html">Agents IA</a></li>
+      <li><a href="mailto:graphistedubinks@gmail.com">graphistedubinks@gmail.com</a></li>
+      <li><a class="pillk" href="https://www.instagram.com/graphiste.binks/" target="_blank" rel="noopener">Instagram @graphiste.binks</a></li>
+    </ul>
+    <small>Gratuit, sans compte, tout est calculé dans ton navigateur. Polices de ces pages : Clash Display (<a href="../assets/fonts/ClashDisplay-FFL.txt">licence FFL</a>) et Instrument Sans (<a href="../assets/fonts/InstrumentSans-OFL.txt">licence OFL</a>). Logo de démonstration sur les captures : celui de Binksy ClearSpace.</small>
+  </div>
+</footer>
+</div>
+</body>
+</html>

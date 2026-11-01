@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Documentation — Binksy ClearSpace</title>
+<meta name="description" content="Mode d’emploi de Binksy ClearSpace : importer des SVG, gérer les variantes, définir X (hauteur, largeur, mesure visuelle), choisir l’espace, exporter le ZIP de planches, sauvegarde locale, FAQ et limites.">
+<meta name="theme-color" content="#111111">
+<meta name="author" content="Binks Design">
+<meta property="og:title" content="Documentation — Binksy ClearSpace">
+<meta property="og:description" content="Mode d’emploi de Binksy ClearSpace : importer des SVG, gérer les variantes, définir X (hauteur, largeur, mesure visuelle), choisir l’espace, exporter le ZIP de planches, sauvegarde locale, FAQ et limites.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="brand/favicon.svg">
+<link rel="alternate" type="text/markdown" href="AGENTS.md" title="Mode d’emploi pour agents IA (Markdown, FR puis EN)">
+<link rel="help" href="agent/" title="Agents IA">
+<link rel="alternate" type="text/plain" href="llms.txt" title="llms.txt">
+<link rel="stylesheet" href="assets/site.css">
+<script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver' in window)document.documentElement.classList.add('anim');</script>
+<script src="assets/site.js" defer></script>
+</head>
+<!-- Agents IA / AI agents : lisez AGENTS.md (Markdown, français puis anglais) ou agent/index.html avant d’agir. L’outil est app.html ; il n’a pas d’API JavaScript publique : il se pilote par son interface (sélecteurs stables documentés). Aucune clé API, tout est local. -->
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+<noscript><p style="margin:0;padding:10px 18px;background:#ff5500;color:#0b0b0b;font:600 14px/1.4 sans-serif">Agents IA : le mode d’emploi complet est dans <a href="AGENTS.md">AGENTS.md</a> (page HTML : <a href="agent/index.html">agent/</a>). L’outil (<a href="app.html">app.html</a>) a besoin de JavaScript.</p></noscript>
+<header class="top">
+  <a class="brand" href="index.html" aria-label="Binksy ClearSpace — accueil"><span class="mk"><img src="brand/favicon.svg" width="22" height="22" alt="" style="width:22px;height:22px"></span><b>Binksy ClearSpace</b></a>
+  <a class="sig" href="https://www.instagram.com/graphiste.binks/" target="_blank" rel="noopener">by binks design</a>
+  <nav class="nav" aria-label="Navigation principale">
+    <a href="index.html">Accueil</a>
+    <a href="docs.html" aria-current="page">Documentation</a>
+    <a href="agent/index.html">Agents IA</a>
+    <a class="cta" href="app.html">Ouvrir l’app</a>
+  </nav>
+</header>
+<div class="sheet"><main id="contenu">
+  <div class="doc-hero">
+    <div class="plane" aria-hidden="true"></div>
+    <div class="in-w">
+      <p class="kicker"><i aria-hidden="true"></i>Documentation · Binksy ClearSpace by binks design</p>
+      <h1 class="doc-h1"><span class="mask"><span>Mode</span></span><span class="mask"><span style="--i:1">d’<em>emploi</em></span></span></h1>
+      <p class="lead">Tout ce qu’il faut savoir pour définir la zone de sécurité de ton logo, la vérifier variante par variante et livrer des planches propres à ton client.</p>
+      <div class="meta">
+        <a class="tag" href="app.html">Ouvrir l’app</a>
+        <a class="tag" href="#exporter">Le contenu du ZIP</a>
+        <a class="tag" href="agent/index.html">Agents IA</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="in-w doc-grid">
+    <details class="toc" open>
+      <summary><span>Sommaire</span><span class="cur"></span><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M6 9l6 6 6-6"/></svg></summary>
+      <nav class="toc-body" aria-label="Sommaire">
+        <span class="toc-h">Sommaire</span>
+        <ol><li><a href="#demarrer"><span class="n">01</span><span>Démarrer</span></a></li><li><a href="#importer"><span class="n">02</span><span>Importer tes SVG</span></a></li><li><a href="#variantes"><span class="n">03</span><span>Les variantes</span></a></li><li><a href="#definir-x"><span class="n">04</span><span>Définir X</span></a></li><li><a href="#espace"><span class="n">05</span><span>L’espace (multiplicateur)</span></a></li><li><a href="#apercu"><span class="n">06</span><span>L’aperçu et les guides</span></a></li><li><a href="#exporter"><span class="n">07</span><span>Exporter</span></a></li><li><a href="#interface"><span class="n">08</span><span>Interface et raccourcis</span></a></li><li><a href="#sauvegarde"><span class="n">09</span><span>Sauvegarde et hors ligne</span></a></li><li><a href="#faq"><span class="n">10</span><span>FAQ et limites</span></a></li><li><a href="#agents"><span class="n">11</span><span>Agents IA</span></a></li></ol>
+      </nav>
+    </details>
+
+    <article class="prose">
+      <section id="demarrer">
+        <h2><span class="n">01</span><span>Démarrer</span></h2>
+<p>Binksy ClearSpace tient sur une seule page, <a href="app.html">app.html</a>. Rien à installer, aucun compte : ouvre la page, importe tes SVG, règle, exporte.</p>
+<ol>
+  <li><strong>Importe</strong> un ou plusieurs logos en SVG — chaque fichier devient une variante.</li>
+  <li><strong>Choisis une variante</strong> dans la colonne de gauche.</li>
+  <li><strong>Définis X</strong> : hauteur, largeur ou mesure visuelle.</li>
+  <li><strong>Choisis l’espace</strong> : ×0,5, ×1, ×1,5, ×2 ou une valeur libre.</li>
+  <li><strong>Exporte</strong> : un ZIP avec toutes les variantes, en SVG, PNG, JPEG et PDF, clair et foncé.</li>
+</ol>
+<p>L’écran est découpé en quatre zones : les <strong>variantes</strong> à gauche, le <strong>grand aperçu</strong> au centre, les <strong>réglages</strong> de la variante à droite, et le bouton <strong>Exporter</strong> en bas. En haut : Annuler, Rétablir, le thème clair/sombre et la langue FR/EN.</p>
+<figure style="margin:0 0 20px"><img style="display:block;width:100%;height:auto;border-radius:14px;box-shadow:0 0 0 1px var(--line),var(--shadow-card)" src="assets/img/app-visuel.webp" width="1440" height="900" alt="L’écran de Binksy ClearSpace avec deux variantes importées, l’aperçu des guides et les réglages Définir X et Espace." loading="lazy"></figure>
+<div class="note"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><p>Ton travail est enregistré automatiquement dans ton navigateur, sur cet appareil. Il n’est envoyé nulle part. Voir <a href="#sauvegarde">Sauvegarde et hors ligne</a>.</p></div>
+      </section>
+
+      <section id="importer">
+        <h2><span class="n">02</span><span>Importer tes SVG</span></h2>
+<p>Trois façons d’importer :</p>
+<ul>
+  <li>le bouton <strong>+ Ajouter des SVG</strong> en haut de la colonne de gauche (plusieurs fichiers à la fois) ;</li>
+  <li>sur la page de départ, le bouton <strong>Choisir des fichiers SVG</strong> ;</li>
+  <li>en <strong>glissant les fichiers</strong> sur l’aperçu central.</li>
+</ul>
+<p>Chaque fichier devient une variante, nommée d’après le fichier (sans « .svg »). Si deux noms se ressemblent trop, un numéro est ajouté pour que les dossiers du ZIP ne se mélangent pas.</p>
+<h3>Ce qui est accepté</h3>
+<ul>
+  <li>Des fichiers <code>.svg</code> faits de <strong>formes vectorielles</strong> (tracés, rectangles, cercles…), exportés de ton logiciel habituel.</li>
+  <li>Couleurs, dégradés et contours sont conservés tels quels.</li>
+  <li><strong>3 Mo maximum</strong> par fichier.</li>
+</ul>
+<h3>Ce qui est refusé</h3>
+<div class="tbl"><table>
+  <thead><tr><th>Cas</th><th>Message</th><th>Solution</th></tr></thead>
+  <tbody>
+    <tr><td>Texte non vectorisé (<code>&lt;text&gt;</code>)</td><td>« Texte non vectorisé… »</td><td>Vectorise le texte (Créer les contours) et réexporte</td></tr>
+    <tr><td>Image intégrée (PNG, JPEG…)</td><td>« Le fichier contient une image ou du contenu non vectoriel… »</td><td>Exporte un logo 100 % vectoriel</td></tr>
+    <tr><td>Liens ou CSS externes</td><td>« Les ressources externes ne sont pas acceptées. »</td><td>Exporte un SVG autonome</td></tr>
+    <tr><td>Fichier vide ou invisible</td><td>« Le SVG ne contient aucune forme visible. »</td><td>Vérifie le fichier</td></tr>
+    <tr><td>Plus de 3 Mo</td><td>« Fichier trop volumineux. »</td><td>Simplifie ou nettoie le SVG</td></tr>
+    <tr><td>Pas un SVG</td><td>« Ce fichier n’est pas un SVG valide. »</td><td>Choisis le bon fichier</td></tr>
+  </tbody>
+</table></div>
+<p>Si un seul fichier d’un lot est refusé, rien du lot n’est importé : corrige-le, puis relance l’import.</p>
+<div class="note"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><p>Par sécurité, les scripts, animations et liens éventuellement présents dans un SVG sont retirés à l’import. Le dessin, lui, ne change pas.</p></div>
+      </section>
+
+      <section id="variantes">
+        <h2><span class="n">03</span><span>Les variantes</span></h2>
+<p>Chaque variante (horizontal, vertical, icône, logotype…) a sa carte dans la colonne de gauche :</p>
+<ul>
+  <li><strong>l’aperçu</strong> : clique dessus pour afficher et régler cette variante (la carte active est entourée d’orange) ;</li>
+  <li><strong>le nom</strong> : modifiable directement ; il sert de nom de dossier et de fichier dans le ZIP ;</li>
+  <li><strong>Remplacer</strong> : charge un nouveau SVG à la place de l’ancien, en gardant les réglages de la variante ;</li>
+  <li><strong>Supprimer</strong> : retire la variante (sans confirmation — Annuler la fait revenir).</li>
+</ul>
+<p><strong>Chaque variante garde ses propres réglages</strong> : méthode X, mesure, nom de la mesure et multiplicateur. Passer d’une variante à l’autre ne perd rien.</p>
+<div class="note"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><p>Après un <strong>Remplacer</strong>, si la variante utilisait une mesure visuelle, vérifie-la : la valeur est gardée telle quelle, même si le nouveau dessin est différent.</p></div>
+      </section>
+
+      <section id="definir-x">
+        <h2><span class="n">04</span><span>Définir X</span></h2>
+<p>X est l’unité de référence de ta zone de sécurité. Dans le panneau de droite, <strong>Définir X</strong> propose trois méthodes :</p>
+<div class="tbl"><table>
+  <thead><tr><th>Méthode</th><th>X vaut…</th><th>Pour</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Hauteur</strong></td><td>la hauteur réelle du dessin</td><td>un logo horizontal, une règle simple</td></tr>
+    <tr><td><strong>Largeur</strong></td><td>la largeur réelle du dessin</td><td>une icône, un logo vertical</td></tr>
+    <tr><td><strong>Visuel</strong></td><td>le côté du carré que tu traces</td><td>une règle basée sur un élément (« hauteur du A », « largeur du symbole »)</td></tr>
+  </tbody>
+</table></div>
+<p>« Réel » veut dire : la boîte qui entoure les formes visibles de ton SVG, épaisseur des contours comprise — pas le plan de travail ni les marges blanches du fichier. Le panneau rappelle en dessous la <strong>Référence</strong> utilisée et la <strong>Zone de sécurité</strong> (par exemple « 1,5× X »).</p>
+<h3>Tracer une mesure visuelle</h3>
+<figure style="margin:0 0 20px"><img style="display:block;width:100%;height:auto;border-radius:14px;box-shadow:0 0 0 1px var(--line),var(--shadow-card)" src="assets/img/app-mesure.webp" width="1440" height="900" alt="Mesure visuelle : un carré orange tracé sur le X du logo affiche sa taille en unités, avec l’indication « Tracez un carré sur le logo » et un bouton Annuler." loading="lazy"></figure>
+<ol>
+  <li>Choisis <strong>Visuel</strong>, puis <strong>Tracer la mesure</strong> (ou <strong>Retracer la mesure</strong> s’il y en a déjà une).</li>
+  <li>Sur l’aperçu, appuie et glisse : un carré orange suit le pointeur et affiche sa taille en unités SVG.</li>
+  <li>Relâche : la mesure est enregistrée, arrondie au centième.</li>
+  <li>Donne-lui un nom si tu veux (<strong>Nom de la mesure</strong>, facultatif) : il remplace « Mesure visuelle » dans les légendes et dans <code>RECOMMANDATIONS.txt</code>.</li>
+</ol>
+<p>Il n’y a <strong>aucun magnétisme</strong> : la position du pointeur est la vérité. Le carré prend le plus grand des deux écarts (horizontal ou vertical). <code>Échap</code> ou le bouton <strong>Annuler</strong> de l’indication abandonne le tracé.</p>
+      </section>
+
+      <section id="espace">
+        <h2><span class="n">05</span><span>L’espace (multiplicateur)</span></h2>
+<p>Sous <strong>Espace</strong>, choisis combien de fois X la zone doit mesurer :</p>
+<ul class="chips" aria-label="Multiplicateurs"><li><span class="tag">×0,5</span></li><li><span class="tag">×1</span></li><li><span class="tag">×1,5</span></li><li><span class="tag">×2</span></li></ul>
+<p>Ou saisis une valeur dans <strong>Personnalisé</strong>, entre <strong>0,05 et 5</strong> (au-delà, l’outil refuse). La zone de sécurité vaut <strong>X × multiplicateur</strong>, sur les quatre côtés.</p>
+<div class="note"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><p>0,5X, 1X, 1,5X et 2X sont des méthodes de test, pas des règles universelles. Essaie, compare, et garde ce qui respire juste pour ta marque.</p></div>
+      </section>
+
+      <section id="apercu">
+        <h2><span class="n">06</span><span>L’aperçu et les guides</span></h2>
+<p>Le grand aperçu montre la variante active entourée de sa zone de sécurité :</p>
+<ul>
+  <li>un <strong>cadre</strong> marque la limite extérieure de la zone ;</li>
+  <li>des <strong>lignes</strong> prolongent les bords du logo ;</li>
+  <li>les <strong>quatre carrés aux coins</strong>, marqués d’une croix, font exactement la taille de la zone : c’est ta règle, visible d’un coup d’œil.</li>
+</ul>
+<p>Les boutons <strong>Clair</strong> et <strong>Sombre</strong>, au-dessus de l’aperçu, changent le fond de l’aperçu (blanc ou noir) pour juger ton logo sur les deux. L’export, lui, produit toujours les deux versions.</p>
+<figure style="margin:0 0 20px"><img style="display:block;width:100%;height:auto;border-radius:14px;box-shadow:0 0 0 1px var(--line),var(--shadow-card)" src="assets/img/app-theme-sombre.webp" width="1440" height="900" alt="L’app en thème sombre, aperçu sur fond noir avec les guides de la zone de sécurité." loading="lazy"></figure>
+      </section>
+
+      <section id="exporter">
+        <h2><span class="n">07</span><span>Exporter</span></h2>
+<p>Le bouton <strong>Exporter</strong>, en bas, produit <strong>toujours un ZIP</strong>, même avec une seule variante. Aucune option à choisir : toutes les variantes, les quatre formats, en clair et en foncé. Le bouton est grisé tant qu’aucune variante n’est importée ; pendant le travail, un message affiche l’avancement (« Export 3 / 16 »).</p>
+<div class="tbl"><table>
+  <thead><tr><th>Format</th><th>Rendu</th><th>Clair</th><th>Foncé</th></tr></thead>
+  <tbody>
+    <tr><td><strong>SVG</strong></td><td>vectoriel</td><td>…-clair.svg</td><td>…-fonce.svg</td></tr>
+    <tr><td><strong>PDF</strong></td><td>vectoriel</td><td>…-clair.pdf</td><td>…-fonce.pdf</td></tr>
+    <tr><td><strong>PNG</strong></td><td>3000 px de large, 300 dpi, fond transparent</td><td>…-clair.png</td><td>…-fonce.png</td></tr>
+    <tr><td><strong>JPEG</strong></td><td>3000 px de large, 300 dpi</td><td>fond blanc</td><td>fond noir</td></tr>
+  </tbody>
+</table></div>
+<p>Chaque planche contient ton logo dans ses <strong>couleurs d’origine</strong>, les guides de la zone, le titre « Zone de sécurité » et la légende du calcul, par exemple : <code>X = Hauteur du X · X = 128,54 unités · Zone de sécurité = 128,54 × 1,50 = 192,81 unités</code>.</p>
+<figure style="margin:0 0 20px"><img style="display:block;width:100%;height:auto;border-radius:14px;box-shadow:0 0 0 1px var(--line),var(--shadow-card)" src="assets/img/planche-fonce.webp" width="1280" height="653" alt="Planche foncée exportée : le logo, sa zone de sécurité et la légende de calcul." loading="lazy"></figure>
+<h3>Le contenu du ZIP</h3>
+<pre><code>NOM-DU-PROJET CLEARSPACE/
+  logo-complet/
+    SVG/   Nom-du-projet-logo-complet-clearspace-clair.svg  …-fonce.svg
+    PNG/   …-clair.png   …-fonce.png
+    JPEG/  …-clair.jpeg  …-fonce.jpeg
+    PDF/   …-clair.pdf   …-fonce.pdf
+  icone/
+    …
+  RECOMMANDATIONS.txt</code></pre>
+<p><code>RECOMMANDATIONS.txt</code> récapitule, variante par variante, la référence X, sa valeur et le calcul de la zone. Le ZIP arrive dans ton dossier de téléchargements, sous le nom <code>&lt;projet&gt;-clearspace.zip</code>.</p>
+<div class="note warn"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3 2 21h20z"/><path d="M12 10v5M12 18h.01"/></svg><p><strong>Le nom du projet n’est pas modifiable dans l’app.</strong> Un nouveau projet s’appelle « Sans titre » (d’où <code>Sans-titre-clearspace.zip</code> et le dossier <code>SANS-TITRE CLEARSPACE</code>) ; un projet repris de Binksy LogoKit garde son nom de marque. Renomme le ZIP et le dossier après l’export si besoin. Les noms des variantes, eux, se changent dans la colonne de gauche.</p></div>
+      </section>
+
+      <section id="interface">
+        <h2><span class="n">08</span><span>Interface et raccourcis</span></h2>
+<ul>
+  <li><strong>Annuler / Rétablir</strong> : les deux flèches de l’en-tête, ou <code>Ctrl</code>/<code>⌘</code> + <code>Z</code> et <code>Ctrl</code>/<code>⌘</code> + <code>Maj</code> + <code>Z</code> (hors champs de saisie). Jusqu’à 60 pas en arrière, pendant la session.</li>
+  <li><strong>Thème clair / sombre</strong> : le bouton lune / soleil de l’en-tête. Au premier lancement, l’app suit le réglage de ton système ; ensuite ton choix est mémorisé avec le projet.</li>
+  <li><strong>Langue</strong> : FR / EN en haut à droite. Les noms de tes variantes ne sont jamais traduits ; la plupart des messages d’erreur restent en français.</li>
+  <li><strong>Échap</strong> : abandonne une mesure visuelle en cours.</li>
+</ul>
+<p>L’interface est pensée pour un écran d’ordinateur : c’est là que la mesure visuelle est la plus précise.</p>
+      </section>
+
+      <section id="sauvegarde">
+        <h2><span class="n">09</span><span>Sauvegarde et hors ligne</span></h2>
+<p>Tout ce que tu fais est <strong>enregistré automatiquement</strong> dans ton navigateur, quelques instants après chaque changement et à la fermeture de la page : variantes (avec leurs SVG), réglages de chaque variante, variante active, fond de l’aperçu, thème et langue. Recharge la page : tout revient.</p>
+<ul>
+  <li>Le projet est stocké dans le <code>localStorage</code> du navigateur (clé <code>binksy-clearspace-v1</code>) ; s’il devient trop gros, il bascule automatiquement dans IndexedDB (<code>binksy-clearspace</code>).</li>
+  <li>Rien n’est envoyé sur un serveur. En contrepartie, le projet ne suit pas d’un navigateur ou d’un appareil à l’autre, et vider les données du site l’efface.</li>
+  <li>Au premier lancement, si tu avais des projets dans <strong>Binksy LogoKit</strong> sur le même navigateur, leurs variantes et réglages de zone de sécurité sont repris une fois, sans perte.</li>
+  <li>La version en ligne garde l’app en cache : une fois ouverte avec une connexion, elle se recharge même hors ligne.</li>
+</ul>
+<p>L’historique Annuler / Rétablir, lui, repart à zéro quand tu recharges la page.</p>
+      </section>
+
+      <section id="faq">
+        <h2><span class="n">10</span><span>FAQ et limites</span></h2>
+<h3>Pourquoi mon SVG est-il refusé ?</h3>
+<p>Le plus souvent : du texte non vectorisé ou une image intégrée. ClearSpace ne lit que des formes vectorielles. Voir <a href="#importer">Importer tes SVG</a>.</p>
+<h3>Je ne trouve pas le réglage de taille ou de couleur des exports.</h3>
+<p>Il n’y en a pas : PNG et JPEG font 3000 px de large à 300 dpi, les guides ont une couleur fixe, et les couleurs du logo sont celles de ton fichier.</p>
+<h3>L’export s’arrête avec un message sur le PDF.</h3>
+<p>Si ton SVG contient des effets (filtre, masque, motif), le PDF ne peut pas les reproduire et l’export entier s’arrête (« PDF : effets complexes non pris en charge ; utilisez le SVG. »). Aplatis ces effets dans ton logiciel puis réimporte le SVG.</p>
+<h3>Combien de variantes puis-je exporter ?</h3>
+<p>Autant que tu veux, tant que le lot reste sous 256 Mo ; au-delà, l’outil te demande d’en exporter moins à la fois.</p>
+<h3>Le fond Clair / Sombre change-t-il l’export ?</h3>
+<p>Non : il ne sert qu’à l’aperçu. Chaque export contient toujours une version claire et une version foncée.</p>
+<h3>Mes fichiers sont-ils envoyés quelque part ?</h3>
+<p>Non. Tout est calculé dans ton navigateur ; il n’y a ni compte, ni serveur, ni IA.</p>
+<div class="note"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><p>Une erreur, une idée ? Écris à <a href="mailto:graphistedubinks@gmail.com">graphistedubinks@gmail.com</a> ou sur Instagram <a href="https://www.instagram.com/graphiste.binks/" target="_blank" rel="noopener">@graphiste.binks</a>.</p></div>
+      </section>
+
+      <section id="agents">
+        <h2><span class="n">11</span><span>Agents IA</span></h2>
+<p>Un agent IA (Claude Code, Codex, ou tout agent qui pilote un navigateur) peut utiliser ClearSpace à ta place, en passant par l’interface. Il n’y a pas d’API JavaScript ni de clé : l’agent clique sur des commandes repérées par des sélecteurs stables, importe tes SVG, applique la méthode et le multiplicateur que tu lui donnes, puis récupère le ZIP.</p>
+<p>Son mode d’emploi complet, en français puis en anglais : <a href="agent/index.html">page Agents IA</a> ou <a href="AGENTS.md">AGENTS.md</a> (Markdown). Résumé court : <a href="llms.txt">llms.txt</a>.</p>
+<p>Règle d’or donnée aux agents : ne jamais inventer ni redessiner un logo, et ne pas choisir la règle de zone de sécurité à ta place sans te la faire valider.</p>
+      </section>
+
+    </article>
+  </div>
+</main>
+<footer class="foot doc-foot">
+  <div class="in-w foot-in">
+    <span class="foot-l"><img src="brand/favicon.svg" width="20" height="20" alt="" style="width:20px;height:20px">Binksy ClearSpace · by binks design</span>
+    <ul class="foot-r">
+      <li><a href="docs.html">Documentation</a></li>
+      <li><a href="agent/index.html">Agents IA</a></li>
+      <li><a href="mailto:graphistedubinks@gmail.com">graphistedubinks@gmail.com</a></li>
+      <li><a class="pillk" href="https://www.instagram.com/graphiste.binks/" target="_blank" rel="noopener">Instagram @graphiste.binks</a></li>
+    </ul>
+    <small>Gratuit, sans compte, tout est calculé dans ton navigateur. Polices de ces pages : Clash Display (<a href="assets/fonts/ClashDisplay-FFL.txt">licence FFL</a>) et Instrument Sans (<a href="assets/fonts/InstrumentSans-OFL.txt">licence OFL</a>). Logo de démonstration sur les captures : celui de Binksy ClearSpace.</small>
+  </div>
+</footer>
+</div>
+</body>
+</html>

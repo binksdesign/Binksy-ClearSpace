@@ -5,3 +5,22 @@ Local-first: import one or more assembled SVGs (each becomes a variant),
 define the X unit (logo height, logo width or a hand-drawn visual measure),
 pick a multiple (0.5X, 1X, 1.5X, 2X or custom) and export every variant as
 SVG, PNG, JPEG and PDF (light and dark) in a single ZIP.
+
+> Outil de zone de sécurité de logo, 100 % navigateur, par Binks Design : importer des SVG (une variante par fichier), définir X (hauteur, largeur ou mesure visuelle tracée à la main), choisir le multiplicateur (×0,5, ×1, ×1,5, ×2 ou libre de 0,05 à 5), exporter un ZIP de planches SVG, PNG, JPEG et PDF en clair et en foncé, avec RECOMMANDATIONS.txt. Aucune clé API, aucun compte, rien n'est envoyé à un serveur.
+
+AI agents (Claude Code, Codex…) drive it through its user interface in app.html: there is NO public JavaScript API. Use the stable selectors documented in AGENTS.md (#ready-files, [data-method], [data-multiplier], #clear-multiplier, [data-action="measure"], [data-action="export"]…) and catch the ZIP as a browser download.
+Local: npm ci && npm run build && npx vite preview, then open http://127.0.0.1:4173/app.html. Online: https://clearspace.binksdesign.com/app.html
+State: localStorage "binksy-clearspace-v1" (IndexedDB "binksy-clearspace" fallback), language in "binksy-clearspace-locale".
+
+Golden rule: the designer brings the SVGs and decides the clear-space rule; never invent or redraw a logo, never change its colours.
+
+## Docs
+
+- [AGENTS.md](AGENTS.md): full guide for AI agents (Markdown, French then English)
+- [agent/index.html](agent/index.html): same guide as an HTML page
+- [docs.html](docs.html): human documentation (French)
+
+## App
+
+- [app.html](app.html): the tool
+- [index.html](index.html): home page

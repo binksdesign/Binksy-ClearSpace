@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Binksy ClearSpace — la zone de sécurité de ton logo</title>
+<meta name="description" content="Définis, vérifie et exporte la zone de sécurité de ton logo : importe tes SVG, choisis X (hauteur, largeur ou mesure tracée à la main), un multiplicateur, et récupère un ZIP de planches SVG, PNG, JPEG et PDF en clair et en foncé. Gratuit, sans compte, tout reste dans ton navigateur.">
+<meta name="theme-color" content="#111111">
+<meta name="author" content="Binks Design">
+<meta property="og:title" content="Binksy ClearSpace — la zone de sécurité de ton logo">
+<meta property="og:description" content="Définis, vérifie et exporte la zone de sécurité de ton logo : importe tes SVG, choisis X (hauteur, largeur ou mesure tracée à la main), un multiplicateur, et récupère un ZIP de planches SVG, PNG, JPEG et PDF en clair et en foncé. Gratuit, sans compte, tout reste dans ton navigateur.">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/svg+xml" href="brand/favicon.svg">
+<link rel="alternate" type="text/markdown" href="AGENTS.md" title="Mode d’emploi pour agents IA (Markdown, FR puis EN)">
+<link rel="help" href="agent/" title="Agents IA">
+<link rel="alternate" type="text/plain" href="llms.txt" title="llms.txt">
+<link rel="stylesheet" href="assets/site.css">
+<script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver' in window)document.documentElement.classList.add('anim');</script>
+<script src="assets/site.js" defer></script>
+</head>
+<!-- Agents IA / AI agents : lisez AGENTS.md (Markdown, français puis anglais) ou agent/index.html avant d’agir. L’outil est app.html ; il n’a pas d’API JavaScript publique : il se pilote par son interface (sélecteurs stables documentés). Aucune clé API, tout est local. -->
+<body>
+<a class="skip" href="#contenu">Aller au contenu</a>
+<noscript><p style="margin:0;padding:10px 18px;background:#ff5500;color:#0b0b0b;font:600 14px/1.4 sans-serif">Agents IA : le mode d’emploi complet est dans <a href="AGENTS.md">AGENTS.md</a> (page HTML : <a href="agent/index.html">agent/</a>). L’outil (<a href="app.html">app.html</a>) a besoin de JavaScript.</p></noscript>
+<header class="top">
+  <a class="brand" href="index.html" aria-label="Binksy ClearSpace — accueil"><span class="mk"><img src="brand/favicon.svg" width="22" height="22" alt="" style="width:22px;height:22px"></span><b>Binksy ClearSpace</b></a>
+  <a class="sig" href="https://www.instagram.com/graphiste.binks/" target="_blank" rel="noopener">by binks design</a>
+  <nav class="nav" aria-label="Navigation principale">
+    <a href="index.html" aria-current="page">Accueil</a>
+    <a href="docs.html">Documentation</a>
+    <a href="agent/index.html">Agents IA</a>
+    <a class="cta" href="app.html">Ouvrir l’app</a>
+  </nav>
+</header>
+<div class="sheet"><main id="contenu">
+
+  <!-- ═══ HÉROS ═══ -->
+  <section class="hero" aria-labelledby="h-hero">
+    <div class="plane" aria-hidden="true"></div>
+    <div class="hero-deco" aria-hidden="true"><span class="gl g1"></span><span class="crop tl"></span><span class="crop bl"></span></div>
+    <div class="in-w">
+      <div class="hero-grid">
+        <div class="hero-tx">
+          <p class="kicker rv"><i aria-hidden="true"></i>Pour les graphistes · gratuit, sans compte, tout reste dans ton navigateur</p>
+          <h1 class="h1" id="h-hero">
+            <span class="mask"><span style="--i:0">Ta zone</span></span>
+            <span class="mask"><span style="--i:1">de <em>sécurité</em>,</span></span>
+            <span class="mask"><span style="--i:2">en une page.</span></span>
+          </h1>
+          <p class="lead rv" style="--d:3">Importe tes logos en <b>SVG</b>, choisis ce qui sert d’unité <b>X</b> — la hauteur, la largeur ou une mesure tracée à la main sur le logo — puis le multiplicateur. Un clic sur <b>Exporter</b> : toutes tes variantes en SVG, PNG, JPEG et PDF, en clair et en foncé, dans un seul ZIP.</p>
+          <div class="cta rv" style="--d:4">
+            <a class="btn btn-o wipe" href="app.html">Ouvrir l’app <svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+            <a class="btn btn-ln" href="docs.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg> Lire la documentation</a>
+          </div>
+          <p class="cta-alt rv" style="--d:5"><a class="lnk" href="#comment">Comment ça marche</a><span class="sep" aria-hidden="true">·</span><a class="lnk" href="agent/index.html">Pour les agents IA</a></p>
+        </div>
+
+        <div class="stack" aria-label="Aperçu de Binksy ClearSpace">
+          <figure class="card3 c-site" style="--k:0" data-z="0.6">
+            <div class="ci">
+              <div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>Binksy ClearSpace — app</span></div>
+              <img src="assets/img/app-visuel.webp" width="1440" height="900" alt="L’app Binksy ClearSpace : deux variantes à gauche, le logo avec ses guides de zone de sécurité au centre, X défini à la main (« Hauteur du X ») et multiplicateur ×1,5 à droite." fetchpriority="high">
+            </div>
+          </figure>
+          <figure class="card3 c-col" style="--k:1" data-z="1.2">
+            <div class="ci"><img src="assets/img/planche-fonce.webp" width="1280" height="653" alt="Planche exportée en version foncée : le logo, sa zone de sécurité et la légende de calcul." loading="lazy"></div>
+          </figure>
+          <figure class="card3 c-mob" style="--k:2" data-z="1.6">
+            <div class="ci"><img src="assets/img/planche-icone-clair.webp" width="960" height="1112" alt="Planche exportée en version claire pour l’icône seule." loading="lazy" style="aspect-ratio:960/1112;object-fit:contain;background:#fff"></div>
+          </figure>
+          <figure class="card3 c-sty" style="--k:3" data-z="2">
+            <div class="ci sty-chip" aria-hidden="true">
+              <b>X × 0,5 · 1 · 1,5 · 2</b><small>ou libre, de 0,05 à 5</small>
+            </div>
+          </figure>
+        </div>
+      </div>
+
+      <ul class="stats" aria-label="En chiffres">
+        <li class="stat rv" style="--d:1"><b>3</b><span>façons de définir X : hauteur, largeur, visuel</span></li>
+        <li class="stat rv" style="--d:2"><b>4</b><span>formats exportés : SVG, PNG, JPEG, PDF</span></li>
+        <li class="stat rv" style="--d:3"><b>2</b><span>versions par format : claire et foncée</span></li>
+        <li class="stat rv" style="--d:4"><b>0</b><span>fichier envoyé sur un serveur</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <div class="band" aria-hidden="true"><div class="band-track">
+    <span class="band-run"><span>SVG</span><span class="ar">→</span><span>Variante</span><span class="ar">→</span><span>X</span><span class="ar">→</span><span>×1,5</span><span class="ar">→</span><span>Planches</span><span class="ar">→</span><span>ZIP</span><img src="brand/favicon.svg" width="40" height="40" alt="" style="width:.85em;height:.85em;flex:none"></span>
+    <span class="band-run"><span>SVG</span><span class="ar">→</span><span>Variante</span><span class="ar">→</span><span>X</span><span class="ar">→</span><span>×1,5</span><span class="ar">→</span><span>Planches</span><span class="ar">→</span><span>ZIP</span><img src="brand/favicon.svg" width="40" height="40" alt="" style="width:.85em;height:.85em;flex:none"></span>
+    <span class="band-run"><span>SVG</span><span class="ar">→</span><span>Variante</span><span class="ar">→</span><span>X</span><span class="ar">→</span><span>×1,5</span><span class="ar">→</span><span>Planches</span><span class="ar">→</span><span>ZIP</span><img src="brand/favicon.svg" width="40" height="40" alt="" style="width:.85em;height:.85em;flex:none"></span>
+  </div></div>
+
+  <!-- ═══ 01 COMMENT ÇA MARCHE ═══ -->
+  <section class="sec" id="comment" aria-labelledby="h-how">
+    <div class="in-w">
+      <header class="sec-h">
+        <span class="idx"><b>01</b>Comment ça marche</span>
+        <h2 class="h2" id="h-how"><span class="mask"><span>Quatre gestes,</span></span><span class="mask"><span style="--i:1">un seul écran.</span></span></h2>
+        <p class="rv">Pas d’étapes à valider, pas de compte : les variantes à gauche, l’aperçu au centre, les réglages à droite, le bouton Exporter en bas. Tout est enregistré sur ton appareil au fil de l’eau.</p>
+      </header>
+      <ol class="steps">
+        <li class="step card-h rv" style="--d:0"><span class="n" aria-hidden="true">01</span><h3>Importe tes SVG</h3><p>Un ou plusieurs fichiers d’un coup, par le bouton ou en les glissant sur l’aperçu. Chaque fichier devient une variante : horizontal, vertical, icône, logotype…</p><span class="tags"><span class="tag">SVG</span><span class="tag">glisser-déposer</span></span></li>
+        <li class="step card-h rv" style="--d:1"><span class="n" aria-hidden="true">02</span><h3>Définis X</h3><p>X, c’est l’unité de ta règle : la hauteur du logo, sa largeur, ou un carré que tu traces toi-même sur un élément (la hauteur d’une lettre, d’un symbole).</p><span class="tags"><span class="tag">Hauteur</span><span class="tag">Largeur</span><span class="tag">Visuel</span></span></li>
+        <li class="step card-h rv" style="--d:2"><span class="n" aria-hidden="true">03</span><h3>Choisis l’espace</h3><p>La zone vaut X multiplié par 0,5, 1, 1,5 ou 2 — ou la valeur que tu veux entre 0,05 et 5. Les guides se mettent à jour sur l’aperçu.</p><span class="tags"><span class="tag">×0,5 → ×2</span><span class="tag">libre</span></span></li>
+        <li class="step card-h rv" style="--d:3"><span class="n" aria-hidden="true">04</span><h3>Exporte le ZIP</h3><p>Un seul bouton, aucune case à cocher : toutes les variantes, les quatre formats, en clair et en foncé, plus un fichier de recommandations.</p><span class="tags"><span class="tag">ZIP</span><span class="tag">RECOMMANDATIONS.txt</span></span></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ═══ 02 DÉFINIR X ═══ -->
+  <section class="sec orange cut-r" id="mesure" aria-labelledby="h-x">
+    <div class="in-w">
+      <header class="sec-h">
+        <span class="idx"><b>02</b>Définir X</span>
+        <h2 class="h2" id="h-x"><span class="mask"><span>Ta mesure,</span></span><span class="mask"><span style="--i:1">au pixel près.</span></span></h2>
+        <p class="rv">En mode Visuel, tu traces un carré sur le logo. Aucun magnétisme : là où tu lâches la souris, c’est la mesure, au centième d’unité SVG. Tu peux la nommer (« Hauteur du A ») pour qu’elle apparaisse dans les exports.</p>
+      </header>
+      <div class="site-grid">
+        <div class="rv">
+          <figure class="browser">
+            <div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>clearspace.binksdesign.com/app.html</span></div>
+            <img src="assets/img/app-mesure.webp" width="1440" height="900" alt="Mesure visuelle en cours : un carré orange tracé sur le X du logo affiche 128,54 unités ; le message « Tracez un carré sur le logo » propose Annuler." loading="lazy">
+          </figure>
+          <ul class="thumbs">
+            <li><figure><img src="assets/img/app-visuel.webp" width="1440" height="900" alt="" loading="lazy"><figcaption>Mesure nommée, ×1,5</figcaption></figure></li>
+            <li><figure><img src="assets/img/app-icone.webp" width="1440" height="900" alt="" loading="lazy"><figcaption>Icône : largeur ×0,5</figcaption></figure></li>
+            <li><figure><img src="assets/img/app-theme-sombre.webp" width="1440" height="900" alt="" loading="lazy"><figcaption>Thème sombre</figcaption></figure></li>
+            <li><figure><img src="assets/img/app-vide.webp" width="1440" height="900" alt="" loading="lazy"><figcaption>Page de départ</figcaption></figure></li>
+          </ul>
+        </div>
+        <div class="contents rv" style="--d:1">
+          <ol class="sec-list" aria-label="Les réglages d’une variante">
+            <li><span class="k">01</span><span><b>Hauteur</b> — X = hauteur réelle du dessin</span></li>
+            <li><span class="k">02</span><span><b>Largeur</b> — X = largeur réelle du dessin</span></li>
+            <li><span class="k">03</span><span><b>Visuel</b> — X = le côté du carré que tu traces</span></li>
+            <li><span class="k">04</span><span><b>Nom de la mesure</b> — facultatif, repris dans les légendes</span></li>
+            <li><span class="k">05</span><span><b>Espace</b> — ×0,5, ×1, ×1,5, ×2 ou personnalisé</span></li>
+            <li><span class="k">06</span><span><b>Aperçu</b> sur fond clair ou sombre</span></li>
+          </ol>
+          <p class="fusion" style="margin:0;background:#fff;box-shadow:0 0 0 1.5px var(--ink)"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span><b>Chaque variante garde ses réglages.</b> Passer de l’horizontal à l’icône ne perd rien : méthode, mesure, nom et multiplicateur sont mémorisés variante par variante.</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 03 L’EXPORT ═══ -->
+  <section class="sec cut-l" id="export" aria-labelledby="h-exp" style="background:var(--table)">
+    <div class="in-w">
+      <header class="sec-h">
+        <span class="idx"><b>03</b>L’export</span>
+        <h2 class="h2" id="h-exp"><span class="mask"><span>Un clic,</span></span><span class="mask"><span style="--i:1">tout le dossier.</span></span></h2>
+        <p class="rv">Chaque planche montre le logo, sa zone de sécurité et la légende du calcul (« X = Hauteur du X · Zone de sécurité = X × 1,5 »). Les couleurs d’origine de ton logo ne sont jamais touchées.</p>
+      </header>
+      <div class="site-grid">
+        <div class="rv">
+          <figure class="browser">
+            <div class="bar" aria-hidden="true"><i></i><i></i><i></i><span>logo-complet-clearspace-fonce.jpeg</span></div>
+            <img src="assets/img/planche-fonce.webp" width="1280" height="653" alt="Planche JPEG foncée exportée : logo Binksy ClearSpace entouré de sa zone de sécurité, avec la légende de calcul en bas." loading="lazy">
+          </figure>
+        </div>
+        <div class="contents rv" style="--d:1">
+          <ol class="sec-list" aria-label="Formats exportés">
+            <li><span class="k">SVG</span><span><b>Vectoriel</b>, versions claire et foncée</span></li>
+            <li><span class="k">PDF</span><span><b>Vectoriel</b>, pour l’impression et les guides</span></li>
+            <li><span class="k">PNG</span><span><b>Fond transparent</b>, 3000 px de large, 300 dpi</span></li>
+            <li><span class="k">JPEG</span><span><b>Fond blanc ou noir</b>, 3000 px, 300 dpi</span></li>
+          </ol>
+<pre class="tree" aria-label="Arborescence du ZIP exporté"><span class="d">NOM-DU-PROJET CLEARSPACE/</span>
+├─ <span class="c">&lt;variante&gt;</span>/
+│  ├─ SVG/   <span class="d">…-clair.svg  …-fonce.svg</span>
+│  ├─ PNG/
+│  ├─ JPEG/
+│  └─ PDF/
+└─ RECOMMANDATIONS.txt</pre>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 04 TES FICHIERS ═══ -->
+  <section class="sec" id="fichiers" aria-labelledby="h-files" style="padding-top:24px">
+    <div class="in-w">
+      <header class="sec-h">
+        <span class="idx"><b>04</b>Tes fichiers</span>
+        <h2 class="h2" id="h-files"><span class="mask"><span>Des SVG propres,</span></span><span class="mask"><span style="--i:1">rien d’autre.</span></span></h2>
+        <p class="rv">L’outil mesure le dessin réel de ton SVG, pas son plan de travail. Ce que tu fournis fait foi : il ne redessine rien et ne change aucune couleur.</p>
+      </header>
+      <ul class="sources">
+        <li class="src card-h rv" style="--d:0"><span class="k">Accepté</span><h3>Tes tracés SVG</h3><p>Exportés d’Illustrator, Figma, Affinity ou Inkscape.</p><ul><li>Plusieurs fichiers à la fois</li><li>Glisser-déposer sur l’aperçu</li><li>Jusqu’à 3 Mo par fichier</li><li>Dégradés et couleurs conservés</li></ul></li>
+        <li class="src dk card-h rv" style="--d:1"><span class="k">Refusé</span><h3>Ce qui bloque</h3><p>Un message te dit pourquoi.</p><ul><li>Texte non vectorisé</li><li>Image intégrée (PNG, JPEG…)</li><li>Ressources externes</li><li>Fichier sans forme visible</li></ul></li>
+        <li class="src card-h rv" style="--d:2"><span class="k">Par variante</span><h3>Ranger ses logos</h3><p>Dans la colonne de gauche.</p><ul><li>Renommer (nom des dossiers du ZIP)</li><li>Remplacer le SVG</li><li>Supprimer</li><li>Réglages indépendants</li></ul></li>
+        <li class="src card-h rv" style="--d:3"><span class="k">Confort</span><h3>Sans stress</h3><p>De quoi revenir en arrière.</p><ul><li>Annuler / Rétablir (Ctrl/⌘ + Z)</li><li>Thème clair ou sombre</li><li>Interface FR ou EN</li><li>Sauvegarde automatique</li></ul></li>
+      </ul>
+      <p class="fusion rv"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span><b>Texte dans ton logo ?</b> Vectorise-le dans ton logiciel (Vectoriser le texte / Créer les contours) avant l’import : ClearSpace ne lit que des formes.</span></p>
+    </div>
+  </section>
+
+  <!-- ═══ 05 HORS LIGNE ═══ -->
+  <section class="sec dark cut-r" id="confidentialite" aria-labelledby="h-off">
+    <div class="in-w">
+      <header class="sec-h">
+        <span class="idx"><b>05</b>Local &amp; privé</span>
+        <h2 class="h2" id="h-off"><span class="mask"><span>Rien ne quitte</span></span><span class="mask"><span style="--i:1">ton appareil.</span></span></h2>
+        <p class="rv">Les logos de tes clients restent chez toi : l’outil lit, mesure, dessine et zippe tout dans le navigateur.</p>
+      </header>
+      <ul class="rules">
+        <li class="rule rv" style="--d:0"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg><h3>Aucun compte, aucune clé</h3><p>Pas d’inscription, pas d’IA, pas de service en ligne. Ton projet est enregistré dans le stockage de ton navigateur, et nulle part ailleurs.</p></li>
+        <li class="rule rv" style="--d:1"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M7 6.5h.01M10 6.5h.01"/></svg><h3>Calculé sur place</h3><p>Lecture des SVG, mesures, PNG, JPEG, PDF et ZIP : tout est produit localement. Aucun fichier n’est envoyé sur un serveur.</p></li>
+        <li class="rule rv" style="--d:2"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 4v6h6"/><path d="M20 20v-6h-6"/><path d="M5.5 15a7 7 0 0 0 12.4 2M18.5 9A7 7 0 0 0 6.1 7"/></svg><h3>Tu reprends où tu en étais</h3><p>Ferme l’onglet, reviens demain : variantes, mesures et réglages sont là. La version en ligne garde aussi l’app en cache pour marcher hors connexion.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ═══ 06 AGENTS IA ═══ -->
+  <section class="sec cut-l" id="agents" aria-labelledby="h-ag" style="background:var(--table)">
+    <div class="in-w">
+      <header class="sec-h">
+        <span class="idx"><b>06</b>Agents IA</span>
+        <h2 class="h2" id="h-ag"><span class="mask"><span>Pilotable</span></span><span class="mask"><span style="--i:1">par un agent.</span></span></h2>
+        <p class="rv">Claude Code, Codex ou tout agent qui pilote un navigateur peut préparer les planches à ta place, en cliquant dans l’interface comme toi.</p>
+      </header>
+      <div class="agents">
+        <div class="agents-tx rv">
+          <ul>
+            <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><span>Pas d’API JavaScript à deviner : des sélecteurs stables (<code>id</code>, <code>data-*</code>) sur chaque commande, documentés.</span></li>
+            <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><span>Aucune clé API, aucun service en ligne : l’agent travaille dans la page.</span></li>
+            <li><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20 6 9 17l-5-5"/></svg><span>Règle d’or : l’agent utilise tes SVG tels quels et ne choisit pas X ni le multiplicateur à ta place sans te le dire.</span></li>
+          </ul>
+          <div class="cta">
+            <a class="btn btn-dk wipe" href="agent/index.html" style="--o:#ff5500"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9 13h.01M15 13h.01M9.5 16.5h5"/></svg> Mode d’emploi pour agents</a>
+            <a class="btn btn-ln" href="AGENTS.md">AGENTS.md</a>
+          </div>
+        </div>
+<pre class="code rv" style="--d:1" aria-label="Exemple de pilotage avec Playwright"><code><span class="cm"># Playwright (Python) — app servie sur http://127.0.0.1:4173</span>
+page.goto(<span class="s">"http://127.0.0.1:4173/app.html"</span>)
+page.set_input_files(<span class="s">"#ready-files"</span>, [<span class="s">"logo.svg"</span>, <span class="s">"icone.svg"</span>])
+page.click(<span class="s">'[data-method="width"]'</span>)
+page.click(<span class="s">'[data-multiplier="0.5"]'</span>)
+<span class="k">with</span> page.expect_download() <span class="k">as</span> dl:
+    page.click(<span class="s">'[data-action="export"]'</span>)
+dl.value.save_as(<span class="s">"clearspace.zip"</span>)</code></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 07 COMMENCER ═══ -->
+  <section class="sec orange cut-r" id="commencer" aria-labelledby="h-go">
+    <div class="in-w">
+      <header class="sec-h">
+        <span class="idx"><b>07</b>Commencer</span>
+        <h2 class="h2" id="h-go"><span class="mask"><span>Prends ton logo,</span></span><span class="mask"><span style="--i:1">on s’y met.</span></span></h2>
+        <p class="rv">Il te faut juste tes SVG vectorisés. Le reste se règle en quelques clics.</p>
+      </header>
+      <ul class="start">
+        <li class="main rv" style="--d:0"><span class="k">Avec tes SVG</span><h3>Ouvrir l’app</h3><p>Dépose tes fichiers, définis X, choisis l’espace, exporte.</p><a class="btn btn-o wipe" href="app.html">Ouvrir l’app <svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+        <li class="card-h rv" style="--d:1"><span class="k">Pour tout comprendre</span><h3>La documentation</h3><p>Chaque réglage, le contenu du ZIP, les limites et la FAQ.</p><a class="btn btn-dk wipe" href="docs.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg> Lire la doc</a></li>
+        <li class="card-h rv" style="--d:2"><span class="k">Pour ton agent</span><h3>Règles agents IA</h3><p>Sélecteurs, parcours pas à pas et vérifications, en français et en anglais.</p><a class="btn btn-ln" href="agent/index.html"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><rect x="4" y="8" width="16" height="12" rx="3"/><path d="M12 8V4M9 13h.01M15 13h.01M9.5 16.5h5"/></svg> Agents IA</a></li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+<footer class="foot cut">
+  <div class="in-w foot-in">
+    <span class="foot-l"><img src="brand/favicon.svg" width="20" height="20" alt="" style="width:20px;height:20px">Binksy ClearSpace · by binks design</span>
+    <ul class="foot-r">
+      <li><a href="docs.html">Documentation</a></li>
+      <li><a href="agent/index.html">Agents IA</a></li>
+      <li><a href="mailto:graphistedubinks@gmail.com">graphistedubinks@gmail.com</a></li>
+      <li><a class="pillk" href="https://www.instagram.com/graphiste.binks/" target="_blank" rel="noopener">Instagram @graphiste.binks</a></li>
+    </ul>
+    <small>Gratuit, sans compte, tout est calculé dans ton navigateur. Polices de ces pages : Clash Display (<a href="assets/fonts/ClashDisplay-FFL.txt">licence FFL</a>) et Instrument Sans (<a href="assets/fonts/InstrumentSans-OFL.txt">licence OFL</a>). Logo de démonstration sur les captures : celui de Binksy ClearSpace.</small>
+  </div>
+</footer>
+</div>
+</body>
+</html>

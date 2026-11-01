@@ -57,3 +57,8 @@ Sauvegarde automatique locale (localStorage `binksy-clearspace-v1`, repli Indexe
 ## Vérification
 
 `npm test`, `npm run build`, puis parcours complet : import multi-SVG, 3 variantes avec états indépendants, mesure visuelle précise sans snap, persistance après rechargement, export ZIP (SVG/PNG/JPEG/PDF, clair/sombre), FR/EN, 1440/1024/390.
+
+## Pages du site
+
+- Accueil : `public/index.html` (servi à `/`) ; l’app est servie par `app.html`.
+- Documentation : `public/docs.html` ; règles pour agents IA : `public/agent/index.html` et `public/AGENTS.md` (le `AGENTS.md` racine reste pour les développeurs).

@@ -1,13 +1,20 @@
 import { defineConfig } from "vite";
 import { readFileSync } from "node:fs";
 export default defineConfig({
-  build: { target: "esnext", chunkSizeWarningLimit: 1500 },
+  build: {
+    target: "esnext",
+    chunkSizeWarningLimit: 1500,
+    // L'app est servie par app.html ; index.html, docs.html et agent/ sont des
+    // pages statiques copiées depuis public/.
+    rollupOptions: { input: { app: "app.html" } },
+  },
   plugins: [
     {
       name: "offline-cache",
       generateBundle(_, bundle) {
         const files = [
           "/",
+          "/app",
           "/fonts/ClashDisplay-Variable.woff2",
           "/fonts/TASAOrbiter-Variable.ttf",
           "/fonts/InstrumentSans.ttf",

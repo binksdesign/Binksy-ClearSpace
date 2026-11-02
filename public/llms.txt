@@ -8,7 +8,7 @@ SVG, PNG, JPEG and PDF (light and dark) in a single ZIP.
 
 > Outil de zone de sécurité de logo, 100 % navigateur, par Binks Design : importer des SVG (une variante par fichier), définir X (hauteur, largeur ou mesure visuelle tracée à la main), choisir le multiplicateur (×0,5, ×1, ×1,5, ×2 ou libre de 0,05 à 5), exporter un ZIP de planches SVG, PNG, JPEG et PDF en clair et en foncé, avec RECOMMANDATIONS.txt. Aucune clé API, aucun compte, rien n'est envoyé à un serveur.
 
-AI agents (Claude Code, Codex…) drive it through its user interface in app.html: there is NO public JavaScript API. Use the stable selectors documented in AGENTS.md (#ready-files, [data-method], [data-multiplier], #clear-multiplier, [data-action="measure"], [data-action="export"]…) and catch the ZIP as a browser download.
+AI agents (Claude Code, Codex, Hermes, OpenCode…) drive app.html through window.BinksyAPI (shared Binksy agent API v1, no key): describe(), ready(), getState(), importer({files:[{name,type,dataBase64}]}), exporter({format: zip|svg|png|jpeg|pdf, variantId?, tone?}) → {files:[{name,type,dataBase64}]}, setClearSpace({variantId, method: height|width|visual, multiplier, measure?}), setActive, renameVariant, removeVariant, setDisplay, reset({confirm:true}), callTool(name,args). The same tools are registered as WebMCP tools (clearspace_describe, clearspace_importer, clearspace_exporter…) when the browser supports WebMCP. Setup with Playwright MCP + ready-to-paste prompt: mcp/ . The UI also keeps stable selectors documented in AGENTS.md (#ready-files, [data-method], [data-multiplier], #clear-multiplier, [data-action="measure"], [data-action="export"]…).
 Local: npm ci && npm run build && npx vite preview, then open http://127.0.0.1:4173/app.html. Online: https://clearspace.binksdesign.com/app.html
 State: localStorage "binksy-clearspace-v1" (IndexedDB "binksy-clearspace" fallback), language in "binksy-clearspace-locale".
 
@@ -18,6 +18,7 @@ Golden rule: the designer brings the SVGs and decides the clear-space rule; neve
 
 - [AGENTS.md](AGENTS.md): full guide for AI agents (Markdown, French then English)
 - [agent/index.html](agent/index.html): same guide as an HTML page
+- [mcp/](mcp/): MCP / AI agents — BinksyAPI, WebMCP, Playwright MCP setup
 - [docs.html](docs.html): human documentation (French)
 
 ## App

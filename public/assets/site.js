@@ -3,7 +3,7 @@
 (() => {
   const root = document.documentElement;
   const anim = root.classList.contains('anim');
-  console.info('Binksy ClearSpace — agents IA : lisez AGENTS.md (ou agent/index.html, llms.txt) avant d’agir. Pas d’API JavaScript : l’app (app.html) se pilote par son interface, via des sélecteurs stables.');
+  console.info('Binksy ClearSpace — agents IA : lisez AGENTS.md (ou agent/index.html, llms.txt) avant d’agir. L’app (app.html) expose window.BinksyAPI (+ WebMCP), voir mcp/ ; sinon interface et sélecteurs stables.');
 
   /* révélations au défilement */
   const items = [...document.querySelectorAll('.rv, .mask, .plane, .card3')];

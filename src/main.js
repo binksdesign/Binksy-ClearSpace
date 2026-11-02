@@ -29,6 +29,7 @@ import {
 } from "./model.js";
 import { importSVG, assetContent } from "./svg.js";
 import { exportFiles } from "./export.js";
+import { installAgentAPI } from "./agent-api.js";
 
 const $ = (s) => document.querySelector(s);
 const history = new History();
@@ -210,9 +211,9 @@ function bindDrop(el) {
   };
 }
 
-async function importFiles(fileList) {
+async function importFiles(fileList, { strict = false } = {}) {
   const files = [...(fileList || [])].filter((f) => f);
-  if (!files.length) return;
+  if (!files.length) return [];
   try {
     const imported = [];
     for (const file of files) {
@@ -232,9 +233,32 @@ async function importFiles(fileList) {
       p.active = imported[0].id;
     });
     notice(`${imported.length} ${imported.length > 1 ? t("variantes importées") : t("variante importée")}.`);
+    return imported;
   } catch (error) {
     notice(error.message);
+    if (strict) throw Object.assign(Error(error.message), { code: "IMPORT_REFUSE" });
+    return [];
   }
+}
+
+// Actions partagées par l'interface et par window.BinksyAPI (agent-api.js).
+function setActive(id) {
+  p.active = id;
+  save();
+  render();
+}
+function renameVariant(id, name) {
+  edit(() => {
+    const v = p.ready.find((x) => x.id === id);
+    if (v) v.name = uniqueVariantName(p, name, v.id);
+  });
+}
+function removeVariant(id) {
+  edit(() => {
+    p.ready = p.ready.filter((v) => v.id !== id);
+    delete p.compositions[id];
+    if (p.active === id) p.active = p.ready[0]?.id || null;
+  });
 }
 
 // ---- bindings ----
@@ -245,11 +269,7 @@ function bind() {
 
   document.querySelectorAll("[data-active]").forEach(
     (el) =>
-      (el.onclick = () => {
-        p.active = el.dataset.active;
-        save();
-        render();
-      }),
+      (el.onclick = () => setActive(el.dataset.active)),
   );
 
   const files = $("#ready-files");
@@ -262,11 +282,7 @@ function bind() {
   bindDrop($("#stage"));
 
   document.querySelectorAll("[data-ready-name]").forEach((el) => {
-    el.onchange = () =>
-      edit(() => {
-        const v = p.ready.find((x) => x.id === el.dataset.readyName);
-        if (v) v.name = uniqueVariantName(p, el.value, v.id);
-      });
+    el.onchange = () => renameVariant(el.dataset.readyName, el.value);
   });
 
   document.querySelectorAll("[data-replace-variant]").forEach((el) => {
@@ -288,13 +304,7 @@ function bind() {
 
   document.querySelectorAll("[data-remove-variant]").forEach(
     (el) =>
-      (el.onclick = () =>
-        edit(() => {
-          const id = el.dataset.removeVariant;
-          p.ready = p.ready.filter((v) => v.id !== id);
-          delete p.compositions[id];
-          if (p.active === id) p.active = p.ready[0]?.id || null;
-        })),
+      (el.onclick = () => removeVariant(el.dataset.removeVariant)),
   );
 
   document.querySelectorAll("[data-method]").forEach(
@@ -427,8 +437,17 @@ window.addEventListener("pagehide", () => {
   storeProject(p).catch(() => {});
 });
 
-await boot();
-render();
+const booted = boot().then(render);
+installAgentAPI({
+  project: () => p,
+  edit,
+  importFiles,
+  setActive,
+  rename: renameVariant,
+  remove: removeVariant,
+  ready: booted,
+});
+await booted;
 if (import.meta.env.PROD && "serviceWorker" in navigator)
   navigator.serviceWorker
     .register("/sw.js", { updateViaCache: "none" })

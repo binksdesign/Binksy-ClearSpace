@@ -7,6 +7,7 @@ Outil indépendant : **une seule page** pour définir la zone de sécurité d’
 - `main.js` orchestration (import, bindings, undo/redo, export) ; `workspace.js` rendu de la page unique (variantes / aperçu / réglages / export).
 - `model.js` état (`project`, `compositions[id]` par variante, `clearMeasure`, `migrateComposition`, historique) ; `project.js` validation + migration ; `project-storage.js` persistance.
 - `clearspace.js` guides + planches ; `visual-measure.js` mesure visuelle (aucun magnétisme) ; `svg.js` import vectoriel + aperçu ; `paints.js`, `gradient.js`, `raster.js`.
+- `agent-api.js` : `window.BinksyAPI` + outils WebMCP (une seule table `TOOLS`), branché dans `main.js` sur les mêmes fonctions que l’UI (`edit`, `importFiles`, `setActive`, `renameVariant`, `removeVariant`). Page d’aide `public/mcp/index.html` (/mcp/). Toute nouvelle action de l’UI doit avoir son outil, et la doc agents (`public/AGENTS.md`, `public/agent/`, `public/llms.txt`, `public/mcp/`) suit.
 - `export.js` + `export-formats.js` (plan d’export pur, ZIP systématique, jamais de page rasterisée) ; `ui.js`, `style.css`, `binks-lab.css` (identité), `i18n.js` + `locales/en.js`.
 - Assets : `/brand/logo.svg` (logo complet) et `/brand/favicon.svg` (favicon). Ne pas modifier ces fichiers fournis.
 

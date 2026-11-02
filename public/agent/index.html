@@ -13,12 +13,13 @@
 <link rel="icon" type="image/svg+xml" href="../brand/favicon.svg">
 <link rel="alternate" type="text/markdown" href="../AGENTS.md" title="Mode d’emploi pour agents IA (Markdown, FR puis EN)">
 <link rel="help" href="../agent/" title="Agents IA">
+<link rel="help" href="../mcp/" title="MCP / Agents IA">
 <link rel="alternate" type="text/plain" href="../llms.txt" title="llms.txt">
 <link rel="stylesheet" href="../assets/site.css">
 <script>if(!matchMedia('(prefers-reduced-motion: reduce)').matches&&'IntersectionObserver' in window)document.documentElement.classList.add('anim');</script>
 <script src="../assets/site.js" defer></script>
 </head>
-<!-- Agents IA / AI agents : lisez ../AGENTS.md (Markdown, français puis anglais) ou ../agent/index.html avant d’agir. L’outil est ../app.html ; il n’a pas d’API JavaScript publique : il se pilote par son interface (sélecteurs stables documentés). Aucune clé API, tout est local. -->
+<!-- Agents IA / AI agents : lisez ../AGENTS.md (Markdown, français puis anglais) ou ../agent/index.html avant d’agir. L’outil est ../app.html ; il se pilote par l’API window.BinksyAPI (outils WebMCP aussi, voir ../mcp/) ou par son interface (sélecteurs stables documentés). Aucune clé API, tout est local. -->
 <body>
 <a class="skip" href="#contenu">Aller au contenu</a>
 <noscript><p style="margin:0;padding:10px 18px;background:#ff5500;color:#0b0b0b;font:600 14px/1.4 sans-serif">Agents IA : le mode d’emploi complet est dans <a href="../AGENTS.md">AGENTS.md</a> (page HTML : <a href="../agent/index.html">agent/</a>). L’outil (<a href="../app.html">app.html</a>) a besoin de JavaScript.</p></noscript>
@@ -38,7 +39,7 @@
     <div class="in-w">
       <p class="kicker"><i aria-hidden="true"></i>Pour Claude Code, Codex et tout agent qui pilote un navigateur</p>
       <h1 class="doc-h1"><span class="mask"><span>Mode d’emploi</span></span><span class="mask"><span style="--i:1">pour <em>agents IA</em></span></span></h1>
-      <p class="lead">Comment piloter Binksy ClearSpace par son interface : importer les SVG, définir X, choisir le multiplicateur, exporter le ZIP et vérifier. Pas d’API JavaScript, pas de clé : des sélecteurs stables. Même contenu en Markdown : <a class="lnk" href="../AGENTS.md">AGENTS.md</a>.</p>
+      <p class="lead">Comment piloter Binksy ClearSpace par son interface : importer les SVG, définir X, choisir le multiplicateur, exporter le ZIP et vérifier. Pas de clé : l’API <code>window.BinksyAPI</code> (et WebMCP, voir la <a class="lnk" href="../mcp/">page MCP</a>) ou des sélecteurs stables. Même contenu en Markdown : <a class="lnk" href="../AGENTS.md">AGENTS.md</a>.</p>
       <div class="meta lang-switch">
         <a class="tag" href="#fr-intro">Français</a>
         <a class="tag" href="#en-intro" hreflang="en">English</a>
@@ -56,7 +57,7 @@
     <article class="prose">
 <section id="fr-intro" lang="fr"><p>Ce document s’adresse aux agents IA (Claude Code, Codex, ou tout agent qui pilote un navigateur via Playwright / CDP). Il explique comment utiliser <strong>Binksy ClearSpace</strong> (<code>app.html</code>), l’outil de Binks Design qui définit, visualise et exporte la <strong>zone de sécurité (clear space)</strong> d’un logo à partir de fichiers SVG.</p>
 <p>Il existe en deux endroits, toujours identiques : <code>AGENTS.md</code> (Markdown, français puis anglais) et la page <code>agent/index.html</code>. Résumé court : <code>llms.txt</code>. Documentation pour les humains : <code>docs.html</code>.</p>
-<p>Points d’entrée découvrables sans JavaScript : <code>index.html</code> et <code>docs.html</code> déclarent <code>&lt;link rel="alternate" type="text/markdown" href="AGENTS.md"&gt;</code>, <code>&lt;link rel="help" href="agent/"&gt;</code> et <code>&lt;link rel="alternate" type="text/plain" href="llms.txt"&gt;</code>, plus un commentaire HTML et un bloc <code>&lt;noscript&gt;</code> qui renvoient ici.</p>
+<p>Points d’entrée découvrables sans JavaScript : <code>index.html</code> et <code>docs.html</code> déclarent <code>&lt;link rel="alternate" type="text/markdown" href="AGENTS.md"&gt;</code>, <code>&lt;link rel="help" href="agent/"&gt;</code>, <code>&lt;link rel="help" href="mcp/"&gt;</code> et <code>&lt;link rel="alternate" type="text/plain" href="llms.txt"&gt;</code>, plus un commentaire HTML et un bloc <code>&lt;noscript&gt;</code> qui renvoient ici.</p>
 <div class="note"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><p>Dans le dépôt GitHub, le fichier <code>AGENTS.md</code> à la racine s’adresse aux développeurs qui modifient le code. Celui-ci (<code>public/AGENTS.md</code>, servi à la racine du site) s’adresse aux agents qui <strong>utilisent</strong> l’outil.</p></div></section>
 <section id="fr-regle-fondamentale" lang="fr"><h2><span class="n">01</span><span>Règle fondamentale</span></h2>
 <p>ClearSpace mesure et met en page ce que le graphiste fournit. Ce n’est <strong>pas</strong> un générateur de logos.</p>
@@ -66,10 +67,11 @@
 <li><strong>La règle de zone de sécurité appartient au graphiste.</strong> Ne choisis pas seul la méthode X ni le multiplicateur : applique ce qu’on t’a demandé, ou propose et fais valider. Les multiplicateurs 0,5 / 1 / 1,5 / 2 sont des méthodes de test, pas des règles universelles.</li>
 <li><strong>Aucune clé API, aucun service en ligne.</strong> L’outil n’embarque aucune IA et n’appelle aucun serveur. Ne demande jamais de clé ni de compte à l’utilisateur.</li>
 <li><strong>Tout est local</strong> : lecture des SVG, mesures, rendus et ZIP sont faits dans le navigateur. Le projet est enregistré dans le stockage du navigateur.</li>
-<li><strong>Il n’y a pas d’API JavaScript publique</strong> (pas d’objet <code>window.*</code> à appeler). On pilote l’outil par son interface, avec les sélecteurs listés plus bas. N’injecte pas de code qui modifie l’état interne.</li>
+<li><strong>API JavaScript publique : <code>window.BinksyAPI</code></strong> (convention commune Binksy, API v1) et les mêmes outils en <strong>WebMCP</strong> quand le navigateur le permet — voir la section « API agents » ci-dessous et la page <a href="../mcp/"><code>mcp/</code></a>. Sinon, on pilote l’outil par son interface, avec les sélecteurs listés plus bas. N’injecte pas d’autre code qui modifie l’état interne.</li>
 </ul>
 <p>Après chaque action, relis l’interface (état <code>aria-pressed</code>, textes affichés, message <code>#notice</code>). <strong>Un clic n’est pas une preuve de réussite.</strong></p>
 </section>
+<section id="fr-api-agents" lang="fr"><h2><span class="n">API</span><span>API agents : window.BinksyAPI + WebMCP</span></h2><p>Dans <code>app.html</code>, <code>window.BinksyAPI</code> appelle les mêmes fonctions que l’interface (historique, enregistrement automatique, rendu). Méthodes communes : <code>describe()</code>, <code>ready()</code>, <code>getState()</code>, <code>importer({files})</code>, <code>exporter({format})</code> → <code>{files:[{name, type, dataBase64}]}</code> (aucun téléchargement sauf <code>download: true</code>), <code>reset({confirm: true})</code>, <code>callTool(nom, args)</code>. Erreurs : <code>{code, message}</code>. Mêmes outils en WebMCP si le navigateur le permet. Connexion (Playwright MCP) et prompt prêt à copier : <a href="../mcp/">page MCP / Agents IA</a>.</p><ul><li><code>clearspace_describe</code> → <code>BinksyAPI.describe()</code> : Décrit l&#x27;app et liste les outils (schémas JSON).</li><li><code>clearspace_etat</code> → <code>BinksyAPI.getState()</code> : État : variantes, réglage de zone de chacune (méthode, ×, X, zone), aperçu, thème.</li><li><code>clearspace_importer</code> → <code>BinksyAPI.importer()</code> : Importe des SVG (une variante par fichier).</li><li><code>clearspace_exporter</code> → <code>BinksyAPI.exporter()</code> : Exporte le ZIP complet ou une planche SVG/PNG/JPEG/PDF claire ou foncée (base64).</li><li><code>clearspace_definir_zone</code> → <code>BinksyAPI.setClearSpace()</code> : X = hauteur, largeur ou mesure visuelle ; zone = X × multiplicateur.</li><li><code>clearspace_choisir_variante</code> → <code>BinksyAPI.setActive()</code> : Affiche une variante dans l&#x27;aperçu.</li><li><code>clearspace_renommer_variante</code> → <code>BinksyAPI.renameVariant()</code> : Renomme une variante (nom des dossiers et fichiers).</li><li><code>clearspace_supprimer_variante</code> → <code>BinksyAPI.removeVariant()</code> : Supprime une variante (après accord de l&#x27;utilisateur).</li><li><code>clearspace_affichage</code> → <code>BinksyAPI.setDisplay()</code> : Fond d&#x27;aperçu clair/sombre et thème de l&#x27;interface.</li><li><code>clearspace_reset</code> → <code>BinksyAPI.reset()</code> : Vide le projet (confirm:true, après accord de l&#x27;utilisateur).</li></ul></section>
 <section id="fr-demarrer" lang="fr"><h2><span class="n">02</span><span>Démarrer</span></h2>
 <h3 id="fr-demarrer-ouvrir-l-outil">Ouvrir l’outil</h3>
 <ul>
@@ -377,7 +379,7 @@ with sync_playwright() as p:
 </section>
 <section id="en-intro" lang="en"><p>This document is for AI agents (Claude Code, Codex, or any agent driving a browser through Playwright / CDP). It explains how to use <strong>Binksy ClearSpace</strong> (<code>app.html</code>), the Binks Design tool that defines, previews and exports the <strong>clear space</strong> (safety zone) of a logo from SVG files.</p>
 <p>It lives in two places, always identical: <code>AGENTS.md</code> (Markdown, French then English) and the <code>agent/index.html</code> page. Short summary: <code>llms.txt</code>. Human documentation (French): <code>docs.html</code>.</p>
-<p>Entry points discoverable without JavaScript: <code>index.html</code> and <code>docs.html</code> declare <code>&lt;link rel="alternate" type="text/markdown" href="AGENTS.md"&gt;</code>, <code>&lt;link rel="help" href="agent/"&gt;</code> and <code>&lt;link rel="alternate" type="text/plain" href="llms.txt"&gt;</code>, plus an HTML comment and a <code>&lt;noscript&gt;</code> block pointing here.</p>
+<p>Entry points discoverable without JavaScript: <code>index.html</code> and <code>docs.html</code> declare <code>&lt;link rel="alternate" type="text/markdown" href="AGENTS.md"&gt;</code>, <code>&lt;link rel="help" href="agent/"&gt;</code>, <code>&lt;link rel="help" href="mcp/"&gt;</code> and <code>&lt;link rel="alternate" type="text/plain" href="llms.txt"&gt;</code>, plus an HTML comment and a <code>&lt;noscript&gt;</code> block pointing here.</p>
 <div class="note"><svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><p>In the GitHub repository, the root <code>AGENTS.md</code> is for developers changing the code. This one (<code>public/AGENTS.md</code>, served at the site root) is for agents <strong>using</strong> the tool.</p></div></section>
 <section id="en-golden-rule" lang="en"><h2><span class="n">01</span><span>Golden rule</span></h2>
 <p>ClearSpace measures and lays out what the designer provides. It is <strong>not</strong> a logo generator.</p>
@@ -387,10 +389,11 @@ with sync_playwright() as p:
 <li><strong>The clear-space rule belongs to the designer.</strong> Do not pick the X method or the multiplier on your own: apply what you were asked, or suggest and get approval. The 0.5 / 1 / 1.5 / 2 multipliers are test methods, not universal rules.</li>
 <li><strong>No API key, no online service.</strong> The tool ships no AI and calls no server. Never ask the user for a key or an account.</li>
 <li><strong>Everything is local</strong>: SVG parsing, measurements, rendering and the ZIP happen in the browser. The project is saved in browser storage.</li>
-<li><strong>There is no public JavaScript API</strong> (no <code>window.*</code> object to call). Drive the tool through its interface, with the selectors below. Do not inject code that changes internal state.</li>
+<li><strong>Public JavaScript API: <code>window.BinksyAPI</code></strong> (shared Binksy convention, API v1), also registered as <strong>WebMCP</strong> tools when the browser supports it — see “Agent API” below and the <a href="../mcp/"><code>mcp/</code></a> page. Otherwise drive the tool through its interface, with the selectors below. Do not inject other code that changes internal state.</li>
 </ul>
 <p>After every action, re-read the interface (<code>aria-pressed</code> state, displayed text, the <code>#notice</code> message). <strong>A click is not proof of success.</strong></p>
 </section>
+<section id="en-agent-api" lang="en"><h2><span class="n">API</span><span>Agent API: window.BinksyAPI + WebMCP</span></h2><p>In <code>app.html</code>, <code>window.BinksyAPI</code> calls the same functions as the UI. Common methods: <code>describe()</code>, <code>ready()</code>, <code>getState()</code>, <code>importer({files})</code>, <code>exporter({format})</code>, <code>reset({confirm: true})</code>, <code>callTool(name, args)</code>; errors reject as <code>{code, message}</code>; same tools via WebMCP when supported. Setup: <a href="../mcp/">MCP / AI agents page</a>.</p><ul><li><code>clearspace_describe</code> → <code>BinksyAPI.describe()</code> : Describes the app and lists tools (JSON schemas).</li><li><code>clearspace_etat</code> → <code>BinksyAPI.getState()</code> : State: variants, each clear-space setting (method, ×, X, space), preview, theme.</li><li><code>clearspace_importer</code> → <code>BinksyAPI.importer()</code> : Imports SVGs (one variant per file).</li><li><code>clearspace_exporter</code> → <code>BinksyAPI.exporter()</code> : Exports the full ZIP or one SVG/PNG/JPEG/PDF board, light or dark (base64).</li><li><code>clearspace_definir_zone</code> → <code>BinksyAPI.setClearSpace()</code> : X = height, width or visual measure; space = X × multiplier.</li><li><code>clearspace_choisir_variante</code> → <code>BinksyAPI.setActive()</code> : Shows a variant in the preview.</li><li><code>clearspace_renommer_variante</code> → <code>BinksyAPI.renameVariant()</code> : Renames a variant (folder and file names).</li><li><code>clearspace_supprimer_variante</code> → <code>BinksyAPI.removeVariant()</code> : Removes a variant (after user consent).</li><li><code>clearspace_affichage</code> → <code>BinksyAPI.setDisplay()</code> : Light/dark preview background and UI theme.</li><li><code>clearspace_reset</code> → <code>BinksyAPI.reset()</code> : Clears the project (confirm:true, after user consent).</li></ul></section>
 <section id="en-getting-started" lang="en"><h2><span class="n">02</span><span>Getting started</span></h2>
 <h3 id="en-getting-started-open-the-tool">Open the tool</h3>
 <ul>
@@ -704,6 +707,7 @@ with sync_playwright() as p:
     <ul class="foot-r">
       <li><a href="../docs.html">Documentation</a></li>
       <li><a href="../agent/index.html">Agents IA</a></li>
+      <li><a href="../mcp/">MCP / Agents IA</a></li>
       <li><a href="mailto:graphistedubinks@gmail.com">graphistedubinks@gmail.com</a></li>
       <li><a class="pillk" href="https://www.instagram.com/graphiste.binks/" target="_blank" rel="noopener">Instagram @graphiste.binks</a></li>
     </ul>

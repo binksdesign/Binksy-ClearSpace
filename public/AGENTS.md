@@ -8,7 +8,7 @@ Ce document s’adresse aux agents IA (Claude Code, Codex, ou tout agent qui pil
 
 Il existe en deux endroits, toujours identiques : `AGENTS.md` (Markdown, français puis anglais) et la page `agent/index.html`. Résumé court : `llms.txt`. Documentation pour les humains : `docs.html`.
 
-Points d’entrée découvrables sans JavaScript : `index.html` et `docs.html` déclarent `<link rel="alternate" type="text/markdown" href="AGENTS.md">`, `<link rel="help" href="agent/">` et `<link rel="alternate" type="text/plain" href="llms.txt">`, plus un commentaire HTML et un bloc `<noscript>` qui renvoient ici.
+Points d’entrée découvrables sans JavaScript : `index.html` et `docs.html` déclarent `<link rel="alternate" type="text/markdown" href="AGENTS.md">`, `<link rel="help" href="agent/">`, `<link rel="help" href="mcp/">` et `<link rel="alternate" type="text/plain" href="llms.txt">`, plus un commentaire HTML et un bloc `<noscript>` qui renvoient ici.
 
 > Dans le dépôt GitHub, le fichier `AGENTS.md` à la racine s’adresse aux développeurs qui modifient le code. Celui-ci (`public/AGENTS.md`, servi à la racine du site) s’adresse aux agents qui **utilisent** l’outil.
 
@@ -21,9 +21,31 @@ ClearSpace mesure et met en page ce que le graphiste fournit. Ce n’est **pas**
 - **La règle de zone de sécurité appartient au graphiste.** Ne choisis pas seul la méthode X ni le multiplicateur : applique ce qu’on t’a demandé, ou propose et fais valider. Les multiplicateurs 0,5 / 1 / 1,5 / 2 sont des méthodes de test, pas des règles universelles.
 - **Aucune clé API, aucun service en ligne.** L’outil n’embarque aucune IA et n’appelle aucun serveur. Ne demande jamais de clé ni de compte à l’utilisateur.
 - **Tout est local** : lecture des SVG, mesures, rendus et ZIP sont faits dans le navigateur. Le projet est enregistré dans le stockage du navigateur.
-- **Il n’y a pas d’API JavaScript publique** (pas d’objet `window.*` à appeler). On pilote l’outil par son interface, avec les sélecteurs listés plus bas. N’injecte pas de code qui modifie l’état interne.
+- **API JavaScript publique : `window.BinksyAPI`** (convention commune Binksy, API v1) et les mêmes outils en **WebMCP** quand le navigateur le permet — voir la section « API agents » ci-dessous et la page `mcp/`. Sinon, on pilote l’outil par son interface, avec les sélecteurs listés plus bas. N’injecte pas d’autre code qui modifie l’état interne.
 
 Après chaque action, relis l’interface (état `aria-pressed`, textes affichés, message `#notice`). **Un clic n’est pas une preuve de réussite.**
+
+## API agents : `window.BinksyAPI` + WebMCP
+
+Dans `app.html`, `window.BinksyAPI` appelle les mêmes fonctions que l’interface (historique annuler/rétablir, enregistrement automatique, rendu). Méthodes communes : `describe()`, `ready()`, `getState()`, `importer({ files: [{ name, type, dataBase64 | text | url(data:) }] })`, `exporter({ format: "zip" | "svg" | "png" | "jpeg" | "pdf", variantId?, tone?: "clair" | "fonce", download? })` → `{ files: [{ name, type, dataBase64 }] }` (aucun téléchargement sauf `download: true`), `reset({ confirm: true })`, plus `callTool(nom, args)`. Erreurs rejetées en `{ code, message }`. Les mêmes outils sont déclarés en WebMCP (`document.modelContext.registerTool`, ou `navigator.modelContext` selon la version) si le navigateur le permet. Connexion pas à pas (Playwright MCP pour Claude Code, Codex, Hermes, OpenCode) et prompt prêt à copier : [`mcp/`](mcp/).
+
+- `clearspace_describe` → `BinksyAPI.describe()` : Décrit l'app et liste les outils (schémas JSON).
+- `clearspace_etat` → `BinksyAPI.getState()` : État : variantes, réglage de zone de chacune (méthode, ×, X, zone), aperçu, thème.
+- `clearspace_importer` → `BinksyAPI.importer()` : Importe des SVG (une variante par fichier).
+- `clearspace_exporter` → `BinksyAPI.exporter()` : Exporte le ZIP complet ou une planche SVG/PNG/JPEG/PDF claire ou foncée (base64).
+- `clearspace_definir_zone` → `BinksyAPI.setClearSpace()` : X = hauteur, largeur ou mesure visuelle ; zone = X × multiplicateur.
+- `clearspace_choisir_variante` → `BinksyAPI.setActive()` : Affiche une variante dans l'aperçu.
+- `clearspace_renommer_variante` → `BinksyAPI.renameVariant()` : Renomme une variante (nom des dossiers et fichiers).
+- `clearspace_supprimer_variante` → `BinksyAPI.removeVariant()` : Supprime une variante (après accord de l'utilisateur).
+- `clearspace_affichage` → `BinksyAPI.setDisplay()` : Fond d'aperçu clair/sombre et thème de l'interface.
+- `clearspace_reset` → `BinksyAPI.reset()` : Vide le projet (confirm:true, après accord de l'utilisateur).
+
+```js
+await BinksyAPI.ready();
+const r = await BinksyAPI.importer({ files: [{ name: "marque-horizontal.svg", type: "image/svg+xml", dataBase64: SVG_BASE64 }] });
+await BinksyAPI.setClearSpace({ variantId: r.imported[0].id, method: "height", multiplier: 0.5 });
+const zip = await BinksyAPI.exporter({ format: "zip" }); // zip.files[0].dataBase64
+```
 
 ## 02. Démarrer
 
@@ -208,7 +230,7 @@ This document is for AI agents (Claude Code, Codex, or any agent driving a brows
 
 It lives in two places, always identical: `AGENTS.md` (Markdown, French then English) and the `agent/index.html` page. Short summary: `llms.txt`. Human documentation (French): `docs.html`.
 
-Entry points discoverable without JavaScript: `index.html` and `docs.html` declare `<link rel="alternate" type="text/markdown" href="AGENTS.md">`, `<link rel="help" href="agent/">` and `<link rel="alternate" type="text/plain" href="llms.txt">`, plus an HTML comment and a `<noscript>` block pointing here.
+Entry points discoverable without JavaScript: `index.html` and `docs.html` declare `<link rel="alternate" type="text/markdown" href="AGENTS.md">`, `<link rel="help" href="agent/">`, `<link rel="help" href="mcp/">` and `<link rel="alternate" type="text/plain" href="llms.txt">`, plus an HTML comment and a `<noscript>` block pointing here.
 
 > In the GitHub repository, the root `AGENTS.md` is for developers changing the code. This one (`public/AGENTS.md`, served at the site root) is for agents **using** the tool.
 
@@ -221,9 +243,24 @@ ClearSpace measures and lays out what the designer provides. It is **not** a log
 - **The clear-space rule belongs to the designer.** Do not pick the X method or the multiplier on your own: apply what you were asked, or suggest and get approval. The 0.5 / 1 / 1.5 / 2 multipliers are test methods, not universal rules.
 - **No API key, no online service.** The tool ships no AI and calls no server. Never ask the user for a key or an account.
 - **Everything is local**: SVG parsing, measurements, rendering and the ZIP happen in the browser. The project is saved in browser storage.
-- **There is no public JavaScript API** (no `window.*` object to call). Drive the tool through its interface, with the selectors below. Do not inject code that changes internal state.
+- **Public JavaScript API: `window.BinksyAPI`** (shared Binksy convention, API v1), also registered as **WebMCP** tools when the browser supports it — see “Agent API” below and the `mcp/` page. Otherwise drive the tool through its interface, with the selectors below. Do not inject other code that changes internal state.
 
 After every action, re-read the interface (`aria-pressed` state, displayed text, the `#notice` message). **A click is not proof of success.**
+
+## Agent API: `window.BinksyAPI` + WebMCP
+
+In `app.html`, `window.BinksyAPI` calls the same functions as the UI (undo/redo history, auto-save, rendering). Common methods: `describe()`, `ready()`, `getState()`, `importer({ files: [{ name, type, dataBase64 | text | url(data:) }] })`, `exporter({ format: "zip" | "svg" | "png" | "jpeg" | "pdf", variantId?, tone?: "clair" | "fonce", download? })` → `{ files: [{ name, type, dataBase64 }] }` (no download unless `download: true`), `reset({ confirm: true })`, plus `callTool(name, args)`. Errors reject as `{ code, message }`. The same tools are registered as WebMCP tools when the browser supports it. Setup (Playwright MCP for Claude Code, Codex, Hermes, OpenCode) and a ready-to-paste prompt: [`mcp/`](mcp/).
+
+- `clearspace_describe` → `BinksyAPI.describe()`: Describes the app and lists tools (JSON schemas).
+- `clearspace_etat` → `BinksyAPI.getState()`: State: variants, each clear-space setting (method, ×, X, space), preview, theme.
+- `clearspace_importer` → `BinksyAPI.importer()`: Imports SVGs (one variant per file).
+- `clearspace_exporter` → `BinksyAPI.exporter()`: Exports the full ZIP or one SVG/PNG/JPEG/PDF board, light or dark (base64).
+- `clearspace_definir_zone` → `BinksyAPI.setClearSpace()`: X = height, width or visual measure; space = X × multiplier.
+- `clearspace_choisir_variante` → `BinksyAPI.setActive()`: Shows a variant in the preview.
+- `clearspace_renommer_variante` → `BinksyAPI.renameVariant()`: Renames a variant (folder and file names).
+- `clearspace_supprimer_variante` → `BinksyAPI.removeVariant()`: Removes a variant (after user consent).
+- `clearspace_affichage` → `BinksyAPI.setDisplay()`: Light/dark preview background and UI theme.
+- `clearspace_reset` → `BinksyAPI.reset()`: Clears the project (confirm:true, after user consent).
 
 ## 02. Getting started
 
